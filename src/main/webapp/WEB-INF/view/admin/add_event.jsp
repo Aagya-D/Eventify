@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eventify Admin - Venue Management</title>
+    <title>Eventify Admin - Add Event</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -127,34 +128,6 @@
             color: var(--dark);
         }
         
-        .search-container {
-            position: relative;
-            width: 300px;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 0.8rem 1rem 0.8rem 2.5rem;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            background-color: white;
-            transition: all 0.3s ease;
-        }
-        
-        .search-input:focus {
-            border-color: var(--secondary);
-            outline: none;
-            box-shadow: var(--shadow);
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-        }
-        
         /* Card Styles */
         .card {
             background: white;
@@ -186,78 +159,56 @@
             color: var(--secondary);
         }
         
-        .filter-container {
-            display: flex;
-            align-items: center;
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
         }
         
-        .filter-select {
-            padding: 0.5rem 1rem;
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
             background-color: white;
             transition: all 0.3s ease;
         }
         
-        .filter-select:focus {
+        .form-control:focus {
             border-color: var(--secondary);
             outline: none;
+            box-shadow: var(--shadow);
         }
         
-        /* Table Styles */
-        .table-container {
-            overflow-x: auto;
-        }
-        
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .data-table th {
-            background-color: #f8f9fa;
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: var(--dark);
-            border-bottom: 2px solid #eee;
-        }
-        
-        .data-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-            vertical-align: middle;
-        }
-        
-        .data-table tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .venue-name {
+        .form-check {
             display: flex;
             align-items: center;
+            margin-bottom: 1rem;
         }
         
-        .venue-name i {
+        .form-check-input {
             margin-right: 0.5rem;
-            color: var(--secondary);
         }
         
-        .actions-cell {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: flex-end;
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
         }
         
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
             border-radius: var(--border-radius);
             border: none;
             cursor: pointer;
-            font-size: 0.8rem;
             font-weight: 600;
             transition: all 0.3s ease;
             text-decoration: none;
@@ -274,7 +225,7 @@
         }
         
         .btn i {
-            margin-right: 0.4rem;
+            margin-right: 0.5rem;
         }
         
         .btn-primary:hover {
@@ -285,28 +236,19 @@
             background-color: #dee2e6;
         }
         
-        .add-venue-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--success);
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .error-message {
+            color: var(--danger);
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: rgba(231, 76, 60, 0.1);
             border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 1.5rem;
-        }
-        
-        .add-venue-btn i {
-            margin-right: 0.5rem;
-        }
-        
-        .add-venue-btn:hover {
-            background-color: #27ae60;
         }
         
         /* Responsive Fixes */
@@ -338,23 +280,6 @@
                 margin-left: 80px;
             }
         }
-        
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            
-            .search-container {
-                width: 100%;
-            }
-            
-            .actions-cell {
-                flex-direction: column;
-                align-items: flex-end;
-            }
-        }
     </style>
 </head>
 <body>
@@ -372,12 +297,12 @@
                     <span>Dashboard</span>
                 </a>
                 
-                <a href="${pageContext.request.contextPath}/EventDashboard" class="nav-item">
+                <a href="${pageContext.request.contextPath}/EventDashboard" class="nav-item active">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Events</span>
                 </a>
                 
-                <a href="${pageContext.request.contextPath}/VenueDashboard" class="nav-item active">
+                <a href="${pageContext.request.contextPath}/VenueDashboard" class="nav-item">
                     <i class="fas fa-map-marker-alt"></i>
                     <span>Venues</span>
                 </a>
@@ -404,94 +329,72 @@
         <!-- Main Content -->
         <div class="main-content">
             <div class="header">
-                <h1 class="page-title">Venue Management</h1>
-                
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search venues...">
-                </div>
+                <h1 class="page-title">Add New Event</h1>
             </div>
-            
-            <!-- Success message -->
-            <c:if test="${not empty successMessage}">
-                <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 15px; margin-bottom: 20px; border-radius: 5px; border-left: 5px solid #28a745;">
-                    <i class="fas fa-check-circle"></i> ${successMessage}
-                </div>
-            </c:if>
-            
-            <!-- Error message -->
-            <c:if test="${not empty errorMessage}">
-                <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border-radius: 5px; border-left: 5px solid #dc3545;">
-                    <i class="fas fa-exclamation-circle"></i> ${errorMessage}
-                </div>
-            </c:if>
             
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Venue List
+                        <i class="fas fa-calendar-plus"></i>
+                        Event Details
                     </h2>
+                </div>
+                
+                <c:if test="${not empty errorMessage}">
+                    <div class="error-message">
+                        ${errorMessage}
+                    </div>
+                </c:if>
+                
+                <form action="${pageContext.request.contextPath}/admin/add-event" method="post">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Event Name*</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
                     
-                    <div class="filter-container">
-                        <select class="filter-select">
-                            <option value="all">All Venues</option>
-                            <option value="active">Active Venues</option>
-                            <option value="inactive">Inactive Venues</option>
+                    <div class="form-group">
+                        <label class="form-label" for="date">Date and Time*</label>
+                        <input type="datetime-local" class="form-control" id="date" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="venue">Venue*</label>
+                        <select class="form-control" id="venue" name="venue" required>
+                            <option value="">-- Select Venue --</option>
+                            <c:forEach var="venue" items="${venues}">
+                                <option value="${venue.name}">${venue.name}</option>
+                            </c:forEach>
                         </select>
                     </div>
-                </div>
-                
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Venue Name</th>
-                                <th>Address</th>
-                                <th>Contact</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="venue" items="${venues}">
-                                <tr>
-                                    <td>
-                                        <div class="venue-name">
-                                            <i class="fas fa-building"></i>
-                                            <span>${venue.name}</span>
-                                        </div>
-                                    </td>
-                                    <td>${venue.address}</td>
-                                    <td>${venue.phone}</td>
-                                    <td>
-                                        <div class="actions-cell">
-                                            <a href="${pageContext.request.contextPath}/admin/edit-venue?id=${venue.id}" class="btn btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                                Edit
-                                            </a>
-                                            <form action="${pageContext.request.contextPath}/admin/delete-venue" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this venue?');">
-                                                <input type="hidden" name="id" value="${venue.id}">
-                                                <button type="submit" class="btn btn-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div style="margin-top: 1.5rem; text-align: right;">
-                    <a href="${pageContext.request.contextPath}/admin/add-venue" class="btn btn-primary add-venue-btn">
-                        <i class="fas fa-plus"></i>
-                        Add New Venue
-                    </a>
-                </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="manager">Event Manager</label>
+                        <input type="text" class="form-control" id="manager" name="manager">
+                    </div>
+                    
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="approved" name="approved">
+                        <label class="form-check-label" for="approved">Approve Event</label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <a href="${pageContext.request.contextPath}/EventDashboard" class="btn btn-secondary">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Save Event
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </body>
-</html>
+</html> 

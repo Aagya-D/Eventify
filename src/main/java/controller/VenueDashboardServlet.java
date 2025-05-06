@@ -6,9 +6,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import model.User;
+import model.VenueDAO;
+import model.Venue;
+import model.ActivityLogDAO;
+import java.util.List;
 
 /**
- * Servlet that handles requests to the About Us page
+ * Servlet that handles requests to the Admin Venue Dashboard page
  */
 @WebServlet("/VenueDashboard")
 public class VenueDashboardServlet extends HttpServlet {
@@ -16,7 +21,49 @@ public class VenueDashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Forward the request to the About Us JSP page
+        System.out.println("VenueDashboardServlet doGet method called");
+        
+        // Check if user is logged in
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            // Redirect to login page if not logged in
+            System.out.println("User not logged in, redirecting to login page");
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        // Check if user has admin role
+        if (!"ADMIN".equals(user.getRole())) {
+            // Redirect to home page if not an admin
+            System.out.println("User not an admin, redirecting to home page");
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            return;
+        }
+
+        // Get all venues for dashboard from the database
+        System.out.println("Fetching venues from database");
+        VenueDAO venueDAO = new VenueDAO();
+        List<Venue> allVenues = venueDAO.getAllVenues();
+        System.out.println("Fetched " + allVenues.size() + " venues");
+
+        // Set venues as request attribute
+        request.setAttribute("venues", allVenues);
+        
+        // Check for success message in session
+        String successMessage = (String) request.getSession().getAttribute("successMessage");
+        if (successMessage != null) {
+            System.out.println("Success message found: " + successMessage);
+            request.setAttribute("successMessage", successMessage);
+            // Remove from session to prevent it from displaying on refresh
+            request.getSession().removeAttribute("successMessage");
+        }
+        
+        // Log admin activity
+        ActivityLogDAO.logActivity(user.getUserId(), "VIEW", "Viewed venue dashboard");
+
+        // Forward the request to the venue dashboard JSP page
+        System.out.println("Forwarding to venue_dashboard.jsp");
         request.getRequestDispatcher("/WEB-INF/view/venue_dashboard.jsp").forward(request, response);
-}
+    }
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,22 +13,34 @@ import model.User;
 import java.io.IOException;
 import java.util.List;
 
+@WebServlet(name = "EventsServlet", urlPatterns = {"/events"})
 public class EventsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("EventsServlet doGet() called");
+        
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        // Get all events
-        EventDAO eventDAO = new EventDAO();
-        List<Event> eventList = eventDAO.getAllEvents();
+        try {
+            // Get all events
+            EventDAO eventDAO = new EventDAO();
+            List<Event> eventList = eventDAO.getAllEvents();
+            
+            System.out.println("Events retrieved: " + (eventList != null ? eventList.size() : "null"));
 
-        // Add events to request
-        request.setAttribute("eventList", eventList);
+            // Add events to request
+            request.setAttribute("eventList", eventList);
 
-        // Forward to events JSP page
-        request.getRequestDispatcher("/WEB-INF/view/events.jsp").forward(request, response);
+            // Forward to events JSP page
+            request.getRequestDispatcher("/WEB-INF/view/events.jsp").forward(request, response);
+        } catch (Exception e) {
+            System.err.println("Error in EventsServlet: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("error", "Failed to retrieve events: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/view/events.jsp").forward(request, response);
+        }
     }
 
     @Override
