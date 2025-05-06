@@ -1,10 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="model.Venue" %>
+<%@ page import="java.util.List" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evently - Venues</title>
+    <title>All Venues - Eventify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -164,118 +168,105 @@
             margin-right: 10px;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<header class="header">
-    <a href="index.jsp" class="logo">Evently</a>
-
-    <div class="nav-links">
-        <a href="index.jsp"><i class="fas fa-home"></i> Home</a>
-        <a href="events.jsp"><i class="far fa-calendar-alt"></i> Events</a>
-        <a href="venues.jsp"><i class="fas fa-map-marker-alt"></i> Venues</a>
-        <a href="admin.jsp"><i class="fas fa-user"></i> Admin</a>
-        <a href="logout.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-
-    <div class="search-bar">
-        <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search here....">
-    </div>
-</header>
-
-<div class="main-content">
-    <div class="venues-container">
-        <div class="venues-header">
-            <i class="fas fa-map-marker-alt"></i> Venues
-        </div>
-
-        <div class="venues-list">
-            <%-- In a real application, you would fetch venues from a database --%>
-            <c:forEach var="venue" items="${venuesList}" varStatus="status">
-                <div class="venue-item">
-                    <div class="venue-name">
-                        <i class="fas fa-building"></i> ${venue.name}
-                    </div>
-                    <div class="venue-actions">
-                        <a href="updateVenue.jsp?id=${venue.id}" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
-                        <a href="deleteVenue.jsp?id=${venue.id}" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
-                    </div>
-                </div>
-            </c:forEach>
-
-            <%-- Fallback static content if no venues are loaded --%>
-            <c:if test="${empty venuesList}">
-                <div class="venue-item">
-                    <div class="venue-name">
-                        <i class="fas fa-building"></i> Soaltee Resturant
-                    </div>
-                    <div class="venue-actions">
-                        <a href="updateVenue.jsp?id=1" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
-                        <a href="deleteVenue.jsp?id=1" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
-                    </div>
+    <!-- Include navigation bar -->
+    <%@ include file="navbar.jsp" %>
+    
+    <div class="main-container">
+        <div class="main-content">
+            <div class="venues-container">
+                <div class="venues-header">
+                    <i class="fas fa-map-marker-alt"></i> Venues
                 </div>
 
-                <div class="venue-item">
-                    <div class="venue-name">
-                        <i class="fas fa-building"></i> Level Up
-                    </div>
-                    <div class="venue-actions">
-                        <a href="updateVenue.jsp?id=2" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
-                        <a href="deleteVenue.jsp?id=2" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
-                    </div>
+                <div class="venues-list">
+                    <%-- In a real application, you would fetch venues from a database --%>
+                    <c:forEach var="venue" items="${venuesList}" varStatus="status">
+                        <div class="venue-item">
+                            <div class="venue-name">
+                                <i class="fas fa-building"></i> ${venue.name}
+                            </div>
+                            <div class="venue-actions">
+                                <a href="updateVenue.jsp?id=${venue.id}" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
+                                <a href="deleteVenue.jsp?id=${venue.id}" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                    <%-- Fallback static content if no venues are loaded --%>
+                    <c:if test="${empty venuesList}">
+                        <div class="venue-item">
+                            <div class="venue-name">
+                                <i class="fas fa-building"></i> Soaltee Resturant
+                            </div>
+                            <div class="venue-actions">
+                                <a href="updateVenue.jsp?id=1" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
+                                <a href="deleteVenue.jsp?id=1" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
+                            </div>
+                        </div>
+
+                        <div class="venue-item">
+                            <div class="venue-name">
+                                <i class="fas fa-building"></i> Level Up
+                            </div>
+                            <div class="venue-actions">
+                                <a href="updateVenue.jsp?id=2" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
+                                <a href="deleteVenue.jsp?id=2" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
+                            </div>
+                        </div>
+
+                        <div class="venue-item">
+                            <div class="venue-name">
+                                <i class="fas fa-building"></i> Hotel Gajur
+                            </div>
+                            <div class="venue-actions">
+                                <a href="updateVenue.jsp?id=3" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
+                                <a href="deleteVenue.jsp?id=3" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
+                            </div>
+                        </div>
+
+                        <div class="venue-item">
+                            <div class="venue-name">
+                                <i class="fas fa-building"></i> Hankook
+                            </div>
+                            <div class="venue-actions">
+                                <a href="updateVenue.jsp?id=4" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
+                                <a href="deleteVenue.jsp?id=4" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
+                            </div>
+                        </div>
+                    </c:if>
                 </div>
-
-                <div class="venue-item">
-                    <div class="venue-name">
-                        <i class="fas fa-building"></i> Hotel Gajur
-                    </div>
-                    <div class="venue-actions">
-                        <a href="updateVenue.jsp?id=3" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
-                        <a href="deleteVenue.jsp?id=3" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
-                    </div>
-                </div>
-
-                <div class="venue-item">
-                    <div class="venue-name">
-                        <i class="fas fa-building"></i> Hankook
-                    </div>
-                    <div class="venue-actions">
-                        <a href="updateVenue.jsp?id=4" class="btn btn-update"><i class="fas fa-edit"></i> Update</a>
-                        <a href="deleteVenue.jsp?id=4" class="btn btn-delete"><i class="fas fa-trash"></i> Delete</a>
-                    </div>
-                </div>
-            </c:if>
-        </div>
-    </div>
-</div>
-
-<footer>
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>Evently</h3>
-            <p>Your easy event management solution</p>
-        </div>
-
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <a href="index.jsp">Home</a>
-            <a href="addEvent.jsp">Add Event</a>
-            <a href="events.jsp">All Events</a>
-        </div>
-
-        <div class="footer-section">
-            <h3>Contact</h3>
-            <div class="contact-item">
-                <i class="far fa-envelope"></i>
-                <span>supportevently@gmail.com</span>
-            </div>
-            <div class="contact-item">
-                <i class="fas fa-phone"></i>
-                <span>9826321921</span>
             </div>
         </div>
     </div>
-</footer>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Evently</h3>
+                <p>Your easy event management solution</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.jsp">Home</a>
+                <a href="addEvent.jsp">Add Event</a>
+                <a href="events.jsp">All Events</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <div class="contact-item">
+                    <i class="far fa-envelope"></i>
+                    <span>supportevently@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>9826321921</span>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

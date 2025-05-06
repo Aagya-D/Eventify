@@ -263,30 +263,22 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="logo">
-            <a href="index.jsp">Eventify</a>
-        </div>
-        <nav>
-            <ul class="nav-menu">
-                <li><a href="index.jsp"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="events"><i class="fas fa-calendar-alt"></i> Events</a></li>
-                <li><a href="venues"><i class="fas fa-map-marker-alt"></i> Venues</a></li>
-                <li><a href="admin"><i class="fas fa-user-shield"></i> Admin</a></li>
-                <li><a href="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            </ul>
-        </nav>
-        <div class="search-bar">
-            <input type="text" placeholder="Search here....">
-            <i class="fas fa-search"></i>
-        </div>
-    </header>
-
-    <!-- Main Content -->
+    <!-- Include navigation bar -->
+    <%@ include file="navbar.jsp" %>
+    
     <div class="main-container">
         <section class="events-section">
             <h1 class="section-title">All Events</h1>
+            
+            <% 
+                // Check for error messages
+                String errorMessage = (String) request.getAttribute("error");
+                if (errorMessage != null && !errorMessage.isEmpty()) {
+            %>
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                <i class="fas fa-exclamation-circle"></i> Error: <%= errorMessage %>
+            </div>
+            <% } %>
             
             <%
                 List<Event> eventList = (List<Event>) request.getAttribute("eventList");
@@ -341,7 +333,9 @@
                     }
                 } else {
             %>
-            <p style="color: white; text-align: center;">No events found.</p>
+            <div style="background-color: #fff3cd; color: #856404; padding: 15px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
+                <i class="fas fa-info-circle"></i> No events found. Please check your database connection or add some events.
+            </div>
             <% } %>
             
             <a href="add-event" class="add-button">

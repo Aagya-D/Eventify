@@ -13,26 +13,43 @@ import java.util.Map;
 import java.util.Arrays;
 import java.util.List;
 
-@WebFilter(urlPatterns = {"/admin/*"})
+@WebFilter(urlPatterns = {"/*"})
 public class RoleBasedFilter implements Filter {
     
-    // Define role-based URL patterns
-    private static final Map<String, List<String>> ROLE_PATHS = new HashMap<>();
+    // Define admin-specific URL patterns
+    private static final List<String> ADMIN_PATHS = Arrays.asList(
+        "/admin",
+        "/AdminDashboard",
+        "/VenueDashboard",
+        "/EventDashboard",
+        "/admin/add-venue",
+        "/admin/edit-venue",
+        "/admin/delete-venue",
+        "/admin/add-event",
+        "/admin/edit-event",
+        "/admin/delete-event",
+        "/admin/manage-users",
+        "/admin/users",
+        "/admin/profile",
+        "/venue/details",
+        "/venue/edit",
+        "/ManageUsers",
+        "/BatchApproveUsers"
+    );
     
-    static {
-        // Admin paths
-        ROLE_PATHS.put("ADMIN", Arrays.asList(
-            "/admin",
-            "/admin/dashboard",
-            "/admin/events",
-            "/admin/users"
-        ));
-        
-        // Moderator paths (if you have this role)
-        ROLE_PATHS.put("MODERATOR", Arrays.asList(
-            "/admin/events"
-        ));
-    }
+    // Define regular user URL patterns
+    private static final List<String> USER_PATHS = Arrays.asList(
+        "/events",
+        "/venues",
+        "/profile",
+        "/UserProfileServlet",
+        "/editprofile",
+        "/reset-password",
+        "/delete-account",
+        "/add-event",
+        "/index.jsp",
+        "/"
+    );
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -49,6 +66,12 @@ public class RoleBasedFilter implements Filter {
         
         String requestPath = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
         
+        // Skip processing for public resources
+        if (isPublicResource(requestPath)) {
+            chain.doFilter(request, response);
+            return;
+        }
+        
         // Check if user is logged in
         if (session == null || session.getAttribute("user") == null) {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
@@ -59,14 +82,16 @@ public class RoleBasedFilter implements Filter {
         User user = (User) session.getAttribute("user");
         String userRole = user.getRole();
         
-        // Check if user has permission to access the requested page
-        if (hasPermission(userRole, requestPath)) {
-            chain.doFilter(request, response);
-        } else {
-            // Redirect to access denied page or home
+        // Check access permissions
+        if (isAdminPath(requestPath) && !"ADMIN".equals(userRole)) {
+            // Non-admin user trying to access admin paths
             httpRequest.setAttribute("error", "You don't have permission to access this resource");
-            httpRequest.getRequestDispatcher("/index.jsp").forward(request, response);
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/");
+            return;
         }
+        
+        // Allow the request to proceed
+        chain.doFilter(request, response);
     }
 
     @Override
@@ -74,23 +99,40 @@ public class RoleBasedFilter implements Filter {
         // Cleanup code if needed
     }
     
-    private boolean hasPermission(String role, String path) {
-        // Admin has access to everything
-        if ("ADMIN".equals(role)) {
-            return true;
-        }
-        
-        // Check role-specific paths
-        List<String> allowedPaths = ROLE_PATHS.get(role);
-        if (allowedPaths != null) {
-            for (String allowedPath : allowedPaths) {
-                if (path.equals(allowedPath) || path.startsWith(allowedPath + "/")) {
-                    return true;
-                }
+    private boolean isAdminPath(String path) {
+        for (String adminPath : ADMIN_PATHS) {
+            if (path.equals(adminPath) || path.startsWith(adminPath + "/")) {
+                return true;
             }
         }
+        return false;
+    }
+    
+    private boolean isUserPath(String path) {
+        for (String userPath : USER_PATHS) {
+            if (path.equals(userPath) || path.startsWith(userPath + "/")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isPublicResource(String path) {
+        // Public resources that don't require role checking
+        List<String> publicPaths = Arrays.asList(
+            "/login", "/LoginServlet",
+            "/register", "/RegisterServlet",
+            "/assets", "/css", "/js", "/images",
+            "/search-events", "/search-venues",
+            "/index.jsp",
+            "/"
+        );
         
-        // Default user role can access regular pages but not admin
-        return !path.startsWith("/admin");
+        for (String publicPath : publicPaths) {
+            if (path.equals(publicPath) || path.startsWith(publicPath + "/")) {
+                return true;
+            }
+        }
+        return false;
     }
 } 

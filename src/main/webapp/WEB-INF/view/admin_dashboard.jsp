@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventify - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -96,26 +99,9 @@
             background-color: #faf8f0;
             padding: 15px 30px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             border-bottom: 1px solid #e0e0e0;
-        }
-        .nav-menu {
-            display: flex;
-            list-style: none;
-        }
-        .nav-menu li {
-            margin-right: 20px;
-        }
-        .nav-menu a {
-            text-decoration: none;
-            color: #005744;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        .nav-menu a i {
-            margin-right: 5px;
         }
         .search-bar {
             display: flex;
@@ -299,13 +285,14 @@
     <div class="sidebar-logo">Eventify</div>
     <div class="sidebar-title">Admin</div>
     <ul class="sidebar-menu">
-        <li><a href="#" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
-        <li><a href="#"><i class="far fa-calendar-alt"></i> Events</a></li>
-        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Venues</a></li>
+        <li><a href="${pageContext.request.contextPath}/AdminDashboard" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
+        <li><a href="${pageContext.request.contextPath}/EventDashboard"><i class="far fa-calendar-alt"></i> Events</a></li>
+        <li><a href="${pageContext.request.contextPath}/VenueDashboard"><i class="fas fa-map-marker-alt"></i> Venues</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/manage-users"><i class="fas fa-users"></i> Users</a></li>
     </ul>
     <div class="sidebar-footer">
-        <a href="#"><i class="fas fa-user"></i> My Profile</a>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="${pageContext.request.contextPath}/admin/profile"><i class="fas fa-user"></i> My Profile</a>
+        <a href="${pageContext.request.contextPath}/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 </aside>
 
@@ -313,11 +300,6 @@
 <div class="main-content">
     <!-- Header -->
     <header class="header">
-        <ul class="nav-menu">
-            <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="#"><i class="far fa-calendar-alt"></i> Events</a></li>
-            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Venues</a></li>
-        </ul>
         <div class="search-bar">
             <i class="fas fa-search"></i>
             <input type="text" placeholder="Search here.....">
@@ -337,7 +319,7 @@
                 </div>
                 <div class="stat-title">Events</div>
                 <div class="stat-value">
-                    <%= request.getAttribute("eventCount") != null ? request.getAttribute("eventCount") : "9" %>
+                    <c:out value="${eventCount}" default="0"/>
                 </div>
             </div>
             <div class="stat-card">
@@ -346,7 +328,7 @@
                 </div>
                 <div class="stat-title">Venues</div>
                 <div class="stat-value">
-                    <%= request.getAttribute("venueCount") != null ? request.getAttribute("venueCount") : "11" %>
+                    <c:out value="${venueCount}" default="0"/>
                 </div>
             </div>
             <div class="stat-card">
@@ -355,7 +337,16 @@
                 </div>
                 <div class="stat-title">Users</div>
                 <div class="stat-value">
-                    <%= request.getAttribute("userCount") != null ? request.getAttribute("userCount") : "6" %>
+                    <c:out value="${userCount}" default="0"/>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-title">Approved Events</div>
+                <div class="stat-value">
+                    <c:out value="${approvedEventCount}" default="0"/>
                 </div>
             </div>
         </div>
@@ -363,51 +354,62 @@
         <div class="dashboard-sections">
             <div class="dashboard-section">
                 <h2>Recent Activity</h2>
-                <%
-                    // This would typically come from a database or service
-                    String[] activities = {
-                            "Alzeena added \"Sumi66\"",
-                            "Admin added venue \"Gajur Palace\"",
-                            "New user registered \"Anjali_78\"",
-                            "Aagya added \"Shovan02\"",
-                            "Darshan added venue \"Soaltee westend\""
-                    };
-
-                    for(String activity : activities) {
-                %>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-circle"></i>
-                    </div>
-                    <div class="activity-text">
-                        <%= activity %>
-                    </div>
-                </div>
-                <% } %>
+                <c:choose>
+                    <c:when test="${empty recentActivities}">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-info"></i>
+                            </div>
+                            <div class="activity-text">
+                                No recent activities found
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="activity" items="${recentActivities}">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-circle"></i>
+                                </div>
+                                <div class="activity-text">
+                                    <c:out value="${activity.userName}"/> <c:out value="${activity.description}"/>
+                                    <div style="font-size: 11px; color: #999; margin-top: 3px;">
+                                        <fmt:formatDate value="${activity.timestamp}" pattern="MMM dd, yyyy HH:mm"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
             <div class="dashboard-section">
                 <h2>Recent Users</h2>
-                <%
-                    // This would typically come from a database or service
-                    String[][] users = {
-                            {"Alzeena Khewa", "Organizer"},
-                            {"Anjali_78", "User"},
-                            {"Sumi66", "Organizer"}
-                    };
-
-                    for(String[] user : users) {
-                %>
-                <div class="user-item">
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="user-info">
-                        <div class="user-name"><%= user[0] %></div>
-                        <div class="user-role"><%= user[1] %></div>
-                    </div>
-                </div>
-                <% } %>
+                <c:choose>
+                    <c:when test="${empty recentUsers}">
+                        <div class="user-item">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-info">
+                                <div class="user-name">No users found</div>
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="user" items="${recentUsers}">
+                            <div class="user-item">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="user-info">
+                                    <div class="user-name"><c:out value="${user.userName}"/></div>
+                                    <div class="user-role"><c:out value="${user.role}"/></div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </main>
@@ -422,16 +424,17 @@
             <div class="footer-column">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Add Event</a></li>
-                    <li><a href="#">All Events</a></li>
+                    <li><a href="${pageContext.request.contextPath}/AdminDashboard">Dashboard</a></li>
+                    <li><a href="${pageContext.request.contextPath}/EventDashboard">Events</a></li>
+                    <li><a href="${pageContext.request.contextPath}/VenueDashboard">Venues</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/manage-users">Users</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Contact</h3>
                 <div class="contact-info">
                     <i class="fas fa-envelope"></i>
-                    <span>supporteventify@gmail.com</span>
+                    <span>admin@eventify.com</span>
                 </div>
                 <div class="contact-info">
                     <i class="fas fa-phone"></i>
@@ -441,8 +444,5 @@
         </div>
     </footer>
 </div>
-
-<!-- Font Awesome for icons -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

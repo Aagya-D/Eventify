@@ -1,11 +1,9 @@
 <%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    // Get user from session
-    User user = (User) session.getAttribute("user");
+    User user = (User) request.getAttribute("user");
     if (user == null) {
-        // User not logged in, redirect to LoginServlet
-        response.sendRedirect(request.getContextPath() + "/LoginServlet");
+        response.sendRedirect(request.getContextPath() + "/login");
         return;
     }
 
@@ -14,171 +12,165 @@
     if (user.getFullName() != null && !user.getFullName().isEmpty()) {
         firstLetter = user.getFullName().substring(0, 1).toUpperCase();
     }
-
-    // Format date of birth for input field
-    String dobString = "";
-    if (user.getDateOfBirth() != null) {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        dobString = sdf.format(user.getDateOfBirth());
-    }
 %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modify User Parameters | <%= user.getFullName() %></title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Edit Profile - Eventify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+    <style>
+        .edit-profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #006158;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,97,88,0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #006158;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #004d47;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+    </style>
 </head>
 <body>
+<%@ include file="navbar.jsp" %>
 
-<div class="container profile-container">
-    <div class="profile-header">
-        <div class="back-link">
-            <a href="${pageContext.request.contextPath}/UserProfileServlet" class="subtle-link">&larr; Return to System Data</a>
-        </div>
+<div class="main-container">
+    <div class="edit-profile-container">
+        <h1 class="page-title">Edit Profile</h1>
 
-        <% if (user.getProfilePicture() != null && user.getProfilePicture().length > 0) { %>
-        <div class="profile-image large">
-            <img src="data:image/jpeg;base64,<%= java.util.Base64.getEncoder().encodeToString(user.getProfilePicture()) %>" alt="Profile Picture" class="profile-pic">
-        </div>
-        <% } else { %>
-        <div class="avatar large">
-            <%= firstLetter %>
+        <% if (request.getAttribute("error") != null) { %>
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            <%= request.getAttribute("error") %>
         </div>
         <% } %>
 
-        <h1 class="profile-name">Configure User Parameters</h1>
-        <p class="profile-username">@<%= user.getUsername() %></p>
-    </div>
-
-    <!-- Display error message if present -->
-    <% if (request.getAttribute("error") != null) { %>
-    <div class="alert alert-error">
-        <%= request.getAttribute("error") %>
-    </div>
-    <% } %>
-
-    <form action="${pageContext.request.contextPath}/UpdateProfileServlet" method="post" class="form" enctype="multipart/form-data">
-        <div class="form-section">
-            <div class="form-section-title">System Access Parameters</div>
-
-            <div class="form-group">
-                <label for="username">System ID</label>
-                <input type="text" id="username" name="username" value="<%= user.getUsername() %>" disabled>
-                <p class="form-help">System ID is immutable</p>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Primary Contact</label>
-                <input type="email" id="email" name="email" value="<%= user.getEmail() %>" disabled>
-                <p class="form-help">Primary contact is immutable</p>
-            </div>
+        <% if (request.getAttribute("success") != null) { %>
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            <%= request.getAttribute("success") %>
         </div>
+        <% } %>
 
-        <div class="form-section">
-            <div class="form-section-title">Core Identity Data</div>
-
+        <form action="${pageContext.request.contextPath}/profile" method="post" class="edit-profile-form">
             <div class="form-group">
-                <label for="fullName">Identity String*</label>
-                <input type="text" id="fullName" name="fullName" value="<%= user.getFullName() != null ? user.getFullName() : "" %>" required>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="<%= user.getUserName() %>" required>
             </div>
 
             <div class="form-group">
-                <label for="dateOfBirth">Creation Date</label>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" value="<%= dobString %>">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="<%= user.getEmail() %>" required>
             </div>
 
             <div class="form-group">
-                <label for="gender">Entity Type</label>
-                <select id="gender" name="gender">
-                    <option value="" <%= user.getGender() == null || user.getGender().isEmpty() ? "selected" : "" %>>Select Entity Type</option>
-                    <option value="Male" <%= "Male".equals(user.getGender()) ? "selected" : "" %>>Male</option>
-                    <option value="Female" <%= "Female".equals(user.getGender()) ? "selected" : "" %>>Female</option>
-                    <option value="Other" <%= "Other".equals(user.getGender()) ? "selected" : "" %>>Other</option>
-                    <option value="Prefer not to say" <%= "Prefer not to say".equals(user.getGender()) ? "selected" : "" %>>Prefer not to say</option>
-                </select>
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" value="<%= user.getFullName() != null ? user.getFullName() : "" %>">
             </div>
-        </div>
-
-        <div class="form-section">
-            <div class="form-section-title">Communication Endpoints</div>
 
             <div class="form-group">
-                <label for="phone">Secondary Contact</label>
+                <label for="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" value="<%= user.getPhone() != null ? user.getPhone() : "" %>">
             </div>
 
-            <div class="form-group">
-                <label for="address">Location Data</label>
-                <input type="text" id="address" name="address" value="<%= user.getAddress() != null ? user.getAddress() : "" %>">
+            <div class="form-actions">
+                <a href="${pageContext.request.contextPath}/profile" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
             </div>
-        </div>
-
-        <div class="form-section">
-            <div class="form-section-title">Visual Identifier</div>
-
-            <% if (user.getProfilePicture() != null && user.getProfilePicture().length > 0) { %>
-            <div class="current-image">
-                <p>Current Profile Picture:</p>
-                <img src="data:image/jpeg;base64,<%= java.util.Base64.getEncoder().encodeToString(user.getProfilePicture()) %>" alt="Current Profile Picture">
-            </div>
-            <% } %>
-
-            <!-- New Image Preview -->
-            <div id="imagePreview" class="image-preview">
-                <img id="previewImg" src="#" alt="New Profile Picture Preview">
-            </div>
-
-            <div class="form-group">
-                <label for="profilePicture">Upload New Profile Picture</label>
-                <div class="file-upload">
-                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*" onchange="previewImage(this)">
-                    <p>Click to select a file or drag and drop</p>
-                    <p class="form-help">Recommended size: 300x300 pixels. Max size: 5MB.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-section">
-            <div class="form-section-title">Confirm Changes</div>
-
-            <div class="form-group">
-                <label for="password">Enter Password to Save Changes*</label>
-                <input type="password" id="password" name="password" required>
-                <p class="form-help">Your current password is required to save changes</p>
-            </div>
-        </div>
-
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-            <a href="${pageContext.request.contextPath}/UserProfileServlet" class="btn btn-secondary">Cancel</a>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
-<script>
-    function previewImage(input) {
-        const preview = document.getElementById('imagePreview');
-        const previewImg = document.getElementById('previewImg');
-
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                previewImg.src = e.target.result;
-                preview.style.display = 'block';
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        } else {
-            previewImg.src = '#';
-            preview.style.display = 'none';
-        }
-    }
-</script>
-
+<%@ include file="footer_component.jsp" %>
 </body>
 </html>

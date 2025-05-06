@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class User {
     // Instance variables that match the database schema
@@ -12,6 +13,12 @@ public class User {
     private String password;
     private Date createdAt;
     private String fullName; // Added for compatibility
+
+    // Validation patterns
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^\\+?[1-9]\\d{1,14}$");
+    private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{3,20}$");
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
 
     // Constructors
     public User() {
@@ -37,6 +44,27 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    // Validation methods
+    public boolean isValidEmail() {
+        return email != null && EMAIL_PATTERN.matcher(email).matches();
+    }
+
+    public boolean isValidPhone() {
+        return phone == null || phone.isEmpty() || PHONE_PATTERN.matcher(phone).matches();
+    }
+
+    public boolean isValidUsername() {
+        return userName != null && USERNAME_PATTERN.matcher(userName).matches();
+    }
+
+    public boolean isValidPassword() {
+        return password != null && PASSWORD_PATTERN.matcher(password).matches();
+    }
+
+    public boolean isValid() {
+        return isValidUsername() && isValidEmail() && isValidPassword() && isValidPhone();
+    }
+
     // Getters and setters
     public int getUserId() {
         return userId;
@@ -51,7 +79,11 @@ public class User {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        if (userName != null && USERNAME_PATTERN.matcher(userName).matches()) {
+            this.userName = userName;
+        } else {
+            throw new IllegalArgumentException("Invalid username format");
+        }
     }
 
     public String getRole() {
@@ -67,7 +99,11 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email != null && EMAIL_PATTERN.matcher(email).matches()) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Invalid email format");
+        }
     }
 
     public String getPhone() {
@@ -75,7 +111,11 @@ public class User {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        if (phone == null || phone.isEmpty() || PHONE_PATTERN.matcher(phone).matches()) {
+            this.phone = phone;
+        } else {
+            throw new IllegalArgumentException("Invalid phone number format");
+        }
     }
 
     public String getPassword() {
@@ -83,7 +123,11 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (password != null && PASSWORD_PATTERN.matcher(password).matches()) {
+            this.password = password;
+        } else {
+            throw new IllegalArgumentException("Invalid password format");
+        }
     }
 
     public Date getCreatedAt() {

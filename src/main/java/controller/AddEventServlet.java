@@ -1,106 +1,123 @@
 package controller;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import model.Event;
 import model.EventDAO;
 import model.User;
+import model.VenueDAO;
+import model.Venue;
+import model.ActivityLogDAO;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+@WebServlet("/admin/add-event")
 public class AddEventServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Check if user is logged in
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-
-        if (user == null) {
-            // Redirect to login page if not logged in
+        // Check if user is logged in and is an admin
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || !"ADMIN".equals(user.getRole())) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-
-        // Forward to add event JSP page
-        request.getRequestDispatcher("/WEB-INF/view/add-event.jsp").forward(request, response);
+        
+        // Get venues for dropdown
+        VenueDAO venueDAO = new VenueDAO();
+        List<Venue> venues = venueDAO.getAllVenues();
+        request.setAttribute("venues", venues);
+        
+        // Forward to the add event form
+        request.getRequestDispatcher("/WEB-INF/view/admin/add_event.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Check if user is logged in
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-
-        if (user == null) {
-            // Redirect to login page if not logged in
+        // Check if user is logged in and is an admin
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || !"ADMIN".equals(user.getRole())) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-
+        
         // Get form parameters
         String name = request.getParameter("name");
-        String dateTimeStr = request.getParameter("dateTime");
+        String dateStr = request.getParameter("date");
         String venue = request.getParameter("venue");
         String description = request.getParameter("description");
         String manager = request.getParameter("manager");
-
-        // Validate form parameters
-        if (name == null || name.trim().isEmpty() ||
-            dateTimeStr == null || dateTimeStr.trim().isEmpty() ||
-            venue == null || venue.trim().isEmpty() ||
-            description == null || description.trim().isEmpty() ||
-            manager == null || manager.trim().isEmpty()) {
-
-            request.setAttribute("error", "All fields are required");
-            request.getRequestDispatcher("/WEB-INF/view/add-event.jsp").forward(request, response);
+        boolean approved = request.getParameter("approved") != null;
+        
+        // Validate required fields
+        if (name == null || name.trim().isEmpty() || 
+            dateStr == null || dateStr.trim().isEmpty() ||
+            venue == null || venue.trim().isEmpty()) {
+            
+            request.setAttribute("errorMessage", "Please fill out all required fields");
+            
+            // Get venues for dropdown
+            VenueDAO venueDAO = new VenueDAO();
+            List<Venue> venues = venueDAO.getAllVenues();
+            request.setAttribute("venues", venues);
+            
+            request.getRequestDispatcher("/WEB-INF/view/admin/add_event.jsp").forward(request, response);
             return;
         }
-
+        
         try {
-            // Parse date and time
+            // Parse date
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            Date dateTime = dateFormat.parse(dateTimeStr);
-
-            // Calculate days until event
-            Date today = new Date();
-            long diffInMillies = dateTime.getTime() - today.getTime();
-            int daysUntilEvent = (int) (diffInMillies / (1000 * 60 * 60 * 24));
-
-            // Create event object
+            Date eventDate = dateFormat.parse(dateStr);
+            
+            // Create new event
             Event event = new Event();
             event.setName(name);
-            event.setDateTime(dateTime);
-            event.setDaysUntilEvent(daysUntilEvent);
+            event.setDateTime(eventDate);
             event.setVenue(venue);
             event.setDescription(description);
             event.setManager(manager);
-            event.setApproved(false);
-            event.setAttendees(0);
-
-            // Add event to database
+            event.setApproved(approved);
+            event.setAttendees(0); // Default for new event
+            
+            // Save to database
             EventDAO eventDAO = new EventDAO();
             boolean success = eventDAO.addEvent(event);
-
+            
             if (success) {
-                // Redirect to events page with success message
+                // Log activity
+                ActivityLogDAO.logActivity(user.getUserId(), "ADD_EVENT", "Added event '" + name + "'");
+                
+                // Set success message and redirect to events dashboard
                 request.getSession().setAttribute("successMessage", "Event added successfully");
-                response.sendRedirect(request.getContextPath() + "/events");
+                response.sendRedirect(request.getContextPath() + "/EventDashboard");
             } else {
-                // Show error message
-                request.setAttribute("error", "Failed to add event");
-                request.getRequestDispatcher("/WEB-INF/view/add-event.jsp").forward(request, response);
+                // Handle failure
+                request.setAttribute("errorMessage", "Failed to add event");
+                
+                // Get venues for dropdown
+                VenueDAO venueDAO = new VenueDAO();
+                List<Venue> venues = venueDAO.getAllVenues();
+                request.setAttribute("venues", venues);
+                
+                request.getRequestDispatcher("/WEB-INF/view/admin/add_event.jsp").forward(request, response);
             }
-
         } catch (ParseException e) {
-            request.setAttribute("error", "Invalid date format");
-            request.getRequestDispatcher("/WEB-INF/view/add-event.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Invalid date format");
+            
+            // Get venues for dropdown
+            VenueDAO venueDAO = new VenueDAO();
+            List<Venue> venues = venueDAO.getAllVenues();
+            request.setAttribute("venues", venues);
+            
+            request.getRequestDispatcher("/WEB-INF/view/admin/add_event.jsp").forward(request, response);
         }
     }
 }

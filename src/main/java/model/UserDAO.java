@@ -11,6 +11,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class UserDAO {
     //Instance variables for database connection
@@ -81,10 +82,10 @@ public class UserDAO {
 
             if (rs.next()) {
                 String storedPassword = rs.getString("Password");
-                
+
                 // Use the new verification method
                 if (verifyPassword(password, storedPassword)) {
-                    return new User(
+                    User user = new User(
                             rs.getInt("User_id"),
                             rs.getString("User_name"),
                             rs.getString("Role"),
@@ -93,6 +94,7 @@ public class UserDAO {
                             storedPassword, // Store the hashed password
                             rs.getTimestamp("CreatedAt")
                     );
+                    return user;
                 }
             }
         } catch (SQLException e) {
@@ -202,18 +204,18 @@ public class UserDAO {
             SecureRandom random = new SecureRandom();
             byte[] salt = new byte[16];
             random.nextBytes(salt);
-            
+
             // Use PBKDF2WithHmacSHA256 for more secure hashing with salt
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            
+
             byte[] hash = factory.generateSecret(spec).getEncoded();
-            
+
             // Combine salt and hash together
             byte[] combined = new byte[salt.length + hash.length];
             System.arraycopy(salt, 0, combined, 0, salt.length);
             System.arraycopy(hash, 0, combined, salt.length, hash.length);
-            
+
             // Convert to Base64 for storage
             return Base64.getEncoder().encodeToString(combined);
         } catch (Exception e) {
@@ -223,22 +225,22 @@ public class UserDAO {
             return simpleHash(password);
         }
     }
-    
+
     // Verify password against stored hash
     private static boolean verifyPassword(String password, String storedHash) {
         try {
             // Decode from Base64
             byte[] combined = Base64.getDecoder().decode(storedHash);
-            
+
             // Extract salt (first 16 bytes)
             byte[] salt = new byte[16];
             System.arraycopy(combined, 0, salt, 0, salt.length);
-            
+
             // Hash the provided password with the same salt
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             byte[] hash = factory.generateSecret(spec).getEncoded();
-            
+
             // Check if the hash matches
             int hashOffset = salt.length;
             for (int i = 0; i < hash.length; i++) {
@@ -254,7 +256,7 @@ public class UserDAO {
             return storedHash.equals(simpleHash(password));
         }
     }
-    
+
     // Fallback simple hashing using SHA-256 (for backward compatibility)
     private static String simpleHash(String password) {
         try {
@@ -276,12 +278,12 @@ public class UserDAO {
     // Method to get total user count for admin dashboard
     public static int getUserCount() {
         String query = "SELECT COUNT(*) AS count FROM user";
-        
+
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            
+
             ResultSet rs = ps.executeQuery();
-            
+
             if (rs.next()) {
                 return rs.getInt("count");
             }
@@ -289,7 +291,7 @@ public class UserDAO {
             System.err.println("Error counting users: " + e.getMessage());
             e.printStackTrace();
         }
-        
+
         return 0;
     }
 
@@ -297,21 +299,21 @@ public class UserDAO {
     public static List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String query = "SELECT * FROM user ORDER BY User_id";
-        
+
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            
+
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 User user = new User(
-                    rs.getInt("User_id"),
-                    rs.getString("User_name"),
-                    rs.getString("Role"),
-                    rs.getString("Email"),
-                    rs.getString("Phone"),
-                    rs.getString("Password"),
-                    rs.getTimestamp("CreatedAt")
+                        rs.getInt("User_id"),
+                        rs.getString("User_name"),
+                        rs.getString("Role"),
+                        rs.getString("Email"),
+                        rs.getString("Phone"),
+                        rs.getString("Password"),
+                        rs.getTimestamp("CreatedAt")
                 );
                 users.add(user);
             }
@@ -319,77 +321,78 @@ public class UserDAO {
             System.err.println("Error getting all users: " + e.getMessage());
             e.printStackTrace();
         }
-        
+
         return users;
     }
-    
+
     // Method to get a user by ID
     public static User getUserById(int userId) {
         String query = "SELECT * FROM user WHERE User_id = ?";
-        
+
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            
+
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
-            
+
             if (rs.next()) {
-                return new User(
-                    rs.getInt("User_id"),
-                    rs.getString("User_name"),
-                    rs.getString("Role"),
-                    rs.getString("Email"),
-                    rs.getString("Phone"),
-                    rs.getString("Password"),
-                    rs.getTimestamp("CreatedAt")
+                User user = new User(
+                        rs.getInt("User_id"),
+                        rs.getString("User_name"),
+                        rs.getString("Role"),
+                        rs.getString("Email"),
+                        rs.getString("Phone"),
+                        rs.getString("Password"),
+                        rs.getTimestamp("CreatedAt")
                 );
+                return user;
             }
         } catch (SQLException e) {
             System.err.println("Error getting user by ID: " + e.getMessage());
             e.printStackTrace();
         }
-        
+
         return null;
     }
-    
+
     // Method for admin to update user details
     public static boolean updateUserByAdmin(User user) {
         String query = "UPDATE user SET User_name = ?, Role = ?, Email = ? WHERE User_id = ?";
-        
+
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            
+
             ps.setString(1, user.getUserName());
             ps.setString(2, user.getRole());
             ps.setString(3, user.getEmail());
             ps.setInt(4, user.getUserId());
-            
+
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
             System.err.println("Error updating user by admin: " + e.getMessage());
             e.printStackTrace();
         }
-        
+
         return false;
     }
-    
+
     // Method to delete a user by ID
     public static boolean deleteUserById(int userId) {
         String query = "DELETE FROM user WHERE User_id = ?";
-        
+
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            
+
             ps.setInt(1, userId);
-            
+
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
             System.err.println("Error deleting user by ID: " + e.getMessage());
             e.printStackTrace();
         }
-        
+
         return false;
     }
 }

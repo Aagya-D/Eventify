@@ -27,7 +27,13 @@ public class LoginServlet extends HttpServlet {
                             HttpSession session = request.getSession();
                             session.setAttribute("user", user);
                             session.setAttribute("loggedIn", true);
-                            response.sendRedirect(request.getContextPath() + "/");
+                            
+                            // Check if user is an admin and redirect accordingly
+                            if ("ADMIN".equals(user.getRole())) {
+                                response.sendRedirect(request.getContextPath() + "/AdminDashboard");
+                            } else {
+                                response.sendRedirect(request.getContextPath() + "/");
+                            }
                             return;
                         }
                     }
@@ -101,8 +107,14 @@ public class LoginServlet extends HttpServlet {
                 response.setHeader("Set-Cookie", headerValue);
             }
 
-            // Redirect to homepage
-            response.sendRedirect(request.getContextPath() + "/");
+            // Check user role and redirect accordingly
+            if ("ADMIN".equals(user.getRole())) {
+                // Admin user - redirect to admin dashboard
+                response.sendRedirect(request.getContextPath() + "/AdminDashboard");
+            } else {
+                // Regular user - redirect to homepage
+                response.sendRedirect(request.getContextPath() + "/");
+            }
         } else {
             // Authentication failed
             request.setAttribute("error", "Invalid email or password");

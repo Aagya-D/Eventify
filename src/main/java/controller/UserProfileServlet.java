@@ -13,7 +13,7 @@ public class UserProfileServlet extends HttpServlet {
 
         if (session == null || session.getAttribute("user") == null) {
             // User not logged in, redirect to login page
-            response.sendRedirect(request.getContextPath() + "/LoginServlet");
+            response.sendRedirect(request.getContextPath() + "/UserProfile");
             return;
         }
         String success = (String) session.getAttribute("success");
