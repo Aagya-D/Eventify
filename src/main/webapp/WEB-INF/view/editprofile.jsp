@@ -1,16 +1,18 @@
 <%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    User user = (User) request.getAttribute("user");
+    // Get user from session
+    User user = (User) session.getAttribute("user");
     if (user == null) {
+        // User not logged in, redirect to login
         response.sendRedirect(request.getContextPath() + "/login");
         return;
     }
 
-    // Get the first letter of the user's name for the avatar
-    String firstLetter = "";
-    if (user.getFullName() != null && !user.getFullName().isEmpty()) {
-        firstLetter = user.getFullName().substring(0, 1).toUpperCase();
+    // Get the initials for the avatar
+    String initials = "";
+    if (user.getUserName() != null && !user.getUserName().isEmpty()) {
+        initials = user.getUserName().substring(0, 1).toUpperCase();
     }
 %>
 <!DOCTYPE html>
@@ -19,158 +21,445 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile - Eventify</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     <style>
-        .edit-profile-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 30px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Inter', sans-serif;
             color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Profile Layout */
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .profile-sidebar {
+            width: 300px;
+            flex-shrink: 0;
+        }
+
+        .profile-main {
+            flex: 1;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+
+        /* Profile Header */
+        .profile-avatar-section {
+            background: linear-gradient(135deg, #00574b 0%, #007c6c 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: #00574b;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 15px;
+            font-weight: 600;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .profile-username {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .profile-role {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
             font-weight: 500;
         }
 
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
+        /* For regular user role */
+        .role-user {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* For admin role */
+        .role-admin {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        /* Navigation Menu */
+        .profile-nav {
+            padding: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
             border-radius: 8px;
+            margin-bottom: 8px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: #f5f7fa;
+        }
+
+        .nav-item.active {
+            background: #f0f9f7;
+            color: #00574b;
+            font-weight: 500;
+        }
+
+        .nav-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
             font-size: 16px;
-            transition: border-color 0.3s ease;
+            color: #00574b;
         }
 
-        .form-group input:focus {
-            border-color: #006158;
+        /* Information Card */
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .info-title {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            color: #00574b;
+        }
+
+        .info-title i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .info-content {
+            padding: 30px;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-error {
+            background-color: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+        }
+
+        .alert-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .alert i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+            font-size: 15px;
+        }
+
+        .form-field {
+            position: relative;
+        }
+
+        .form-field i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px 12px 40px;
+            font-size: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            transition: all 0.3s;
+            background-color: #f8f9fa;
+            color: #495057;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-control:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0,97,88,0.1);
+            border-color: #00574b;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(0, 87, 75, 0.1);
         }
 
-        .form-actions {
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        .form-help {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        /* Button styles */
+        .action-buttons {
             display: flex;
             gap: 15px;
-            justify-content: flex-end;
             margin-top: 30px;
         }
 
         .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             padding: 12px 24px;
             border-radius: 8px;
             font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
             text-decoration: none;
-            cursor: pointer;
+            transition: all 0.3s ease;
             border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn i {
+            margin-right: 10px;
         }
 
         .btn-primary {
-            background: #006158;
+            background: #00574b;
             color: white;
+            box-shadow: 0 4px 10px rgba(0, 87, 75, 0.2);
         }
 
         .btn-primary:hover {
-            background: #004d47;
+            background: #004a3f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 87, 75, 0.3);
+        }
+
+        .btn-outline {
+            border: 2px solid #00574b;
+            color: #00574b;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 87, 75, 0.05);
             transform: translateY(-2px);
         }
 
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .profile-sidebar {
+                width: 100%;
+            }
         }
 
-        .btn-secondary:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+            }
 
-        .alert {
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
+            .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<jsp:include page="/WEB-INF/view/navbar.jsp" />
 
-<div class="main-container">
-    <div class="edit-profile-container">
-        <h1 class="page-title">Edit Profile</h1>
+<div class="main-content">
+    <div class="profile-container">
+        <!-- Left Sidebar -->
+        <div class="profile-sidebar">
+            <div class="profile-card">
+                <div class="profile-avatar-section">
+                    <div class="avatar">
+                        <%= initials %>
+                    </div>
+                    <h2 class="profile-name"><%= user.getUserName() %></h2>
+                    <p class="profile-username">@<%= user.getUserName() %></p>
+                    <span class="profile-role <%= "ADMIN".equals(user.getRole()) ? "role-admin" : "role-user" %>"><%= user.getRole() %></span>
+                </div>
 
-        <% if (request.getAttribute("error") != null) { %>
-        <div class="alert alert-error">
-            <i class="fas fa-exclamation-circle"></i>
-            <%= request.getAttribute("error") %>
+                <div class="profile-nav">
+                    <a href="${pageContext.request.contextPath}/" class="nav-item">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="${pageContext.request.contextPath}/events" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i> My Events
+                    </a>
+                    <a href="${pageContext.request.contextPath}/profile" class="nav-item">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <a href="${pageContext.request.contextPath}/editprofile" class="nav-item active">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </a>
+                    <% if ("ADMIN".equals(user.getRole())) { %>
+                    <a href="${pageContext.request.contextPath}/AdminDashboard" class="nav-item">
+                        <i class="fas fa-th-large"></i> Dashboard
+                    </a>
+                    <a href="${pageContext.request.contextPath}/EventDashboard" class="nav-item">
+                        <i class="fas fa-calendar-check"></i> Manage Events
+                    </a>
+                    <a href="${pageContext.request.contextPath}/VenueDashboard" class="nav-item">
+                        <i class="fas fa-map-marker-alt"></i> Manage Venues
+                    </a>
+                    <% } %>
+                    <a href="${pageContext.request.contextPath}/logout" class="nav-item">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
         </div>
-        <% } %>
 
-        <% if (request.getAttribute("success") != null) { %>
-        <div class="alert alert-success">
-            <i class="fas fa-check-circle"></i>
-            <%= request.getAttribute("success") %>
+        <!-- Main Content -->
+        <div class="profile-main">
+            <div class="info-card">
+                <div class="info-header">
+                    <h3 class="info-title">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </h3>
+                </div>
+
+                <div class="info-content">
+                    <%
+                        // Display error message if available
+                        String error = (String) request.getAttribute("error");
+                        if (error != null) {
+                    %>
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle"></i> <%= error %>
+                    </div>
+                    <% } %>
+
+                    <form action="${pageContext.request.contextPath}/editprofile" method="post">
+                        <div class="form-group">
+                            <label for="username" class="form-label">Username</label>
+                            <div class="form-field">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="username" name="username" class="form-control" value="<%= user.getUserName() %>" required>
+                            </div>
+                            <p class="form-help">Your display name on the platform</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <div class="form-field">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" class="form-control" value="<%= user.getEmail() %>" required>
+                            </div>
+                            <p class="form-help">We'll never share your email with anyone else</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <div class="form-field">
+                                <i class="fas fa-phone"></i>
+                                <input type="text" id="phone" name="phone" class="form-control" value="<%= user.getPhone() != null ? user.getPhone() : "" %>" placeholder="Optional">
+                            </div>
+                            <p class="form-help">Your contact number for event communications</p>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                            <a href="${pageContext.request.contextPath}/profile" class="btn btn-outline">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <% } %>
-
-        <form action="${pageContext.request.contextPath}/profile" method="post" class="edit-profile-form">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" value="<%= user.getUserName() %>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="<%= user.getEmail() %>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" name="fullName" value="<%= user.getFullName() != null ? user.getFullName() : "" %>">
-            </div>
-
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" value="<%= user.getPhone() != null ? user.getPhone() : "" %>">
-            </div>
-
-            <div class="form-actions">
-                <a href="${pageContext.request.contextPath}/profile" class="btn btn-secondary">
-                    <i class="fas fa-times"></i> Cancel
-                </a>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Save Changes
-                </button>
-            </div>
-        </form>
     </div>
 </div>
 
-<%@ include file="footer_component.jsp" %>
+<jsp:include page="/WEB-INF/view/footer.jsp" />
 </body>
 </html>

@@ -1,715 +1,569 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: koira
-  Date: 4/1/2025
-  Time: 3:27 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page import="model.User" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    // Get user from session
-    User user = (User) session.getAttribute("user");
-    if (user == null) {
-        // User not logged in, redirect to login
-        response.sendRedirect(request.getContextPath() + "/login");
-        return;
-    }
-
-    // Get the initials for the avatar
-    String initials = "";
-    if (user.getFullName() != null && !user.getFullName().isEmpty()) {
-        String[] nameParts = user.getFullName().split(" ");
-        if (nameParts.length > 1) {
-            initials = (nameParts[0].substring(0, 1) + nameParts[nameParts.length - 1].substring(0, 1)).toUpperCase();
-        } else {
-            initials = user.getFullName().substring(0, Math.min(2, user.getFullName().length())).toUpperCase();
-        }
-    } else if (user.getUserName() != null && !user.getUserName().isEmpty()) {
-        initials = user.getUserName().substring(0, Math.min(2, user.getUserName().length())).toUpperCase();
-    }
-
-    // Format creation date
-    String createdAtString = "";
-    if (user.getCreatedAt() != null) {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM dd, yyyy");
-        createdAtString = sdf.format(user.getCreatedAt());
-    }
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - Eventify</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+    <title>Eventify Admin - Venue Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gradient: linear-gradient(135deg, #3498db, #2c3e50);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
             background-color: #f5f7fa;
-            font-family: 'Inter', sans-serif;
             color: #333;
-            margin: 0;
-            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
             min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            transition: all 0.3s ease;
         }
-        
-        /* Navbar Styles */
-        header {
-            background-color: white;
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+
+        .brand {
+            margin-bottom: 2rem;
         }
-        
-        .logo a {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            color: #006158;
-            text-decoration: none;
-            font-size: 24px;
-            letter-spacing: -0.5px;
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
-        
+
+        .admin-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
         .nav-menu {
             display: flex;
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            gap: 25px;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
         }
-        
-        .nav-menu li a {
-            color: #333;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
+
+        .nav-item {
             display: flex;
             align-items: center;
-            gap: 6px;
+            padding: 0.8rem 1rem;
+            border-radius: var(--border-radius);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
-        
-        .nav-menu li a:hover {
-            background-color: #f0f7f6;
-            color: #006158;
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
-        
-        .nav-menu li a i {
-            font-size: 14px;
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
         }
-        
+
+        .nav-item i {
+            margin-right: 0.8rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-menu {
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
         .search-bar {
             position: relative;
-            width: 250px;
+            width: 300px;
         }
-        
+
         .search-bar input {
             width: 100%;
-            padding: 10px 15px;
-            padding-right: 40px;
-            border: 1px solid #eaeaea;
-            border-radius: 8px;
+            padding: 8px 14px 8px 35px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
             font-size: 14px;
-            background-color: #f8f9fa;
-            transition: all 0.2s ease;
+            background: #f8f9fa;
+            transition: border 0.2s, box-shadow 0.2s, background 0.2s;
         }
-        
+
         .search-bar input:focus {
             outline: none;
-            border-color: #006158;
-            background-color: white;
-            box-shadow: 0 0 0 3px rgba(0,97,88,0.1);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            background: #fff;
         }
-        
+
         .search-bar i {
             position: absolute;
-            right: 15px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: #006158;
-            cursor: pointer;
+            color: var(--secondary);
+            font-size: 14px;
         }
-        
-        /* Make navbar responsive */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                padding: 15px;
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .card-title i {
+            margin-right: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .filter-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid #eee;
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .venue-name {
+            display: flex;
+            align-items: center;
+        }
+
+        .venue-name i {
+            margin-right: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .actions-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: stretch;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn i {
+            margin-right: 0.4rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary:hover {
+            background-color: #dee2e6;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .add-venue-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1.5rem;
+        }
+
+        .add-venue-btn i {
+            margin-right: 0.5rem;
+        }
+
+        .add-venue-btn:hover {
+            background-color: #27ae60;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+                padding: 1rem 0.5rem;
             }
-            
-            .logo {
-                margin-bottom: 15px;
+
+            .logo, .admin-text {
+                display: none;
             }
-            
-            .nav-menu {
-                flex-wrap: wrap;
+
+            .nav-item {
                 justify-content: center;
-                gap: 10px;
-                margin-bottom: 15px;
+                padding: 1rem;
             }
-            
+
+            .nav-item i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
             .search-bar {
                 width: 100%;
             }
-        }
-        
-        /* Main Container */
-        .main-container {
-            padding: 40px 20px;
-            flex: 1;
-        }
-        
-        .profile-page {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .profile-grid {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 24px;
-        }
-        
-        @media (max-width: 768px) {
-            .profile-grid {
-                grid-template-columns: 1fr;
+
+            .actions-cell {
+                flex-direction: column;
+                align-items: flex-end;
             }
         }
-        
-        .page-title {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .back-link {
-            font-size: 14px;
-            color: #666;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-        
-        .back-link:hover {
-            color: #006158;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            overflow: hidden;
-            height: fit-content;
-        }
-        
-        .profile-sidebar {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .profile-header {
-            background: white;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #006158, #00887c);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            font-weight: 500;
-            margin-bottom: 16px;
-        }
-        
-        .profile-name {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-        
-        .profile-username {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-        
-        .profile-role {
-            display: inline-block;
-            padding: 4px 12px;
-            background-color: #e8f5f3;
-            color: #006158;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-        
-        .profile-actions {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .btn {
-            padding: 10px 16px;
-            font-size: 14px;
-            border-radius: 6px;
-            font-weight: 500;
-            text-align: center;
-            transition: all 0.2s;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-        
-        .btn-primary {
-            background: #006158;
-            color: white;
-            border: none;
-        }
-        
-        .btn-primary:hover {
-            background: #004d47;
-        }
-        
-        .btn-secondary {
-            background: white;
-            color: #333;
-            border: 1px solid #ddd;
-        }
-        
-        .btn-secondary:hover {
-            background: #f5f5f5;
-            border-color: #ccc;
-        }
-        
-        .btn-danger {
-            background: white;
-            color: #dc3545;
-            border: 1px solid #dc3545;
-        }
-        
-        .btn-danger:hover {
-            background: #dc3545;
-            color: white;
-        }
-        
-        .profile-content {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-        
-        .info-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        
-        .info-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .info-title {
-            font-weight: 600;
-            font-size: 16px;
-            color: #333;
-            margin: 0;
-        }
-        
-        .info-icon {
-            color: #006158;
-            font-size: 14px;
-        }
-        
-        .info-body {
-            padding: 20px;
-        }
-        
-        .info-group {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 16px;
-            margin-bottom: 16px;
-            align-items: center;
-        }
-        
-        .info-group:last-child {
-            margin-bottom: 0;
-        }
-        
-        .info-label {
-            font-size: 14px;
-            color: #666;
-            font-weight: 500;
-        }
-        
-        .info-value {
-            font-size: 14px;
-            color: #333;
-        }
-        
+
+        /* Alert Styles */
         .alert {
-            padding: 16px;
-            border-radius: 8px;
+            padding: 15px;
             margin-bottom: 20px;
+            border-radius: var(--border-radius);
             display: flex;
             align-items: center;
-            gap: 12px;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.5s ease;
         }
-        
-        .alert-success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border-left: 4px solid #4caf50;
-        }
-        
-        .alert-error {
-            background-color: #ffebee;
-            color: #c62828;
-            border-left: 4px solid #ef5350;
-        }
-        
-        /* Footer Styles */
-        footer {
-            background-color: #006158;
-            color: white;
-            padding: 40px 20px;
-            margin-top: 60px;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-        
-        .footer-section {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .footer-section h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
+
+        .alert i {
+            margin-right: 10px;
             font-size: 18px;
-            margin-bottom: 20px;
-            color: white;
         }
-        
-        .footer-section p {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 16px;
-            color: rgba(255, 255, 255, 0.8);
+
+        .alert-success {
+            background-color: rgba(46, 204, 113, 0.15);
+            border-left: 4px solid var(--success);
+            color: #27ae60;
         }
-        
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            margin-bottom: 12px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            display: inline-block;
+
+        .alert-danger {
+            background-color: rgba(231, 76, 60, 0.15);
+            border-left: 4px solid var(--danger);
+            color: #c0392b;
         }
-        
-        .footer-section a:hover {
-            color: white;
-            transform: translateX(3px);
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .contact-item i {
-            font-size: 16px;
-            width: 18px;
-            color: white;
-        }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.4);
-            backdrop-filter: blur(4px);
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 450px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 20px;
-            cursor: pointer;
-            color: #999;
-            transition: all 0.2s;
-        }
-        
-        .close:hover {
-            color: #333;
-        }
-        
-        .modal-title {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 20px;
-            color: #333;
-            margin-bottom: 16px;
-        }
-        
-        .modal-message {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-        
-        .form-group input:focus {
-            border-color: #006158;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0,97,88,0.1);
-        }
-        
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-hide alerts after 5 seconds
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    if (alert) {
+                        alert.style.opacity = '0';
+                        alert.style.transition = 'opacity 0.5s ease';
+                        setTimeout(function() {
+                            alert.style.display = 'none';
+                        }, 500);
+                    }
+                });
+            }, 5000);
+        });
+    </script>
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">
+            <div class="logo">Eventify</div>
+            <div class="admin-text">Admin Panel</div>
+        </div>
 
-<div class="main-container">
-    <div class="profile-page">
-        <h1 class="page-title">
-            My Profile
-            <a href="${pageContext.request.contextPath}/" class="back-link">
-                <i class="fas fa-arrow-left"></i> Back to Home
+        <div class="nav-menu">
+            <a href="${pageContext.request.contextPath}/AdminDashboard" class="nav-item">
+                <i class="fas fa-th-large"></i>
+                <span>Dashboard</span>
             </a>
-        </h1>
 
-        <% if (request.getAttribute("success") != null) { %>
-        <div class="alert alert-success">
-            <i class="fas fa-check-circle"></i> <%= request.getAttribute("success") %>
+            <a href="${pageContext.request.contextPath}/EventDashboard" class="nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Events</span>
+            </a>
+
+            <a href="${pageContext.request.contextPath}/VenueDashboard" class="nav-item active">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Venues</span>
+            </a>
+
+            <a href="${pageContext.request.contextPath}/admin/manage-users" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
         </div>
-        <% } %>
 
-        <% if (request.getAttribute("error") != null) { %>
-        <div class="alert alert-error">
-            <i class="fas fa-exclamation-circle"></i> <%= request.getAttribute("error") %>
+        <div class="user-menu">
+            <a href="${pageContext.request.contextPath}/admin/profile" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>My Profile</span>
+            </a>
+
+            <a href="${pageContext.request.contextPath}/logout" class="nav-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
         </div>
-        <% } %>
+    </div>
 
-        <div class="profile-grid">
-            <div class="profile-sidebar">
-                <div class="card">
-                    <div class="profile-header">
-                        <div class="avatar">
-                            <%= initials %>
-                        </div>
-                        <h2 class="profile-name"><%= user.getFullName() != null && !user.getFullName().isEmpty() ? user.getFullName() : user.getUserName() %></h2>
-                        <p class="profile-username">@<%= user.getUserName() %></p>
-                        <span class="profile-role"><%= user.getRole() %></span>
-                    </div>
-                    <div class="profile-actions">
-                        <a href="${pageContext.request.contextPath}/profile/edit" class="btn btn-primary">
-                            <i class="fas fa-edit"></i> Edit Profile
-                        </a>
-                        <a href="${pageContext.request.contextPath}/reset-password" class="btn btn-secondary">
-                            <i class="fas fa-key"></i> Change Password
-                        </a>
-                        <a href="${pageContext.request.contextPath}/logout" class="btn btn-secondary">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a>
-                        <button id="deleteAccountBtn" class="btn btn-danger">
-                            <i class="fas fa-trash"></i> Delete Account
-                        </button>
-                    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1 class="page-title">Venue Management</h1>
+
+            <form action="${pageContext.request.contextPath}/VenueDashboard" method="get" class="search-form">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" name="q" placeholder="Search venues..." value="${searchQuery}">
+                </div>
+            </form>
+        </div>
+
+        <!-- Success message -->
+        <c:if test="${not empty sessionScope.successMessage}">
+            <div class="alert alert-success" id="successAlert">
+                <i class="fas fa-check-circle"></i> ${sessionScope.successMessage}
+            </div>
+            <% session.removeAttribute("successMessage"); %>
+        </c:if>
+
+        <!-- Error message -->
+        <c:if test="${not empty sessionScope.errorMessage}">
+            <div class="alert alert-danger" id="errorAlert">
+                <i class="fas fa-exclamation-circle"></i> ${sessionScope.errorMessage}
+            </div>
+            <% session.removeAttribute("errorMessage"); %>
+        </c:if>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Venue List
+                </h2>
+
+                <div class="filter-container">
+                    <select class="filter-select">
+                        <option value="all">All Venues</option>
+                        <option value="active">Active Venues</option>
+                        <option value="inactive">Inactive Venues</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="profile-content">
-                <div class="info-card">
-                    <div class="info-header">
-                        <i class="fas fa-user info-icon"></i>
-                        <h3 class="info-title">Account Information</h3>
-                    </div>
-                    <div class="info-body">
-                        <div class="info-group">
-                            <div class="info-label">Username</div>
-                            <div class="info-value"><%= user.getUserName() %></div>
-                        </div>
-                        <div class="info-group">
-                            <div class="info-label">Email</div>
-                            <div class="info-value"><%= user.getEmail() %></div>
-                        </div>
-                        <div class="info-group">
-                            <div class="info-label">Member Since</div>
-                            <div class="info-value"><%= !createdAtString.isEmpty() ? createdAtString : "Not available" %></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Venue Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Contact</th>
+                        <th>Capacity</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="venue" items="${venues}">
+                        <tr>
+                            <td>
+                                <div class="venue-name">
+                                    <i class="fas fa-building"></i>
+                                    <span>${venue.name}</span>
+                                </div>
+                            </td>
+                            <td>${venue.address}</td>
+                            <td>${venue.city}</td>
+                            <td>${venue.contactNumber}</td>
+                            <td>${venue.capacity}</td>
+                            <td>
+                                <div class="actions-cell">
+                                    <a href="${pageContext.request.contextPath}/admin/edit-venue?id=${venue.id}" class="btn btn-primary">
+                                        <i class="fas fa-edit"></i>
+                                        Edit
+                                    </a>
+                                    <form action="${pageContext.request.contextPath}/admin/delete-venue" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this venue?');">
+                                        <input type="hidden" name="id" value="${venue.id}">
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="info-card">
-                    <div class="info-header">
-                        <i class="fas fa-id-card info-icon"></i>
-                        <h3 class="info-title">Personal Information</h3>
-                    </div>
-                    <div class="info-body">
-                        <div class="info-group">
-                            <div class="info-label">Full Name</div>
-                            <div class="info-value"><%= user.getFullName() != null && !user.getFullName().isEmpty() ? user.getFullName() : "Not provided" %></div>
-                        </div>
-                        <div class="info-group">
-                            <div class="info-label">Phone Number</div>
-                            <div class="info-value"><%= user.getPhone() != null && !user.getPhone().isEmpty() ? user.getPhone() : "Not provided" %></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="info-card">
-                    <div class="info-header">
-                        <i class="fas fa-calendar-alt info-icon"></i>
-                        <h3 class="info-title">Recent Activity</h3>
-                    </div>
-                    <div class="info-body">
-                        <p>Your recent event activities will appear here.</p>
-                    </div>
-                </div>
+            <div style="margin-top: 1.5rem; text-align: right;">
+                <a href="${pageContext.request.contextPath}/admin/add-venue" class="btn btn-primary add-venue-btn">
+                    <i class="fas fa-plus"></i>
+                    Add New Venue
+                </a>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Delete Account Modal -->
-<div id="deleteAccountModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2 class="modal-title">Delete Account</h2>
-        <p class="modal-message">Are you sure you want to delete your account? This action cannot be undone. Please enter your password to confirm.</p>
-
-        <form id="deleteForm" action="${pageContext.request.contextPath}/profile/delete" method="post">
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-
-            <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" id="cancelDelete">Cancel</button>
-                <button type="submit" class="btn btn-danger">Delete Account</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<%@ include file="footer_component.jsp" %>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('deleteAccountModal');
-    const btn = document.getElementById('deleteAccountBtn');
-    const span = document.getElementsByClassName('close')[0];
-    const cancelBtn = document.getElementById('cancelDelete');
-
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    cancelBtn.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-});
-</script>
 </body>
 </html>

@@ -27,7 +27,7 @@
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM dd, yyyy");
         createdAtString = sdf.format(user.getCreatedAt());
     }
-    
+
     // Get user count
     int userCount = (Integer) request.getAttribute("userCount");
 %>
@@ -52,30 +52,30 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         /* Main Container */
         .main-container {
             padding: 30px 20px;
             flex: 1;
         }
-        
+
         .profile-page {
             max-width: 1000px;
             margin: 0 auto;
         }
-        
+
         .profile-grid {
             display: grid;
             grid-template-columns: 280px 1fr;
             gap: 20px;
         }
-        
+
         @media (max-width: 768px) {
             .profile-grid {
                 grid-template-columns: 1fr;
             }
         }
-        
+
         .page-title {
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
@@ -86,7 +86,7 @@
             align-items: center;
             justify-content: space-between;
         }
-        
+
         .back-link {
             font-size: 14px;
             color: #666;
@@ -99,12 +99,12 @@
             border: 1px solid #eaeaea;
             transition: all 0.2s;
         }
-        
+
         .back-link:hover {
             background-color: #f5f5f5;
             color: #006158;
         }
-        
+
         /* Profile Sidebar */
         .profile-sidebar {
             background-color: white;
@@ -112,13 +112,13 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
         }
-        
+
         .profile-header {
             text-align: center;
             padding: 20px;
             border-bottom: 1px solid #eaeaea;
         }
-        
+
         .avatar {
             width: 80px;
             height: 80px;
@@ -133,20 +133,20 @@
             font-weight: 600;
             font-family: 'Montserrat', sans-serif;
         }
-        
+
         .profile-name {
             font-weight: 600;
             font-size: 16px;
             color: #333;
             margin-bottom: 4px;
         }
-        
+
         .profile-username {
             color: #666;
             font-size: 14px;
             margin-bottom: 8px;
         }
-        
+
         .profile-role {
             display: inline-block;
             padding: 3px 10px;
@@ -157,14 +157,14 @@
             font-weight: 500;
             text-transform: uppercase;
         }
-        
+
         .profile-actions {
             display: flex;
             flex-direction: column;
             gap: 8px;
             padding: 15px;
         }
-        
+
         .btn {
             padding: 8px 12px;
             font-size: 14px;
@@ -179,42 +179,42 @@
             text-decoration: none;
             transition: all 0.2s;
         }
-        
+
         .btn-primary {
             background: #006158;
             color: white;
             border: none;
         }
-        
+
         .btn-primary:hover {
             background: #004d46;
         }
-        
+
         .btn-secondary {
             background: #f5f5f5;
             color: #333;
             border: 1px solid #ddd;
         }
-        
+
         .btn-secondary:hover {
             background: #e9e9e9;
             border-color: #ccc;
         }
-        
+
         /* Profile Content */
         .profile-content {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-        
+
         .info-card {
             background: white;
             border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
         }
-        
+
         .info-header {
             padding: 12px 15px;
             border-bottom: 1px solid #eaeaea;
@@ -222,23 +222,23 @@
             align-items: center;
             gap: 8px;
         }
-        
+
         .info-title {
             font-weight: 600;
             font-size: 16px;
             color: #333;
             margin: 0;
         }
-        
+
         .info-icon {
             color: #006158;
             font-size: 14px;
         }
-        
+
         .info-body {
             padding: 15px;
         }
-        
+
         .info-group {
             display: grid;
             grid-template-columns: 1fr 2fr;
@@ -246,22 +246,22 @@
             margin-bottom: 12px;
             align-items: center;
         }
-        
+
         .info-group:last-child {
             margin-bottom: 0;
         }
-        
+
         .info-label {
             font-size: 14px;
             color: #666;
             font-weight: 500;
         }
-        
+
         .info-value {
             font-size: 14px;
             color: #333;
         }
-        
+
         .alert {
             padding: 12px 15px;
             border-radius: 4px;
@@ -270,26 +270,26 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .alert-success {
             background-color: #e8f5e9;
             color: #2e7d32;
             border-left: 3px solid #4caf50;
         }
-        
+
         .alert-error {
             background-color: #ffebee;
             color: #c62828;
             border-left: 3px solid #ef5350;
         }
-        
+
         /* Admin Stats */
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 15px;
         }
-        
+
         .stat-card {
             background: white;
             border-radius: 8px;
@@ -297,49 +297,49 @@
             border: 1px solid #eaeaea;
             text-align: center;
         }
-        
+
         .stat-icon {
             font-size: 20px;
             color: #006158;
             margin-bottom: 8px;
         }
-        
+
         .stat-value {
             font-size: 22px;
             font-weight: 600;
             color: #333;
             margin-bottom: 2px;
         }
-        
+
         .stat-label {
             font-size: 13px;
             color: #666;
         }
-        
+
         @media (max-width: 768px) {
             .main-container {
                 padding: 20px 15px;
             }
-            
+
             .profile-header {
                 padding: 15px;
             }
-            
+
             .avatar {
                 width: 70px;
                 height: 70px;
                 font-size: 24px;
             }
-            
+
             .info-group {
                 grid-template-columns: 1fr;
                 gap: 5px;
             }
-            
+
             .info-label {
                 font-weight: 600;
             }
-            
+
             .stats-container {
                 grid-template-columns: 1fr 1fr;
             }
@@ -414,20 +414,20 @@
                                 <div class="stat-value"><%= userCount %></div>
                                 <div class="stat-label">Total Users</div>
                             </div>
-                            
+
                             <div class="stat-card">
                                 <div class="stat-icon">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
-                                <div class="stat-value"><%= request.getAttribute("eventCount") != null ? request.getAttribute("eventCount") : "9" %></div>
+                                <div class="stat-value"><%= request.getAttribute("eventCount") %></div>
                                 <div class="stat-label">Events</div>
                             </div>
-                            
+
                             <div class="stat-card">
                                 <div class="stat-icon">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
-                                <div class="stat-value"><%= request.getAttribute("venueCount") != null ? request.getAttribute("venueCount") : "11" %></div>
+                                <div class="stat-value"><%= request.getAttribute("venueCount") %></div>
                                 <div class="stat-label">Venues</div>
                             </div>
                         </div>
@@ -482,7 +482,7 @@
                         <h3 class="info-title">Security Settings</h3>
                     </div>
                     <div class="info-body">
-                        <a href="${pageContext.request.contextPath}/reset-password" class="btn btn-secondary">
+                        <a href="${pageContext.request.contextPath}/resetpassword" class="btn btn-secondary">
                             <i class="fas fa-key"></i> Change Password
                         </a>
                     </div>

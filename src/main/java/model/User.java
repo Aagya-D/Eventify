@@ -137,28 +137,28 @@ public class User {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-    
+
     // For backward compatibility (these methods help transition from old code)
     public int getId() {
         return getUserId();
     }
-    
+
     public void setId(int id) {
         setUserId(id);
     }
-    
+
     public String getUsername() {
         return getUserName();
     }
-    
+
     public void setUsername(String username) {
         setUserName(username);
     }
-    
+
     public String getFullName() {
         return fullName;
     }
-    
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }

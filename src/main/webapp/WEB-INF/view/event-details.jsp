@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eventify Admin - Edit Venue</title>
+    <title>Eventify Admin - Add Event</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -223,11 +224,6 @@
             color: #495057;
         }
 
-        .btn-danger {
-            background-color: var(--danger);
-            color: white;
-        }
-
         .btn i {
             margin-right: 0.5rem;
         }
@@ -238,10 +234,6 @@
 
         .btn-secondary:hover {
             background-color: #dee2e6;
-        }
-
-        .btn-danger:hover {
-            background-color: #c0392b;
         }
 
         .form-actions {
@@ -305,12 +297,12 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="${pageContext.request.contextPath}/EventDashboard" class="nav-item">
+            <a href="${pageContext.request.contextPath}/EventDashboard" class="nav-item active">
                 <i class="fas fa-calendar-alt"></i>
                 <span>Events</span>
             </a>
 
-            <a href="${pageContext.request.contextPath}/VenueDashboard" class="nav-item active">
+            <a href="${pageContext.request.contextPath}/VenueDashboard" class="nav-item">
                 <i class="fas fa-map-marker-alt"></i>
                 <span>Venues</span>
             </a>
@@ -337,14 +329,14 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h1 class="page-title">Edit Venue</h1>
+            <h1 class="page-title">Add New Event</h1>
         </div>
 
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">
-                    <i class="fas fa-building"></i>
-                    Venue Details
+                    <i class="fas fa-calendar-plus"></i>
+                    Event Details
                 </h2>
             </div>
 
@@ -354,58 +346,55 @@
                 </div>
             </c:if>
 
-            <form action="${pageContext.request.contextPath}/admin/edit-venue" method="post">
-                <input type="hidden" name="id" value="${venue.id}">
-
+            <form action="${pageContext.request.contextPath}/admin/add-event" method="post">
                 <div class="form-group">
-                    <label class="form-label" for="name">Venue Name*</label>
-                    <input type="text" class="form-control" id="name" name="name" value="${venue.name}" required>
+                    <label class="form-label" for="name">Event Name*</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="address">Address*</label>
-                    <input type="text" class="form-control" id="address" name="address" value="${venue.address}" required>
+                    <label class="form-label" for="date">Date and Time*</label>
+                    <input type="datetime-local" class="form-control" id="date" name="date" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="city">City*</label>
-                    <input type="text" class="form-control" id="city" name="city" value="${venue.city}" required>
+                    <label class="form-label" for="venue">Venue*</label>
+                    <select class="form-control" id="venue" name="venue" required>
+                        <option value="">-- Select Venue --</option>
+                        <c:forEach var="venue" items="${venues}">
+                            <option value="${venue.name}">${venue.name}</option>
+                        </c:forEach>
+                    </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="contactNumber">Contact Number*</label>
-                    <input type="tel" class="form-control" id="contactNumber" name="contactNumber" value="${venue.contactNumber}" required>
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="capacity">Capacity*</label>
-                    <input type="number" class="form-control" id="capacity" name="capacity" value="${venue.capacity}" required min="1">
+                    <label class="form-label" for="manager">Event Manager</label>
+                    <input type="text" class="form-control" id="manager" name="manager">
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="approved" name="approved">
+                    <label class="form-check-label" for="approved">Approve Event</label>
                 </div>
 
                 <div class="form-actions">
-                    <a href="${pageContext.request.contextPath}/VenueDashboard" class="btn btn-secondary">
+                    <a href="${pageContext.request.contextPath}/EventDashboard" class="btn btn-secondary">
                         <i class="fas fa-times"></i>
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i>
-                        Update Venue
+                        Save Event
                     </button>
                 </div>
             </form>
-
-            <div style="margin-top: 2rem; border-top: 1px solid #eee; padding-top: 1.5rem;">
-                <h3 style="margin-bottom: 1rem; color: var(--danger);">Danger Zone</h3>
-                <form action="${pageContext.request.contextPath}/admin/delete-venue" method="post" onsubmit="return confirm('Are you sure you want to delete this venue? This action cannot be undone.');">
-                    <input type="hidden" name="id" value="${venue.id}">
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i>
-                        Delete Venue
-                    </button>
-                </form>
-            </div>
         </div>
     </div>
 </div>
 </body>
-</html> 
+</html>

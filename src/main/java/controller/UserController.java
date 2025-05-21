@@ -18,10 +18,10 @@ public class UserController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
-        
+
         if (pathInfo == null || pathInfo.equals("/")) {
             // Get all users (admin only)
             getAllUsers(request, response);
@@ -42,14 +42,14 @@ public class UserController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Create new user
         createUser(request, response);
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         if (pathInfo != null && pathInfo.length() > 1) {
@@ -65,7 +65,7 @@ public class UserController extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) 
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         if (pathInfo != null && pathInfo.length() > 1) {
@@ -80,11 +80,11 @@ public class UserController extends HttpServlet {
         }
     }
 
-    private void getAllUsers(HttpServletRequest request, HttpServletResponse response) 
+    private void getAllUsers(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
-        
+
         if (currentUser == null || !"ADMIN".equals(currentUser.getRole())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Admin access required");
             return;
@@ -95,11 +95,11 @@ public class UserController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/view/admin/users.jsp").forward(request, response);
     }
 
-    private void getUserById(HttpServletRequest request, HttpServletResponse response, int userId) 
+    private void getUserById(HttpServletRequest request, HttpServletResponse response, int userId)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
-        
+
         if (currentUser == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
@@ -119,7 +119,7 @@ public class UserController extends HttpServlet {
         }
     }
 
-    private void createUser(HttpServletRequest request, HttpServletResponse response) 
+    private void createUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             String username = request.getParameter("username");
@@ -147,11 +147,11 @@ public class UserController extends HttpServlet {
         }
     }
 
-    private void updateUser(HttpServletRequest request, HttpServletResponse response, int userId) 
+    private void updateUser(HttpServletRequest request, HttpServletResponse response, int userId)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
-        
+
         if (currentUser == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
@@ -195,11 +195,11 @@ public class UserController extends HttpServlet {
         }
     }
 
-    private void deleteUser(HttpServletRequest request, HttpServletResponse response, int userId) 
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response, int userId)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
-        
+
         if (currentUser == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;

@@ -19,7 +19,7 @@ public class EventsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("EventsServlet doGet() called");
-        
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
@@ -27,7 +27,7 @@ public class EventsServlet extends HttpServlet {
             // Get all events
             EventDAO eventDAO = new EventDAO();
             List<Event> eventList = eventDAO.getAllEvents();
-            
+
             System.out.println("Events retrieved: " + (eventList != null ? eventList.size() : "null"));
 
             // Add events to request

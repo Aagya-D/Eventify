@@ -158,26 +158,26 @@ footer {
         flex-direction: column;
         padding: 10px 15px;
     }
-    
+
     .logo {
         margin-bottom: 12px;
     }
-    
+
     .nav-menu {
         justify-content: center;
         gap: 8px;
         margin-bottom: 12px;
     }
-    
+
     .search-bar {
         width: 100%;
         max-width: 300px;
     }
-    
+
     footer {
         padding: 25px 15px;
     }
-    
+
     .footer-content {
         gap: 20px;
     }

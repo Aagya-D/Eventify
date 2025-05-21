@@ -22,7 +22,7 @@ public class VenueDashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("VenueDashboardServlet doGet method called");
-        
+
         // Check if user is logged in
         User user = (User) request.getSession().getAttribute("user");
 
@@ -41,15 +41,30 @@ public class VenueDashboardServlet extends HttpServlet {
             return;
         }
 
-        // Get all venues for dashboard from the database
+        // Get search query parameter
+        String searchQuery = request.getParameter("q");
+
+        // Get venues from database based on search query
         System.out.println("Fetching venues from database");
         VenueDAO venueDAO = new VenueDAO();
-        List<Venue> allVenues = venueDAO.getAllVenues();
+        List<Venue> allVenues;
+
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            // If search query exists, use search functionality
+            System.out.println("Searching venues with query: " + searchQuery);
+            allVenues = venueDAO.searchVenues(searchQuery);
+            // Save search query for form
+            request.setAttribute("searchQuery", searchQuery);
+        } else {
+            // Otherwise get all venues
+            allVenues = venueDAO.getAllVenues();
+        }
+
         System.out.println("Fetched " + allVenues.size() + " venues");
 
         // Set venues as request attribute
         request.setAttribute("venues", allVenues);
-        
+
         // Check for success message in session
         String successMessage = (String) request.getSession().getAttribute("successMessage");
         if (successMessage != null) {
@@ -58,12 +73,19 @@ public class VenueDashboardServlet extends HttpServlet {
             // Remove from session to prevent it from displaying on refresh
             request.getSession().removeAttribute("successMessage");
         }
-        
+
         // Log admin activity
         ActivityLogDAO.logActivity(user.getUserId(), "VIEW", "Viewed venue dashboard");
 
         // Forward the request to the venue dashboard JSP page
         System.out.println("Forwarding to venue_dashboard.jsp");
         request.getRequestDispatcher("/WEB-INF/view/venue_dashboard.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Handle post requests the same way as get
+        doGet(request, response);
     }
 }

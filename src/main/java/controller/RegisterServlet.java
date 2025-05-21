@@ -46,10 +46,10 @@ public class RegisterServlet extends HttpServlet {
 
             // Check if required fields are present
             if (username == null || username.trim().isEmpty() ||
-                email == null || email.trim().isEmpty() ||
-                password == null || password.trim().isEmpty() ||
-                confirmPassword == null || confirmPassword.trim().isEmpty()) {
-                
+                    email == null || email.trim().isEmpty() ||
+                    password == null || password.trim().isEmpty() ||
+                    confirmPassword == null || confirmPassword.trim().isEmpty()) {
+
                 hasError = true;
                 errorMessage = "All fields are required";
             }
@@ -101,7 +101,7 @@ public class RegisterServlet extends HttpServlet {
             // Log the error
             System.err.println("Error in RegisterServlet: " + e.getMessage());
             e.printStackTrace();
-            
+
             // Handle any exceptions during processing
             request.setAttribute("error", "An error occurred during registration. Please try again later.");
             request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);

@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
-         
+
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>controller.LoginServlet</servlet-class>
@@ -16,7 +16,7 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.RegisterServlet</servlet-class>
@@ -29,7 +29,7 @@
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>EventsServlet</servlet-name>
         <servlet-class>controller.EventsServlet</servlet-class>
@@ -38,7 +38,7 @@
         <servlet-name>EventsServlet</servlet-name>
         <url-pattern>/events</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>AddEventServlet</servlet-name>
         <servlet-class>controller.AddEventServlet</servlet-class>
@@ -47,7 +47,7 @@
         <servlet-name>AddEventServlet</servlet-name>
         <url-pattern>/add-event</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>controller.LogoutServlet</servlet-class>
@@ -60,7 +60,7 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
         <servlet-class>controller.UserProfileServlet</servlet-class>
@@ -73,33 +73,20 @@
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/UserProfileServlet</url-pattern>
     </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>UpdateProfileServlet</servlet-name>
-        <servlet-class>controller.UpdateProfileServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UpdateProfileServlet</servlet-name>
-        <url-pattern>/editprofile</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateProfileServlet</servlet-name>
-        <url-pattern>/UpdateProfileServlet</url-pattern>
-    </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>ResetPasswordServlet</servlet-name>
         <servlet-class>controller.ResetPasswordServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ResetPasswordServlet</servlet-name>
-        <url-pattern>/reset-password</url-pattern>
+        <url-pattern>/resetpassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ResetPasswordServlet</servlet-name>
         <url-pattern>/ResetPasswordServlet</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>DeleteAccountServlet</servlet-name>
         <servlet-class>controller.DeleteAccountServlet</servlet-class>
@@ -112,30 +99,30 @@
         <servlet-name>DeleteAccountServlet</servlet-name>
         <url-pattern>/DeleteAccountServlet</url-pattern>
     </servlet-mapping>
-    
+
     <!-- Admin Dashboard Servlets - Removed since using annotations instead -->
-    
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    
+
     <!-- Filter definitions -->
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
         <filter-class>filter.AuthenticationFilter</filter-class>
     </filter>
-    
+
     <filter>
         <filter-name>RoleBasedFilter</filter-name>
         <filter-class>filter.RoleBasedFilter</filter-class>
     </filter>
-    
+
     <!-- Filter ordering - Authentication first, then Role-based -->
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
+
     <filter-mapping>
         <filter-name>RoleBasedFilter</filter-name>
         <url-pattern>/*</url-pattern>

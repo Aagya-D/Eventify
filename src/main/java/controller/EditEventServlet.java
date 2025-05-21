@@ -29,44 +29,44 @@ public class EditEventServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        
+
         // Get event ID from request
         String eventIdStr = request.getParameter("id");
         if (eventIdStr == null || eventIdStr.trim().isEmpty()) {
             response.sendRedirect(request.getContextPath() + "/EventDashboard");
             return;
         }
-        
+
         try {
             int eventId = Integer.parseInt(eventIdStr);
-            
+
             // Get event by ID
             EventDAO eventDAO = new EventDAO();
             Event event = eventDAO.getEventById(eventId);
-            
+
             if (event == null) {
                 // Event not found
                 request.getSession().setAttribute("errorMessage", "Event not found");
                 response.sendRedirect(request.getContextPath() + "/EventDashboard");
                 return;
             }
-            
+
             // Get venues for dropdown
             VenueDAO venueDAO = new VenueDAO();
             List<Venue> venues = venueDAO.getAllVenues();
-            
+
             // Set attributes for the form
             request.setAttribute("event", event);
             request.setAttribute("venues", venues);
-            
+
             // Format date for the form
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
             String formattedDate = dateFormat.format(event.getDateTime());
             request.setAttribute("formattedDate", formattedDate);
-            
+
             // Forward to the edit event page
             request.getRequestDispatcher("/WEB-INF/view/admin/edit_event.jsp").forward(request, response);
-            
+
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "Invalid event ID");
             response.sendRedirect(request.getContextPath() + "/EventDashboard");
@@ -81,7 +81,7 @@ public class EditEventServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        
+
         // Get form parameters
         String eventIdStr = request.getParameter("id");
         String name = request.getParameter("name");
@@ -91,38 +91,38 @@ public class EditEventServlet extends HttpServlet {
         String manager = request.getParameter("manager");
         boolean approved = request.getParameter("approved") != null;
         String attendeesStr = request.getParameter("attendees");
-        
+
         // Validate required fields
         if (eventIdStr == null || eventIdStr.trim().isEmpty() ||
-            name == null || name.trim().isEmpty() || 
-            dateStr == null || dateStr.trim().isEmpty() ||
-            venue == null || venue.trim().isEmpty()) {
-            
+                name == null || name.trim().isEmpty() ||
+                dateStr == null || dateStr.trim().isEmpty() ||
+                venue == null || venue.trim().isEmpty()) {
+
             request.setAttribute("errorMessage", "Please fill out all required fields");
-            
+
             // Get event for form values
             try {
                 int eventId = Integer.parseInt(eventIdStr);
                 EventDAO eventDAO = new EventDAO();
                 Event event = eventDAO.getEventById(eventId);
                 request.setAttribute("event", event);
-                
+
                 // Get venues for dropdown
                 VenueDAO venueDAO = new VenueDAO();
                 List<Venue> venues = venueDAO.getAllVenues();
                 request.setAttribute("venues", venues);
-                
+
                 request.getRequestDispatcher("/WEB-INF/view/admin/edit_event.jsp").forward(request, response);
             } catch (NumberFormatException e) {
                 response.sendRedirect(request.getContextPath() + "/EventDashboard");
             }
             return;
         }
-        
+
         try {
             int eventId = Integer.parseInt(eventIdStr);
             int attendees = 0;
-            
+
             if (attendeesStr != null && !attendeesStr.trim().isEmpty()) {
                 try {
                     attendees = Integer.parseInt(attendeesStr);
@@ -130,21 +130,21 @@ public class EditEventServlet extends HttpServlet {
                     // Keep default 0 if parsing fails
                 }
             }
-            
+
             // Parse date
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
             Date eventDate = dateFormat.parse(dateStr);
-            
+
             // Get existing event to preserve any values not in the form
             EventDAO eventDAO = new EventDAO();
             Event existingEvent = eventDAO.getEventById(eventId);
-            
+
             if (existingEvent == null) {
                 request.getSession().setAttribute("errorMessage", "Event not found");
                 response.sendRedirect(request.getContextPath() + "/EventDashboard");
                 return;
             }
-            
+
             // Update event with new values
             existingEvent.setName(name);
             existingEvent.setDateTime(eventDate);
@@ -153,27 +153,27 @@ public class EditEventServlet extends HttpServlet {
             existingEvent.setManager(manager);
             existingEvent.setApproved(approved);
             existingEvent.setAttendees(attendees);
-            
+
             // Save to database
             boolean success = eventDAO.updateEvent(existingEvent);
-            
+
             if (success) {
                 // Log activity
                 ActivityLogDAO.logActivity(user.getUserId(), "UPDATE_EVENT", "Updated event '" + name + "'");
-                
+
                 // Set success message and redirect to events dashboard
                 request.getSession().setAttribute("successMessage", "Event updated successfully");
                 response.sendRedirect(request.getContextPath() + "/EventDashboard");
             } else {
                 // Handle failure
                 request.setAttribute("errorMessage", "Failed to update event");
-                
+
                 // Get venues for dropdown
                 VenueDAO venueDAO = new VenueDAO();
                 List<Venue> venues = venueDAO.getAllVenues();
                 request.setAttribute("venues", venues);
                 request.setAttribute("event", existingEvent);
-                
+
                 request.getRequestDispatcher("/WEB-INF/view/admin/edit_event.jsp").forward(request, response);
             }
         } catch (NumberFormatException e) {
@@ -181,18 +181,18 @@ public class EditEventServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/EventDashboard");
         } catch (ParseException e) {
             request.setAttribute("errorMessage", "Invalid date format");
-            
+
             try {
                 int eventId = Integer.parseInt(eventIdStr);
                 EventDAO eventDAO = new EventDAO();
                 Event event = eventDAO.getEventById(eventId);
                 request.setAttribute("event", event);
-                
+
                 // Get venues for dropdown
                 VenueDAO venueDAO = new VenueDAO();
                 List<Venue> venues = venueDAO.getAllVenues();
                 request.setAttribute("venues", venues);
-                
+
                 request.getRequestDispatcher("/WEB-INF/view/admin/edit_event.jsp").forward(request, response);
             } catch (NumberFormatException ex) {
                 response.sendRedirect(request.getContextPath() + "/EventDashboard");

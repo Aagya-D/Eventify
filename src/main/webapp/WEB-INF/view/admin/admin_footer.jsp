@@ -15,7 +15,7 @@
         <div class="footer-section">
             <h3>Admin Actions</h3>
             <a href="${pageContext.request.contextPath}/admin/profile">Admin Profile</a>
-            <a href="${pageContext.request.contextPath}/reset-password">Change Password</a>
+            <a href="${pageContext.request.contextPath}/resetpassword">Change Password</a>
             <a href="${pageContext.request.contextPath}/logout">Logout</a>
         </div>
     </div>

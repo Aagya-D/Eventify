@@ -17,8 +17,8 @@ public class Event {
     public Event() {
     }
 
-    public Event(int id, String name, Date dateTime, int daysUntilEvent, String venue, 
-                String description, String manager, boolean approved, int attendees) {
+    public Event(int id, String name, Date dateTime, int daysUntilEvent, String venue,
+                 String description, String manager, boolean approved, int attendees) {
         this.id = id;
         this.name = name;
         this.dateTime = dateTime;

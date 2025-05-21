@@ -29,7 +29,7 @@ public class DeleteEventServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        
+
         // Get event ID from request
         String eventIdStr = request.getParameter("id");
         if (eventIdStr == null || eventIdStr.trim().isEmpty()) {
@@ -37,36 +37,36 @@ public class DeleteEventServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/EventDashboard");
             return;
         }
-        
+
         try {
             int eventId = Integer.parseInt(eventIdStr);
-            
+
             // Get event by ID first to get its name for the log
             EventDAO eventDAO = new EventDAO();
             Event event = eventDAO.getEventById(eventId);
-            
+
             if (event == null) {
                 request.getSession().setAttribute("errorMessage", "Event not found");
                 response.sendRedirect(request.getContextPath() + "/EventDashboard");
                 return;
             }
-            
+
             // Delete the event
             boolean success = eventDAO.deleteEvent(eventId);
-            
+
             if (success) {
                 // Log activity
                 ActivityLogDAO.logActivity(user.getUserId(), "DELETE_EVENT", "Deleted event '" + event.getName() + "'");
-                
+
                 request.getSession().setAttribute("successMessage", "Event deleted successfully");
             } else {
                 request.getSession().setAttribute("errorMessage", "Failed to delete event");
             }
-            
+
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "Invalid event ID");
         }
-        
+
         // Redirect back to events dashboard
         response.sendRedirect(request.getContextPath() + "/EventDashboard");
     }

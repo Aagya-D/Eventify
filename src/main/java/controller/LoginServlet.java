@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
                             HttpSession session = request.getSession();
                             session.setAttribute("user", user);
                             session.setAttribute("loggedIn", true);
-                            
+
                             // Check if user is an admin and redirect accordingly
                             if ("ADMIN".equals(user.getRole())) {
                                 response.sendRedirect(request.getContextPath() + "/AdminDashboard");
@@ -60,8 +60,11 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         String rememberMe = request.getParameter("rememberMe");
 
+        System.out.println("Login attempt - Email: " + email); // Debug log
+
         // Validate input
         if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            System.out.println("Login failed - Empty email or password"); // Debug log
             request.setAttribute("error", "Email and password are required");
             request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
             return;
@@ -69,6 +72,7 @@ public class LoginServlet extends HttpServlet {
 
         // Authenticate user
         User user = UserDAO.getUserByEmailOrUsername(email, password);
+        System.out.println("User authentication result: " + (user != null ? "Success" : "Failed")); // Debug log
 
         if (user != null) {
             // Authentication successful
@@ -80,30 +84,30 @@ public class LoginServlet extends HttpServlet {
             // Handle remember me functionality
             if (rememberMe != null && rememberMe.equals("on")) {
                 String cookieValue = encodeCookieValue(email, password);
-                
+
                 // Set the standard cookie with available attributes
                 Cookie rememberMeCookie = new Cookie(REMEMBER_ME_COOKIE_NAME, cookieValue);
                 rememberMeCookie.setMaxAge(COOKIE_MAX_AGE);
                 rememberMeCookie.setPath(request.getContextPath().isEmpty() ? "/" : request.getContextPath());
                 rememberMeCookie.setHttpOnly(true); // Not accessible via JavaScript
-                
+
                 if (request.isSecure()) {
                     rememberMeCookie.setSecure(true); // HTTPS only
                 }
-                
+
                 response.addCookie(rememberMeCookie);
-                
+
                 // Add the SameSite attribute via header (not supported in javax.servlet Cookie API)
-                String headerValue = String.format("%s=%s; Max-Age=%d; Path=%s; HttpOnly; SameSite=Strict", 
-                    REMEMBER_ME_COOKIE_NAME, 
-                    cookieValue, 
-                    COOKIE_MAX_AGE, 
-                    request.getContextPath().isEmpty() ? "/" : request.getContextPath());
-                
+                String headerValue = String.format("%s=%s; Max-Age=%d; Path=%s; HttpOnly; SameSite=Strict",
+                        REMEMBER_ME_COOKIE_NAME,
+                        cookieValue,
+                        COOKIE_MAX_AGE,
+                        request.getContextPath().isEmpty() ? "/" : request.getContextPath());
+
                 if (request.isSecure()) {
                     headerValue += "; Secure";
                 }
-                
+
                 response.setHeader("Set-Cookie", headerValue);
             }
 

@@ -67,7 +67,7 @@ public class AdminDashboardServlet extends HttpServlet {
             recentUsers = recentUsers.subList(0, 5);
         }
         request.setAttribute("recentUsers", recentUsers);
-        
+
         // Get recent activity logs (limit to 5)
         List<ActivityLog> recentActivities = ActivityLogDAO.getRecentActivities(5);
         request.setAttribute("recentActivities", recentActivities);
