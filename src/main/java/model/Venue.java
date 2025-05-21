@@ -4,23 +4,21 @@ public class Venue {
     private int id;
     private String name;
     private String address;
-    private String zipCode;
-    private String phone;
-    private String web;
-    private String emailAddress;
+    private String city;
+    private String contactNumber;
+    private int capacity;
 
     // Constructors
     public Venue() {
     }
 
-    public Venue(int id, String name, String address, String zipCode, String phone, String web, String emailAddress) {
+    public Venue(int id, String name, String address, String city, String contactNumber, int capacity) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.zipCode = zipCode;
-        this.phone = phone;
-        this.web = web;
-        this.emailAddress = emailAddress;
+        this.city = city;
+        this.contactNumber = contactNumber;
+        this.capacity = capacity;
     }
 
     // Getters and Setters
@@ -48,35 +46,27 @@ public class Venue {
         this.address = address;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getCity() {
+        return city;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getContactNumber() {
+        return contactNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
-    public String getWeb() {
-        return web;
+    public int getCapacity() {
+        return capacity;
     }
 
-    public void setWeb(String web) {
-        this.web = web;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-}
 }

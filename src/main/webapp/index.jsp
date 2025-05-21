@@ -556,7 +556,7 @@
 </head>
 <body>
 
-<!-- Include the common navbar -->
+<%--<!-- Include the common navbar -->--%>
 <jsp:include page="/WEB-INF/view/navbar.jsp" />
     <!-- Header with navigation -->
 <%--    <header>--%>
@@ -810,35 +810,7 @@
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-columns">
-            <div class="footer-column">
-                <h3>Eventify</h3>
-                <p>Your easy event management solution</p>
-            </div>
-
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="${pageContext.request.contextPath}/">Home</a></li>
-                    <li><a href="${pageContext.request.contextPath}/add-event">Add Event</a></li>
-                    <li><a href="${pageContext.request.contextPath}/events">Events</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column">
-                <h3>Contact</h3>
-                <div class="contact-info">
-                    <i class="fas fa-envelope"></i>
-                    <p>support@eventify@gmail.com</p>
-                </div>
-                <div class="contact-info">
-                    <i class="fas fa-phone"></i>
-                    <p>9826323121</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+<jsp:include page="/WEB-INF/view/footer.jsp" />
 
     <script>
         // Smooth scrolling for anchor links

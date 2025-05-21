@@ -60,8 +60,11 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         String rememberMe = request.getParameter("rememberMe");
 
+        System.out.println("Login attempt - Email: " + email); // Debug log
+
         // Validate input
         if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            System.out.println("Login failed - Empty email or password"); // Debug log
             request.setAttribute("error", "Email and password are required");
             request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
             return;
@@ -69,6 +72,7 @@ public class LoginServlet extends HttpServlet {
 
         // Authenticate user
         User user = UserDAO.getUserByEmailOrUsername(email, password);
+        System.out.println("User authentication result: " + (user != null ? "Success" : "Failed")); // Debug log
 
         if (user != null) {
             // Authentication successful

@@ -15,7 +15,7 @@ import java.util.Date;
 
 public class UserDAO {
     //Instance variables for database connection
-    private static final String URL = "jdbc:mysql://localhost:3308/eventify";
+    private static final String URL = "jdbc:mysql://localhost:3306/eventify";
     private static final String USER = "root";
     private static final String PASS = "";
 
@@ -71,6 +71,7 @@ public class UserDAO {
     // Method to authenticate user
     public static User getUserByEmailOrUsername(String emailOrUsername, String password) {
         String query = "SELECT * FROM user WHERE (Email = ? OR User_name = ?)";
+        System.out.println("Attempting to authenticate user: " + emailOrUsername); // Debug log
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -82,9 +83,11 @@ public class UserDAO {
 
             if (rs.next()) {
                 String storedPassword = rs.getString("Password");
+                System.out.println("Found user in database"); // Debug log
 
                 // Use the new verification method
                 if (verifyPassword(password, storedPassword)) {
+                    System.out.println("Password verification successful"); // Debug log
                     User user = new User(
                             rs.getInt("User_id"),
                             rs.getString("User_name"),
@@ -95,7 +98,11 @@ public class UserDAO {
                             rs.getTimestamp("CreatedAt")
                     );
                     return user;
+                } else {
+                    System.out.println("Password verification failed"); // Debug log
                 }
+            } else {
+                System.out.println("No user found with email/username: " + emailOrUsername); // Debug log
             }
         } catch (SQLException e) {
             System.err.println("SQL Error in getUserByEmailOrUsername: " + e.getMessage());
@@ -105,54 +112,43 @@ public class UserDAO {
     }
     // Method to update user details
     public static boolean updateUser(User user) {
-        String query = "UPDATE user SET Password = ?, Phone = ? WHERE User_id = ?";
+        String query = "UPDATE user SET User_name = ?, Email = ?, Phone = ? WHERE User_id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
-            ps.setString(1, hashPassword(user.getPassword())); // Hash password before storing
-            ps.setString(2, user.getPhone());
-            ps.setInt(3, user.getUserId());
+            ps.setString(1, user.getUserName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPhone());
+            ps.setInt(4, user.getId());
 
             // Execute update and check if successful
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0; // Returns true if update was successful
 
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            System.err.println("SQL Error in updateUser: " + e.getMessage());
+            e.printStackTrace();
         }
         return false; // Return false if update fails
     }
 
     // Method to update user password
-    public static boolean updatePassword(int userId, String currentPassword, String newPassword) {
-        // First verify the current password
-        String verifyQuery = "SELECT Password FROM user WHERE User_id = ?";
+    public static boolean updatePassword(int userId, String newPassword) {
         String updateQuery = "UPDATE user SET Password = ? WHERE User_id = ?";
 
         try (Connection conn = getConnection();
-             PreparedStatement psVerify = conn.prepareStatement(verifyQuery);
-             PreparedStatement psUpdate = conn.prepareStatement(updateQuery)) {
+             PreparedStatement ps = conn.prepareStatement(updateQuery)) {
 
-            // Verify current password
-            psVerify.setInt(1, userId);
-            ResultSet rs = psVerify.executeQuery();
+            ps.setString(1, hashPassword(newPassword)); // Hash the new password
+            ps.setInt(2, userId);
 
-            if (rs.next()) {
-                String storedPassword = rs.getString("Password");
-                String hashedCurrentPassword = hashPassword(currentPassword);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
 
-                // If current password matches, update to new password
-                if (storedPassword.equals(hashedCurrentPassword)) {
-                    psUpdate.setString(1, hashPassword(newPassword)); // Hash the new password
-                    psUpdate.setInt(2, userId);
-
-                    int affectedRows = psUpdate.executeUpdate();
-                    return affectedRows > 0;
-                }
-            }
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            System.err.println("SQL Error in updatePassword: " + e.getMessage());
+            e.printStackTrace();
         }
 
         return false; // Return false if password update fails
@@ -394,5 +390,29 @@ public class UserDAO {
         }
 
         return false;
+    }
+
+    // Method to authenticate user with username and password
+    public static boolean authenticate(String username, String password) {
+        String query = "SELECT * FROM user WHERE User_name = ?";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                String storedPassword = rs.getString("Password");
+                
+                // Verify the password using existing verification method
+                return verifyPassword(password, storedPassword);
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error in authenticate: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return false; // Return false if authentication fails
     }
 }

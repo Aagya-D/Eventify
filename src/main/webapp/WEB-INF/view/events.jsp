@@ -8,369 +8,400 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Events - Eventify</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
         
         body {
-            background-color: #fffdf5;
+            background-color: #f4f7fa;
             color: #333;
             line-height: 1.6;
-        }
-        
-        /* Header styles */
-        header {
+            font-family: 'Inter', sans-serif;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            background-color: rgba(255, 253, 245, 0.95);
-            border-bottom: 1px solid #eee;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            flex-direction: column;
+            min-height: 100vh;
         }
         
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            font-weight: 600;
-            color: #006158;
-        }
-        
-        .logo a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .nav-menu {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-menu li {
-            margin-left: 20px;
-        }
-        
-        .nav-menu a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-        }
-        
-        .nav-menu i {
-            margin-right: 6px;
-        }
-        
-        .nav-menu a:hover {
-            color: #006158;
-        }
-        
-        /* Search bar */
-        .search-bar {
-            position: relative;
-            margin-left: 20px;
-        }
-        
-        .search-bar input {
-            padding: 8px 15px;
-            padding-right: 40px;
-            border: 1px solid #006158;
-            border-radius: 30px;
-            width: 250px;
-            font-size: 14px;
-            outline: none;
-        }
-        
-        .search-bar i {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #006158;
-        }
-        
-        /* Main content */
-        .main-container {
+        .main-content {
+            flex: 1;
+            padding: 40px 20px;
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
+            margin: 0 auto;
+            width: 100%;
         }
         
-        /* Events section */
-        .events-section {
-            background-color: #006158;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 60px;
-        }
-        
-        .section-title {
-            color: white;
-            font-size: 32px;
+        /* Page header */
+        .page-header {
             text-align: center;
-            margin-bottom: 30px;
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .event-card {
-            background-color: #f0f0f0;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-        
-        .event-title {
-            color: white;
-            background-color: #006158;
-            padding: 15px;
-            font-size: 20px;
-            font-weight: 500;
-            margin: 0;
-        }
-        
-        .event-content {
-            display: flex;
-        }
-        
-        .event-details {
-            flex: 1;
-            padding: 20px;
-        }
-        
-        .event-info {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: flex-start;
-        }
-        
-        .event-info i {
-            min-width: 20px;
-            margin-right: 10px;
-            color: #006158;
-        }
-        
-        .additional-info {
-            flex: 1;
-            padding: 20px;
-            background-color: #e6e6e6;
-        }
-        
-        .info-title {
-            font-weight: 600;
-            color: #006158;
-            margin-bottom: 15px;
-        }
-        
-        /* Add button */
-        .add-button {
-            display: inline-block;
-            background-color: white;
-            color: #006158;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 20px;
-            float: right;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-        
-        .add-button i {
-            margin-right: 8px;
-        }
-        
-        .add-button:hover {
-            background-color: #e0e0e0;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        
-        /* Footer */
-        footer {
-            background-color: #006158;
-            color: white;
-            padding: 60px 5% 30px;
-        }
-        
-        .footer-columns {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
             margin-bottom: 40px;
         }
         
-        .footer-column {
-            flex: 1;
-            min-width: 200px;
-            margin-bottom: 30px;
+        .page-title {
+            font-size: 36px;
+            color: #00574b;
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-family: 'Montserrat', sans-serif;
         }
         
-        .footer-column h3 {
+        .page-subtitle {
+            color: #6c757d;
             font-size: 18px;
-            margin-bottom: 20px;
-            font-family: 'Playfair Display', serif;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        .footer-column p {
-            margin-bottom: 10px;
-            font-size: 14px;
+        /* Events grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
         }
         
-        .footer-column ul {
-            list-style: none;
+        /* Event card */
+        .event-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         
-        .footer-column ul li {
-            margin-bottom: 10px;
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
         
-        .footer-column ul li a {
-            text-decoration: none;
+        .event-header {
+            background: linear-gradient(135deg, #00574b 0%, #007c6c 100%);
             color: white;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .event-date-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .footer-column ul li a:hover {
-            color: #e1e9e8;
-            padding-left: 5px;
-        }
-        
-        .contact-info {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
         }
         
-        .contact-info i {
-            margin-right: 10px;
+        .event-date-badge i {
+            margin-right: 6px;
+        }
+        
+        .event-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.3;
+            padding-right: 100px;
+        }
+        
+        .event-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .status-approved {
+            background-color: rgba(25, 135, 84, 0.2);
+            color: #198754;
+        }
+        
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+        
+        .event-content {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .event-description {
+            margin-bottom: 25px;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .event-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .meta-item i {
+            color: #00574b;
             width: 20px;
+            margin-right: 10px;
+            text-align: center;
+        }
+        
+        .event-footer {
+            padding: 15px 25px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+        
+        .attendees {
+            display: flex;
+            align-items: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .attendees i {
+            margin-right: 6px;
+            color: #00574b;
+        }
+        
+        .event-actions .btn {
+            background-color: #00574b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .event-actions .btn:hover {
+            background-color: #004a3f;
+            transform: translateY(-2px);
+        }
+        
+        /* Add button */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .add-button {
+            background-color: #00574b;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 87, 75, 0.2);
+        }
+        
+        .add-button i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .add-button:hover {
+            background-color: #004a3f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 87, 75, 0.3);
+            text-decoration: none;
+        }
+        
+        /* Alert messages */
+        .alert {
+            padding: 16px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .alert-error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border-left: 4px solid #b91c1c;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #856404;
+        }
+        
+        .alert i {
+            margin-right: 12px;
+            font-size: 22px;
+        }
+        
+        /* Empty state */
+        .empty-events {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .empty-events i {
+            font-size: 60px;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        .empty-events h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #343a40;
+        }
+        
+        .empty-events p {
+            color: #6c757d;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .event-meta {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Include navigation bar -->
-    <%@ include file="navbar.jsp" %>
+    <jsp:include page="/WEB-INF/view/navbar.jsp" />
     
-    <div class="main-container">
-        <section class="events-section">
-            <h1 class="section-title">All Events</h1>
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Discover Amazing Events</h1>
+            <p class="page-subtitle">Find and join exciting events happening near you</p>
+        </div>
+        
+        <% 
+            // Check for error messages
+            String errorMessage = (String) request.getAttribute("error");
+            if (errorMessage != null && !errorMessage.isEmpty()) {
+        %>
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i> Error: <%= errorMessage %>
+        </div>
+        <% } %>
+        
+        <%
+            List<Event> eventList = (List<Event>) request.getAttribute("eventList");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
             
-            <% 
-                // Check for error messages
-                String errorMessage = (String) request.getAttribute("error");
-                if (errorMessage != null && !errorMessage.isEmpty()) {
-            %>
-            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                <i class="fas fa-exclamation-circle"></i> Error: <%= errorMessage %>
-            </div>
-            <% } %>
-            
-            <%
-                List<Event> eventList = (List<Event>) request.getAttribute("eventList");
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-                
-                if (eventList != null && !eventList.isEmpty()) {
-                    for (Event event : eventList) {
-            %>
-            
+            if (eventList != null && !eventList.isEmpty()) {
+        %>
+        <div class="events-grid">
+            <% for (Event event : eventList) { %>
             <!-- Event Card -->
             <div class="event-card">
-                <h3 class="event-title"><%= event.getName() %></h3>
-                <div class="event-content">
-                    <div class="event-details">
-                        <h4 class="info-title">Events Details:</h4>
-                        <div class="event-info">
-                            <i class="fas fa-calendar"></i>
-                            <span>Date And Time: <%= dateFormat.format(event.getDateTime()) %></span>
-                        </div>
-                        <div class="event-info">
-                            <i class="fas fa-hourglass-half"></i>
-                            <span>Days Till Event: <%= event.getDaysUntilEvent() %></span>
-                        </div>
-                        <div class="event-info">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Venue: <%= event.getVenue() %></span>
-                        </div>
-                        <div class="event-info">
-                            <i class="fas fa-align-left"></i>
-                            <span>Description: <%= event.getDescription() %></span>
-                        </div>
+                <div class="event-header">
+                    <div class="event-date-badge">
+                        <i class="fas fa-calendar-alt"></i> <%= dateFormat.format(event.getDateTime()) %>
                     </div>
-                    <div class="additional-info">
-                        <h4 class="info-title">Additional Information:</h4>
-                        <div class="event-info">
-                            <i class="fas fa-user"></i>
-                            <span>Manager: <%= event.getManager() %></span>
+                    <h3 class="event-title"><%= event.getName() %></h3>
+                    <% if(event.isApproved()) { %>
+                        <span class="event-status status-approved">
+                            <i class="fas fa-check-circle"></i> Approved
+                        </span>
+                    <% } else { %>
+                        <span class="event-status status-pending">
+                            <i class="fas fa-clock"></i> Pending Approval
+                        </span>
+                    <% } %>
+                </div>
+                
+                <div class="event-content">
+                    <p class="event-description"><%= event.getDescription() %></p>
+                    
+                    <div class="event-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span><%= event.getDaysUntilEvent() %> days away</span>
                         </div>
-                        <div class="event-info">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Approved: <%= event.isApproved() ? "Yes" : "No" %></span>
-                        </div>
-                        <div class="event-info">
-                            <i class="fas fa-users"></i>
-                            <span>Attendees: <%= event.getAttendees() %></span>
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span><%= event.getVenue() %></span>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <% 
-                    }
-                } else {
-            %>
-            <div style="background-color: #fff3cd; color: #856404; padding: 15px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
-                <i class="fas fa-info-circle"></i> No events found. Please check your database connection or add some events.
+                
+                <div class="event-footer">
+                    <div class="attendees">
+                        <i class="fas fa-users"></i>
+                        <span><%= event.getAttendees() %> attendees</span>
+                    </div>
+                    <div class="event-actions">
+                        <a href="${pageContext.request.contextPath}/event-details?id=<%= event.getId() %>" class="btn">View Details</a>
+                    </div>
+                </div>
             </div>
             <% } %>
-            
-            <a href="add-event" class="add-button">
-                <i class="fas fa-plus-circle"></i> Add New Event
-            </a>
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-columns">
-            <div class="footer-column">
-                <h3>Eventify</h3>
-                <p>Your easy event management solution</p>
-            </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="add-event">Add Event</a></li>
-                    <li><a href="events">All Events</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Contact</h3>
-                <div class="contact-info">
-                    <i class="fas fa-envelope"></i>
-                    <span>support@eventify@gmail.com</span>
-                </div>
-                <div class="contact-info">
-                    <i class="fas fa-phone"></i>
-                    <span>9826321921</span>
-                </div>
-            </div>
         </div>
-    </footer>
+        <% } else { %>
+            <div class="empty-events">
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Events Available</h3>
+                <p>There are no events available at the moment. Be the first to create an exciting event for everyone to join!</p>
+                <a href="add-event" class="add-button">
+                    <i class="fas fa-plus-circle"></i> Create New Event
+                </a>
+            </div>
+        <% } %>
+        
+        <div class="action-buttons">
+            <a href="add-event" class="add-button">
+                <i class="fas fa-plus-circle"></i> Create New Event
+            </a>
+        </div>
+    </div>
+    <jsp:include page="/WEB-INF/view/footer.jsp" />
 </body>
 </html> 

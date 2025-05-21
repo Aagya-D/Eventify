@@ -127,32 +127,35 @@
             color: var(--dark);
         }
         
-        .search-container {
+        .search-bar {
             position: relative;
             width: 300px;
         }
         
-        .search-input {
+        .search-bar input {
             width: 100%;
-            padding: 0.8rem 1rem 0.8rem 2.5rem;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            background-color: white;
-            transition: all 0.3s ease;
+            padding: 8px 14px 8px 35px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            background: #f8f9fa;
+            transition: border 0.2s, box-shadow 0.2s, background 0.2s;
         }
         
-        .search-input:focus {
-            border-color: var(--secondary);
+        .search-bar input:focus {
             outline: none;
-            box-shadow: var(--shadow);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            background: #fff;
         }
         
-        .search-icon {
+        .search-bar i {
             position: absolute;
-            left: 1rem;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: #aaa;
+            color: var(--secondary);
+            font-size: 14px;
         }
         
         /* Card Styles */
@@ -245,8 +248,9 @@
         
         .actions-cell {
             display: flex;
+            flex-direction: column;
             gap: 0.5rem;
-            justify-content: flex-end;
+            align-items: stretch;
         }
         
         .btn {
@@ -261,6 +265,7 @@
             font-weight: 600;
             transition: all 0.3s ease;
             text-decoration: none;
+            width: 100%;
         }
         
         .btn-primary {
@@ -273,6 +278,11 @@
             color: #495057;
         }
         
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
         .btn i {
             margin-right: 0.4rem;
         }
@@ -283,6 +293,10 @@
         
         .btn-secondary:hover {
             background-color: #dee2e6;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
         }
         
         .add-venue-btn {
@@ -346,7 +360,7 @@
                 gap: 1rem;
             }
             
-            .search-container {
+            .search-bar {
                 width: 100%;
             }
             
@@ -355,7 +369,57 @@
                 align-items: flex-end;
             }
         }
+        
+        /* Alert Styles */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .alert i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .alert-success {
+            background-color: rgba(46, 204, 113, 0.15);
+            border-left: 4px solid var(--success);
+            color: #27ae60;
+        }
+        
+        .alert-danger {
+            background-color: rgba(231, 76, 60, 0.15);
+            border-left: 4px solid var(--danger);
+            color: #c0392b;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-hide alerts after 5 seconds
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    if (alert) {
+                        alert.style.opacity = '0';
+                        alert.style.transition = 'opacity 0.5s ease';
+                        setTimeout(function() {
+                            alert.style.display = 'none';
+                        }, 500);
+                    }
+                });
+            }, 5000);
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -406,24 +470,28 @@
             <div class="header">
                 <h1 class="page-title">Venue Management</h1>
                 
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search venues...">
-                </div>
+                <form action="${pageContext.request.contextPath}/VenueDashboard" method="get" class="search-form">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" name="q" placeholder="Search venues..." value="${searchQuery}">
+                    </div>
+                </form>
             </div>
             
             <!-- Success message -->
-            <c:if test="${not empty successMessage}">
-                <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 15px; margin-bottom: 20px; border-radius: 5px; border-left: 5px solid #28a745;">
-                    <i class="fas fa-check-circle"></i> ${successMessage}
+            <c:if test="${not empty sessionScope.successMessage}">
+                <div class="alert alert-success" id="successAlert">
+                    <i class="fas fa-check-circle"></i> ${sessionScope.successMessage}
                 </div>
+                <% session.removeAttribute("successMessage"); %>
             </c:if>
             
             <!-- Error message -->
-            <c:if test="${not empty errorMessage}">
-                <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border-radius: 5px; border-left: 5px solid #dc3545;">
-                    <i class="fas fa-exclamation-circle"></i> ${errorMessage}
+            <c:if test="${not empty sessionScope.errorMessage}">
+                <div class="alert alert-danger" id="errorAlert">
+                    <i class="fas fa-exclamation-circle"></i> ${sessionScope.errorMessage}
                 </div>
+                <% session.removeAttribute("errorMessage"); %>
             </c:if>
             
             <div class="card">
@@ -448,7 +516,9 @@
                             <tr>
                                 <th>Venue Name</th>
                                 <th>Address</th>
+                                <th>City</th>
                                 <th>Contact</th>
+                                <th>Capacity</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -462,7 +532,9 @@
                                         </div>
                                     </td>
                                     <td>${venue.address}</td>
-                                    <td>${venue.phone}</td>
+                                    <td>${venue.city}</td>
+                                    <td>${venue.contactNumber}</td>
+                                    <td>${venue.capacity}</td>
                                     <td>
                                         <div class="actions-cell">
                                             <a href="${pageContext.request.contextPath}/admin/edit-venue?id=${venue.id}" class="btn btn-primary">

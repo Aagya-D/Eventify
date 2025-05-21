@@ -9,7 +9,7 @@ import java.util.Date;
  * Data Access Object for ActivityLog operations
  */
 public class ActivityLogDAO {
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3308/eventify";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/eventify";
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASSWORD = "";
 
@@ -124,28 +124,42 @@ public class ActivityLogDAO {
      * @return true if logging successful, false otherwise
      */
     public static boolean logActivity(int userId, String action, String description) {
-        // Get the username for better readability in logs
-        User user = UserDAO.getUserById(userId);
-        if (user == null) return false;
-        
-        String query = "INSERT INTO activity_log (user_id, username, action, description, timestamp) VALUES (?, ?, ?, ?, ?)";
-        
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-             
-            ps.setInt(1, userId);
-            ps.setString(2, user.getUserName());
-            ps.setString(3, action);
-            ps.setString(4, description);
-            ps.setTimestamp(5, new Timestamp(new Date().getTime()));
+        try {
+            // For system-generated logs (userId=0), use a default username
+            String username = "System";
             
-            int result = ps.executeUpdate();
-            return result > 0;
-        } catch (SQLException e) {
-            System.err.println("Error logging activity: " + e.getMessage());
+            // Only try to get username if userId > 0
+            if (userId > 0) {
+                User user = UserDAO.getUserById(userId);
+                if (user != null) {
+                    username = user.getUserName();
+                }
+            }
+            
+            String query = "INSERT INTO activity_log (user_id, username, action, description, timestamp) VALUES (?, ?, ?, ?, ?)";
+            
+            try (Connection conn = getConnection();
+                 PreparedStatement ps = conn.prepareStatement(query)) {
+                 
+                ps.setInt(1, userId);
+                ps.setString(2, username);
+                ps.setString(3, action);
+                ps.setString(4, description);
+                ps.setTimestamp(5, new Timestamp(new Date().getTime()));
+                
+                int result = ps.executeUpdate();
+                return result > 0;
+            } catch (SQLException e) {
+                // Just log the error and continue - don't let activity logging failure break the application
+                System.err.println("Error logging activity: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.err.println("Error in logActivity: " + e.getMessage());
             e.printStackTrace();
         }
-        return false;
+        // Return true even if logging failed - we don't want this to affect the main functionality
+        return true;
     }
 
     /**

@@ -419,7 +419,7 @@
                                 <div class="stat-icon">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
-                                <div class="stat-value"><%= request.getAttribute("eventCount") != null ? request.getAttribute("eventCount") : "9" %></div>
+                                <div class="stat-value"><%= request.getAttribute("eventCount") %></div>
                                 <div class="stat-label">Events</div>
                             </div>
                             
@@ -427,7 +427,7 @@
                                 <div class="stat-icon">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
-                                <div class="stat-value"><%= request.getAttribute("venueCount") != null ? request.getAttribute("venueCount") : "11" %></div>
+                                <div class="stat-value"><%= request.getAttribute("venueCount") %></div>
                                 <div class="stat-label">Venues</div>
                             </div>
                         </div>
@@ -482,7 +482,7 @@
                         <h3 class="info-title">Security Settings</h3>
                     </div>
                     <div class="info-body">
-                        <a href="${pageContext.request.contextPath}/reset-password" class="btn btn-secondary">
+                        <a href="${pageContext.request.contextPath}/resetpassword" class="btn btn-secondary">
                             <i class="fas fa-key"></i> Change Password
                         </a>
                     </div>

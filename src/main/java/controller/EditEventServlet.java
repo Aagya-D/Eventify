@@ -132,7 +132,7 @@ public class EditEventServlet extends HttpServlet {
             }
             
             // Parse date
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date eventDate = dateFormat.parse(dateStr);
             
             // Get existing event to preserve any values not in the form

@@ -44,9 +44,15 @@ public class RoleBasedFilter implements Filter {
         "/profile",
         "/UserProfileServlet",
         "/editprofile",
+        "/resetpassword",
         "/reset-password",
-        "/delete-account",
+        "/ResetPasswordServlet",
+        "/logout",
+        "/LogoutServlet",
         "/add-event",
+        "/AddEventServlet",
+        "/delete-account",
+        "/DeleteAccountServlet",
         "/index.jsp",
         "/"
     );

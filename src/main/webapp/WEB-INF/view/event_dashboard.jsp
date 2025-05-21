@@ -128,32 +128,35 @@
             color: var(--dark);
         }
         
-        .search-container {
+        .search-bar {
             position: relative;
             width: 300px;
         }
         
-        .search-input {
+        .search-bar input {
             width: 100%;
-            padding: 0.8rem 1rem 0.8rem 2.5rem;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            background-color: white;
-            transition: all 0.3s ease;
+            padding: 8px 14px 8px 35px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            background: #f8f9fa;
+            transition: border 0.2s, box-shadow 0.2s, background 0.2s;
         }
         
-        .search-input:focus {
-            border-color: var(--secondary);
+        .search-bar input:focus {
             outline: none;
-            box-shadow: var(--shadow);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            background: #fff;
         }
         
-        .search-icon {
+        .search-bar i {
             position: absolute;
-            left: 1rem;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: #aaa;
+            color: var(--secondary);
+            font-size: 14px;
         }
         
         /* Card Styles */
@@ -411,7 +414,7 @@
                 gap: 1rem;
             }
             
-            .search-container {
+            .search-bar {
                 width: 100%;
             }
         }
@@ -466,10 +469,12 @@
             <div class="header">
                 <h1 class="page-title">Event Management</h1>
                 
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search events...">
-                </div>
+                <form action="${pageContext.request.contextPath}/EventDashboard" method="get" class="search-form">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" name="q" placeholder="Search events..." value="${searchQuery}">
+                    </div>
+                </form>
             </div>
             
             <div class="card">

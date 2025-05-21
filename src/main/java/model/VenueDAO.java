@@ -59,14 +59,13 @@ public class VenueDAO {
     
     // Create venue table if it doesn't exist
     private static void createVenueTableIfNotExists() {
-        String query = "CREATE TABLE IF NOT EXISTS venue (" +
-                      "venue_id INT AUTO_INCREMENT PRIMARY KEY, " +
-                      "name VARCHAR(100) NOT NULL, " +
-                      "address VARCHAR(200) NOT NULL, " +
-                      "zip_code VARCHAR(20) NOT NULL, " +
-                      "phone VARCHAR(20) NOT NULL, " +
-                      "web VARCHAR(100), " +
-                      "email VARCHAR(100) NOT NULL" +
+        String query = "CREATE TABLE IF NOT EXISTS Venue (" +
+                      "Venue_id INT AUTO_INCREMENT PRIMARY KEY, " +
+                      "Name VARCHAR(100) NOT NULL, " +
+                      "Address VARCHAR(200) NOT NULL, " +
+                      "City VARCHAR(100) NOT NULL, " +
+                      "Contact_number VARCHAR(20) NOT NULL, " +
+                      "Capacity INT NOT NULL" +
                       ")";
                       
         try (Connection conn = DriverManager.getConnection(JDBC_FULL_URL, JDBC_USER, JDBC_PASSWORD);
@@ -76,7 +75,7 @@ public class VenueDAO {
             System.out.println("Venue table created successfully");
             
             // Check if table is empty and insert sample data if needed
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM venue");
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM Venue");
             if (rs.next() && rs.getInt(1) == 0) {
                 insertSampleVenues();
             }
@@ -88,17 +87,19 @@ public class VenueDAO {
     
     // Insert sample venues into the database if it's empty
     private static void insertSampleVenues() {
-        String query = "INSERT INTO venue (name, address, zip_code, phone, web, email) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Venue (Name, Address, City, Contact_number, Capacity) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection conn = DriverManager.getConnection(JDBC_FULL_URL, JDBC_USER, JDBC_PASSWORD);
              PreparedStatement ps = conn.prepareStatement(query)) {
              
             // Sample venues with real data
-            insertSampleVenue(ps, "Grand Hall", "123 Main St", "12345", "555-0123", "www.grandhall.com", "info@grandhall.com");
-            insertSampleVenue(ps, "City Center", "456 Park Ave", "67890", "555-0124", "www.citycenter.com", "info@citycenter.com");
-            insertSampleVenue(ps, "Riverside Plaza", "789 River Rd", "13579", "555-0125", "www.riverside.com", "info@riverside.com");
-            insertSampleVenue(ps, "Mountain View", "321 Summit Dr", "24680", "555-0126", "www.mountainview.com", "info@mountainview.com");
-            insertSampleVenue(ps, "Ocean Breeze", "654 Beach Blvd", "97531", "555-0127", "www.oceanbreeze.com", "info@oceanbreeze.com");
+            insertSampleVenue(ps, "Grand Hall", "123 Main St", "New York", "555-0123", 500);
+            insertSampleVenue(ps, "City Center", "456 Park Ave", "Chicago", "555-0124", 300);
+            insertSampleVenue(ps, "Riverside Plaza", "789 River Rd", "San Francisco", "555-0125", 250);
+            insertSampleVenue(ps, "Mountain View", "321 Summit Dr", "Denver", "555-0126", 180);
+            insertSampleVenue(ps, "Ocean Breeze", "654 Beach Blvd", "Miami", "555-0127", 400);
+            // Add Aryan Ghar venue
+            insertSampleVenue(ps, "Aryan Ghar", "123 Aryan Street", "Mumbai", "555-0128", 150);
             
             System.out.println("Sample venues inserted successfully");
         } catch (SQLException e) {
@@ -108,13 +109,12 @@ public class VenueDAO {
     }
     
     private static void insertSampleVenue(PreparedStatement ps, String name, String address, 
-                                       String zipCode, String phone, String web, String email) throws SQLException {
+                                       String city, String contactNumber, int capacity) throws SQLException {
         ps.setString(1, name);
         ps.setString(2, address);
-        ps.setString(3, zipCode);
-        ps.setString(4, phone);
-        ps.setString(5, web);
-        ps.setString(6, email);
+        ps.setString(3, city);
+        ps.setString(4, contactNumber);
+        ps.setInt(5, capacity);
         
         ps.executeUpdate();
     }
@@ -125,7 +125,7 @@ public class VenueDAO {
 
     public List<Venue> getAllVenues() {
         List<Venue> venueList = new ArrayList<>();
-        String query = "SELECT * FROM venue";
+        String query = "SELECT * FROM Venue";
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -134,13 +134,12 @@ public class VenueDAO {
             
             while (rs.next()) {
                 Venue venue = new Venue(
-                    rs.getInt("venue_id"),
-                    rs.getString("name"),
-                    rs.getString("address"),
-                    rs.getString("zip_code"),
-                    rs.getString("phone"),
-                    rs.getString("web"),
-                    rs.getString("email")
+                    rs.getInt("Venue_id"),
+                    rs.getString("Name"),
+                    rs.getString("Address"),
+                    rs.getString("City"),
+                    rs.getString("Contact_number"),
+                    rs.getInt("Capacity")
                 );
                 venueList.add(venue);
             }
@@ -153,7 +152,7 @@ public class VenueDAO {
     }
 
     public Venue getVenueById(int venueId) {
-        String query = "SELECT * FROM venue WHERE venue_id = ?";
+        String query = "SELECT * FROM Venue WHERE Venue_id = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -163,13 +162,12 @@ public class VenueDAO {
             
             if (rs.next()) {
                 return new Venue(
-                    rs.getInt("venue_id"),
-                    rs.getString("name"),
-                    rs.getString("address"),
-                    rs.getString("zip_code"),
-                    rs.getString("phone"),
-                    rs.getString("web"),
-                    rs.getString("email")
+                    rs.getInt("Venue_id"),
+                    rs.getString("Name"),
+                    rs.getString("Address"),
+                    rs.getString("City"),
+                    rs.getString("Contact_number"),
+                    rs.getInt("Capacity")
                 );
             }
         } catch (SQLException e) {
@@ -181,7 +179,7 @@ public class VenueDAO {
     }
 
     public boolean addVenue(Venue venue) {
-        String query = "INSERT INTO venue (name, address, zip_code, phone, web, email) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Venue (Name, Address, City, Contact_number, Capacity) VALUES (?, ?, ?, ?, ?)";
         
         System.out.println("Connecting to database at: " + JDBC_FULL_URL);
         
@@ -191,15 +189,13 @@ public class VenueDAO {
             try (PreparedStatement ps = conn.prepareStatement(query)) {
                 ps.setString(1, venue.getName());
                 ps.setString(2, venue.getAddress());
-                ps.setString(3, venue.getZipCode());
-                ps.setString(4, venue.getPhone());
-                ps.setString(5, venue.getWeb());
-                ps.setString(6, venue.getEmailAddress());
+                ps.setString(3, venue.getCity());
+                ps.setString(4, venue.getContactNumber());
+                ps.setInt(5, venue.getCapacity());
                 
                 System.out.println("Executing query: " + query);
                 System.out.println("With values: " + venue.getName() + ", " + venue.getAddress() + ", " + 
-                                  venue.getZipCode() + ", " + venue.getPhone() + ", " + venue.getWeb() + 
-                                  ", " + venue.getEmailAddress());
+                                  venue.getCity() + ", " + venue.getContactNumber() + ", " + venue.getCapacity());
                 
                 int result = ps.executeUpdate();
                 System.out.println("Query executed, rows affected: " + result);
@@ -216,29 +212,21 @@ public class VenueDAO {
     }
 
     public boolean updateVenue(Venue venue) {
-        String query = "UPDATE venue SET name = ?, address = ?, zip_code = ?, phone = ?, web = ?, email = ? WHERE venue_id = ?";
+        String query = "UPDATE Venue SET Name = ?, Address = ?, City = ?, Contact_number = ?, Capacity = ? WHERE Venue_id = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
              
             ps.setString(1, venue.getName());
             ps.setString(2, venue.getAddress());
-            ps.setString(3, venue.getZipCode());
-            ps.setString(4, venue.getPhone());
-            ps.setString(5, venue.getWeb());
-            ps.setString(6, venue.getEmailAddress());
-            ps.setInt(7, venue.getId());
+            ps.setString(3, venue.getCity());
+            ps.setString(4, venue.getContactNumber());
+            ps.setInt(5, venue.getCapacity());
+            ps.setInt(6, venue.getId());
             
             int result = ps.executeUpdate();
             
-            if (result > 0) {
-                // Log the activity
-                User user = (User) getCaller();
-                if (user != null) {
-                    ActivityLogDAO.logActivity(user.getUserId(), "UPDATE_VENUE", "Updated venue '" + venue.getName() + "'");
-                }
-                return true;
-            }
+            return result > 0;
         } catch (SQLException e) {
             System.err.println("Error updating venue: " + e.getMessage());
             e.printStackTrace();
@@ -248,33 +236,65 @@ public class VenueDAO {
     }
 
     public boolean deleteVenue(int venueId) {
-        // First get the venue name for logging
-        Venue venue = getVenueById(venueId);
-        if (venue == null) return false;
-        
-        String query = "DELETE FROM venue WHERE venue_id = ?";
-        
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-             
-            ps.setInt(1, venueId);
+        Connection conn = null;
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
             
-            int result = ps.executeUpdate();
-            
-            if (result > 0) {
-                // Log the activity
-                User user = (User) getCaller();
-                if (user != null) {
-                    ActivityLogDAO.logActivity(user.getUserId(), "DELETE_VENUE", "Deleted venue '" + venue.getName() + "'");
+            // First check if venue has any associated events
+            String checkQuery = "SELECT COUNT(*) FROM Event_Venue WHERE Venue_id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(checkQuery)) {
+                ps.setInt(1, venueId);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next() && rs.getInt(1) > 0) {
+                    // There are associated events, delete them first
+                    String deleteEventVenueQuery = "DELETE FROM Event_Venue WHERE Venue_id = ?";
+                    try (PreparedStatement eventVenuePs = conn.prepareStatement(deleteEventVenueQuery)) {
+                        eventVenuePs.setInt(1, venueId);
+                        eventVenuePs.executeUpdate();
+                    }
                 }
-                return true;
+            }
+            
+            // Now delete the venue
+            String query = "DELETE FROM Venue WHERE Venue_id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(query)) {
+                ps.setInt(1, venueId);
+                int result = ps.executeUpdate();
+                
+                if (result > 0) {
+                    conn.commit();
+                    return true;
+                } else {
+                    conn.rollback();
+                    return false;
+                }
             }
         } catch (SQLException e) {
             System.err.println("Error deleting venue: " + e.getMessage());
             e.printStackTrace();
+            
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                System.err.println("Error during rollback: " + rollbackEx.getMessage());
+                rollbackEx.printStackTrace();
+            }
+            
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error closing connection: " + closeEx.getMessage());
+                closeEx.printStackTrace();
+            }
         }
-        
-        return false;
     }
 
     public void closeConnection() {
@@ -297,5 +317,99 @@ public class VenueDAO {
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    // Method to get total venue count for admin dashboard
+    public int getVenueCount() {
+        String query = "SELECT COUNT(*) AS count FROM Venue";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error counting venues: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return 0;
+    }
+
+    // Search venues by name
+    public List<Venue> searchVenuesByName(String searchTerm) {
+        List<Venue> venueList = new ArrayList<>();
+        String query = "SELECT * FROM Venue WHERE Name LIKE ?";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+             
+            ps.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Venue venue = new Venue(
+                    rs.getInt("Venue_id"),
+                    rs.getString("Name"),
+                    rs.getString("Address"),
+                    rs.getString("City"),
+                    rs.getString("Contact_number"),
+                    rs.getInt("Capacity")
+                );
+                venueList.add(venue);
+            }
+            
+            System.out.println("Found " + venueList.size() + " venues matching: " + searchTerm);
+        } catch (SQLException e) {
+            System.err.println("Error searching venues: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return venueList;
+    }
+
+    // Search venues by multiple fields (name, address, city)
+    public List<Venue> searchVenues(String searchQuery) {
+        List<Venue> venueList = new ArrayList<>();
+        String query = "SELECT * FROM Venue WHERE Name LIKE ? OR Address LIKE ? OR City LIKE ? OR Contact_number LIKE ?";
+        
+        // If search query is empty, return all venues
+        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+            return getAllVenues();
+        }
+        
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+             
+            String searchTerm = "%" + searchQuery + "%";
+            ps.setString(1, searchTerm);
+            ps.setString(2, searchTerm);
+            ps.setString(3, searchTerm);
+            ps.setString(4, searchTerm);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Venue venue = new Venue(
+                    rs.getInt("Venue_id"),
+                    rs.getString("Name"),
+                    rs.getString("Address"),
+                    rs.getString("City"),
+                    rs.getString("Contact_number"),
+                    rs.getInt("Capacity")
+                );
+                venueList.add(venue);
+            }
+            
+            System.out.println("Search found " + venueList.size() + " venues matching: " + searchQuery);
+        } catch (SQLException e) {
+            System.err.println("Error searching venues: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return venueList;
     }
 }

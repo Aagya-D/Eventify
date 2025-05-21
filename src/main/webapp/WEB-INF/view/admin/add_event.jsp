@@ -353,8 +353,8 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="date">Date and Time*</label>
-                        <input type="datetime-local" class="form-control" id="date" name="date" required>
+                        <label class="form-label" for="date">Date*</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
                     </div>
                     
                     <div class="form-group">
@@ -370,11 +370,6 @@
                     <div class="form-group">
                         <label class="form-label" for="description">Description</label>
                         <textarea class="form-control" id="description" name="description" rows="4"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="manager">Event Manager</label>
-                        <input type="text" class="form-control" id="manager" name="manager">
                     </div>
                     
                     <div class="form-check">

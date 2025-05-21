@@ -362,23 +362,18 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="zipCode">ZIP Code*</label>
-                        <input type="text" class="form-control" id="zipCode" name="zipCode" required>
+                        <label class="form-label" for="city">City*</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="phone">Phone Number*</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                        <label class="form-label" for="contactNumber">Contact Number*</label>
+                        <input type="tel" class="form-control" id="contactNumber" name="contactNumber" required>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="web">Website</label>
-                        <input type="url" class="form-control" id="web" name="web" placeholder="https://example.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="email">Email Address*</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <label class="form-label" for="capacity">Capacity*</label>
+                        <input type="number" class="form-control" id="capacity" name="capacity" required min="1">
                     </div>
                     
                     <div class="form-actions">

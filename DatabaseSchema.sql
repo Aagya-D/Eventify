@@ -40,8 +40,8 @@ CREATE TABLE Event_Venue (
                              Event_id INT,
                              Venue_id INT,
                              PRIMARY KEY (Event_id, Venue_id),
-                             FOREIGN KEY (Event_id) REFERENCES Event(Event_id),
-                             FOREIGN KEY (Venue_id) REFERENCES Venue(Venue_id)
+                             FOREIGN KEY (Event_id) REFERENCES Event(Event_id) ON DELETE CASCADE,
+                             FOREIGN KEY (Venue_id) REFERENCES Venue(Venue_id) ON DELETE CASCADE
 );
 
 -- Create the User_Event junction table

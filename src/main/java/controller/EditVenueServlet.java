@@ -70,18 +70,17 @@ public class EditVenueServlet extends HttpServlet {
         String venueIdStr = request.getParameter("id");
         String name = request.getParameter("name");
         String address = request.getParameter("address");
-        String zipCode = request.getParameter("zipCode");
-        String phone = request.getParameter("phone");
-        String web = request.getParameter("web");
-        String email = request.getParameter("email");
+        String city = request.getParameter("city");
+        String contactNumber = request.getParameter("contactNumber");
+        String capacityStr = request.getParameter("capacity");
         
         // Validate required fields
         if (venueIdStr == null || venueIdStr.trim().isEmpty() ||
             name == null || name.trim().isEmpty() || 
             address == null || address.trim().isEmpty() ||
-            zipCode == null || zipCode.trim().isEmpty() ||
-            phone == null || phone.trim().isEmpty() ||
-            email == null || email.trim().isEmpty()) {
+            city == null || city.trim().isEmpty() ||
+            contactNumber == null || contactNumber.trim().isEmpty() ||
+            capacityStr == null || capacityStr.trim().isEmpty()) {
             
             request.setAttribute("errorMessage", "Please fill out all required fields");
             
@@ -101,6 +100,16 @@ public class EditVenueServlet extends HttpServlet {
         
         try {
             int venueId = Integer.parseInt(venueIdStr);
+            int capacity = Integer.parseInt(capacityStr);
+            
+            if (capacity <= 0) {
+                request.setAttribute("errorMessage", "Capacity must be greater than zero");
+                VenueDAO venueDAO = new VenueDAO();
+                Venue venue = venueDAO.getVenueById(venueId);
+                request.setAttribute("venue", venue);
+                request.getRequestDispatcher("/WEB-INF/view/admin/edit_venue.jsp").forward(request, response);
+                return;
+            }
             
             // Get existing venue to preserve any values not in the form
             VenueDAO venueDAO = new VenueDAO();
@@ -115,10 +124,9 @@ public class EditVenueServlet extends HttpServlet {
             // Update venue with new values
             existingVenue.setName(name);
             existingVenue.setAddress(address);
-            existingVenue.setZipCode(zipCode);
-            existingVenue.setPhone(phone);
-            existingVenue.setWeb(web != null ? web : "");
-            existingVenue.setEmailAddress(email);
+            existingVenue.setCity(city);
+            existingVenue.setContactNumber(contactNumber);
+            existingVenue.setCapacity(capacity);
             
             // Save to database
             boolean success = venueDAO.updateVenue(existingVenue);
@@ -138,7 +146,7 @@ public class EditVenueServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/view/admin/edit_venue.jsp").forward(request, response);
             }
         } catch (NumberFormatException e) {
-            request.getSession().setAttribute("errorMessage", "Invalid venue ID");
+            request.getSession().setAttribute("errorMessage", "Invalid venue ID or capacity");
             response.sendRedirect(request.getContextPath() + "/VenueDashboard");
         }
     }

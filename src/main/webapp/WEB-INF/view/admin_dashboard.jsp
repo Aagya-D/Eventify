@@ -104,23 +104,31 @@
             border-bottom: 1px solid #e0e0e0;
         }
         .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            padding: 5px 15px;
+            position: relative;
             width: 300px;
         }
         .search-bar input {
-            border: none;
-            outline: none;
-            background: transparent;
-            padding: 5px;
             width: 100%;
+            padding: 8px 14px 8px 35px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            background: #f8f9fa;
+            transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .search-bar input:focus {
+            outline: none;
+            border-color: #005744;
+            box-shadow: 0 0 0 3px rgba(0, 87, 68, 0.1);
+            background: #fff;
         }
         .search-bar i {
-            color: #666;
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #005744;
+            font-size: 14px;
         }
         /* Dashboard Content Styles */
         .dashboard {
@@ -300,10 +308,12 @@
 <div class="main-content">
     <!-- Header -->
     <header class="header">
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search here.....">
-        </div>
+        <form action="${pageContext.request.contextPath}/EventDashboard" method="get" class="search-form">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" name="q" placeholder="Search events..." value="${searchQuery}">
+            </div>
+        </form>
     </header>
 
     <!-- Dashboard Content -->

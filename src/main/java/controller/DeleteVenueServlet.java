@@ -60,11 +60,13 @@ public class DeleteVenueServlet extends HttpServlet {
                 
                 request.getSession().setAttribute("successMessage", "Venue deleted successfully");
             } else {
-                request.getSession().setAttribute("errorMessage", "Failed to delete venue");
+                request.getSession().setAttribute("errorMessage", "Failed to delete venue. Please ensure there are no active events at this venue.");
             }
             
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "Invalid venue ID");
+        } catch (Exception e) {
+            request.getSession().setAttribute("errorMessage", "An error occurred: " + e.getMessage());
         }
         
         // Redirect back to venues dashboard

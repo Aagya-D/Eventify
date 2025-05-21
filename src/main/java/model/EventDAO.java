@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 public class EventDAO {
-    // Database connection parameters
-    private static final String URL = "jdbc:mysql://localhost:3308/eventify";
+    // Database connection parameters - updated to be consistent with other DAOs
+    private static final String URL = "jdbc:mysql://localhost:3306/eventify";
     private static final String USER = "root";
     private static final String PASS = "";
 
@@ -20,9 +20,9 @@ public class EventDAO {
             
             // Test connection
             try (Connection testConn = DriverManager.getConnection(URL, USER, PASS)) {
-                System.out.println("Database connection successful!");
+                System.out.println("Event DAO - Database connection successful!");
             } catch (SQLException e) {
-                System.err.println("Database connection test failed: " + e.getMessage());
+                System.err.println("Event DAO - Database connection test failed: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (ClassNotFoundException e) {
@@ -125,7 +125,7 @@ public class EventDAO {
 
     public List<Event> getAllEvents() {
         List<Event> eventList = new ArrayList<>();
-        String query = "SELECT * FROM event ORDER BY event_date DESC";
+        String query = "SELECT * FROM Event ORDER BY Event_date DESC";
         
         try (Connection conn = getConnection()) {
             if (conn == null) {
@@ -140,24 +140,45 @@ public class EventDAO {
                 
                 while (rs.next()) {
                     Event event = new Event();
-                    event.setId(rs.getInt("event_id"));
-                    event.setName(rs.getString("title"));
-                    event.setDateTime(rs.getTimestamp("event_date"));
+                    event.setId(rs.getInt("Event_id"));
+                    event.setName(rs.getString("Title"));
+                    
+                    // Convert java.sql.Date to java.util.Date
+                    java.sql.Date sqlDate = rs.getDate("Event_date");
+                    if (sqlDate != null) {
+                        event.setDateTime(new Date(sqlDate.getTime()));
+                    }
                     
                     // Calculate days until event
-                    Calendar eventDate = Calendar.getInstance();
-                    eventDate.setTime(rs.getTimestamp("event_date"));
-                    Calendar today = Calendar.getInstance();
-                    long diffMillis = eventDate.getTimeInMillis() - today.getTimeInMillis();
-                    int diffDays = (int) (diffMillis / (24 * 60 * 60 * 1000));
-                    event.setDaysUntilEvent(diffDays);
+                    if (event.getDateTime() != null) {
+                        Calendar eventDate = Calendar.getInstance();
+                        eventDate.setTime(event.getDateTime());
+                        Calendar today = Calendar.getInstance();
+                        long diffMillis = eventDate.getTimeInMillis() - today.getTimeInMillis();
+                        int diffDays = (int) (diffMillis / (24 * 60 * 60 * 1000));
+                        event.setDaysUntilEvent(diffDays);
+                    }
                     
                     // Get related data
-                    event.setVenue(rs.getString("venue"));
-                    event.setDescription(rs.getString("description"));
-                    event.setManager(rs.getString("manager"));
-                    event.setApproved(rs.getBoolean("approved"));
-                    event.setAttendees(rs.getInt("attendees"));
+                    event.setDescription(rs.getString("Description"));
+                    
+                    // Get venue information from Event_Venue join
+                    VenueDAO venueDAO = new VenueDAO();
+                    String venueQuery = "SELECT v.Name FROM Venue v " +
+                                        "JOIN Event_Venue ev ON v.Venue_id = ev.Venue_id " +
+                                        "WHERE ev.Event_id = ?";
+                    try (PreparedStatement venuePs = conn.prepareStatement(venueQuery)) {
+                        venuePs.setInt(1, event.getId());
+                        ResultSet venueRs = venuePs.executeQuery();
+                        if (venueRs.next()) {
+                            event.setVenue(venueRs.getString("Name"));
+                        }
+                    }
+                    
+                    // Set other fields with default values since they don't exist in the database
+                    event.setManager("Not specified");
+                    event.setApproved(true); // Default to approved
+                    event.setAttendees(0);   // Default to 0 attendees
                     
                     eventList.add(event);
                     System.out.println("Retrieved event: " + event.getName());
@@ -174,7 +195,7 @@ public class EventDAO {
     }
     
     public Event getEventById(int eventId) {
-        String query = "SELECT * FROM event WHERE event_id = ?";
+        String query = "SELECT * FROM Event WHERE Event_id = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -184,24 +205,45 @@ public class EventDAO {
             
             if (rs.next()) {
                 Event event = new Event();
-                event.setId(rs.getInt("event_id"));
-                event.setName(rs.getString("title"));
-                event.setDateTime(rs.getTimestamp("event_date"));
+                event.setId(rs.getInt("Event_id"));
+                event.setName(rs.getString("Title"));
+                
+                // Convert java.sql.Date to java.util.Date
+                java.sql.Date sqlDate = rs.getDate("Event_date");
+                if (sqlDate != null) {
+                    event.setDateTime(new Date(sqlDate.getTime()));
+                }
                 
                 // Calculate days until event
-                Calendar eventDate = Calendar.getInstance();
-                eventDate.setTime(rs.getTimestamp("event_date"));
-                Calendar today = Calendar.getInstance();
-                long diffMillis = eventDate.getTimeInMillis() - today.getTimeInMillis();
-                int diffDays = (int) (diffMillis / (24 * 60 * 60 * 1000));
-                event.setDaysUntilEvent(diffDays);
+                if (event.getDateTime() != null) {
+                    Calendar eventDate = Calendar.getInstance();
+                    eventDate.setTime(event.getDateTime());
+                    Calendar today = Calendar.getInstance();
+                    long diffMillis = eventDate.getTimeInMillis() - today.getTimeInMillis();
+                    int diffDays = (int) (diffMillis / (24 * 60 * 60 * 1000));
+                    event.setDaysUntilEvent(diffDays);
+                }
                 
                 // Get related data
-                event.setVenue(rs.getString("venue"));
-                event.setDescription(rs.getString("description"));
-                event.setManager(rs.getString("manager"));
-                event.setApproved(rs.getBoolean("approved"));
-                event.setAttendees(rs.getInt("attendees"));
+                event.setDescription(rs.getString("Description"));
+                
+                // Get venue information from Event_Venue join
+                VenueDAO venueDAO = new VenueDAO();
+                String venueQuery = "SELECT v.Name FROM Venue v " +
+                                    "JOIN Event_Venue ev ON v.Venue_id = ev.Venue_id " +
+                                    "WHERE ev.Event_id = ?";
+                try (PreparedStatement venuePs = conn.prepareStatement(venueQuery)) {
+                    venuePs.setInt(1, event.getId());
+                    ResultSet venueRs = venuePs.executeQuery();
+                    if (venueRs.next()) {
+                        event.setVenue(venueRs.getString("Name"));
+                    }
+                }
+                
+                // Set other fields with default values
+                event.setManager("Not specified");
+                event.setApproved(true);
+                event.setAttendees(0);
                 
                 return event;
             }
@@ -214,97 +256,304 @@ public class EventDAO {
     }
     
     public boolean addEvent(Event event) {
-        String query = "INSERT INTO event (title, event_date, venue, description, manager, approved, attendees) " +
-                      "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        // We need to use transactions since we're inserting into multiple tables
+        Connection conn = null;
         
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-             
-            ps.setString(1, event.getName());
-            ps.setTimestamp(2, new Timestamp(event.getDateTime().getTime()));
-            ps.setString(3, event.getVenue());
-            ps.setString(4, event.getDescription());
-            ps.setString(5, event.getManager());
-            ps.setBoolean(6, event.isApproved());
-            ps.setInt(7, event.getAttendees());
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
             
-            int result = ps.executeUpdate();
+            System.out.println("Attempting to add event: " + event.getName());
             
-            if (result > 0) {
-                // Log the activity
-                User user = (User) getCaller();
-                if (user != null) {
-                    ActivityLogDAO.logActivity(user.getUserId(), "ADD_EVENT", "Added event '" + event.getName() + "'");
+            // 1. Insert into Event table
+            String eventQuery = "INSERT INTO Event (Title, Description, Event_date, Category, CreatedAt) " +
+                                "VALUES (?, ?, ?, ?, NOW())";
+            
+            int eventId;
+            try (PreparedStatement ps = conn.prepareStatement(eventQuery, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, event.getName());
+                ps.setString(2, event.getDescription());
+                ps.setDate(3, new java.sql.Date(event.getDateTime().getTime()));
+                ps.setString(4, "General"); // Default category
+                
+                int result = ps.executeUpdate();
+                
+                if (result <= 0) {
+                    System.err.println("No rows affected when adding event");
+                    conn.rollback();
+                    return false;
                 }
-                return true;
+                
+                // Get generated event ID
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    eventId = generatedKeys.getInt(1);
+                } else {
+                    System.err.println("Failed to get generated event ID");
+                    conn.rollback();
+                    return false;
+                }
             }
+            
+            // 2. Find venue ID for the given venue name
+            int venueId = -1;
+            String venueQuery = "SELECT Venue_id FROM Venue WHERE Name = ?";
+            try (PreparedStatement ps = conn.prepareStatement(venueQuery)) {
+                ps.setString(1, event.getVenue());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    venueId = rs.getInt("Venue_id");
+                } else {
+                    System.err.println("Venue not found: " + event.getVenue());
+                    conn.rollback();
+                    return false;
+                }
+            }
+            
+            // 3. Insert into Event_Venue junction table
+            String junctionQuery = "INSERT INTO Event_Venue (Event_id, Venue_id) VALUES (?, ?)";
+            try (PreparedStatement ps = conn.prepareStatement(junctionQuery)) {
+                ps.setInt(1, eventId);
+                ps.setInt(2, venueId);
+                
+                int result = ps.executeUpdate();
+                
+                if (result <= 0) {
+                    System.err.println("No rows affected when adding event-venue relationship");
+                    conn.rollback();
+                    return false;
+                }
+            }
+            
+            // If we've reached this point, commit the transaction
+            conn.commit();
+            System.out.println("Event successfully added to database with ID: " + eventId);
+            
+            // Log activity
+            try {
+                ActivityLogDAO.logActivity(0, "ADD_EVENT", "Added event '" + event.getName() + "'");
+            } catch (Exception e) {
+                System.err.println("Warning: Failed to log activity: " + e.getMessage());
+                // Don't rollback for logging failures
+            }
+            
+            return true;
+            
         } catch (SQLException e) {
             System.err.println("Error adding event: " + e.getMessage());
             e.printStackTrace();
+            
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                System.err.println("Error during rollback: " + rollbackEx.getMessage());
+                rollbackEx.printStackTrace();
+            }
+            
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error closing connection: " + closeEx.getMessage());
+                closeEx.printStackTrace();
+            }
         }
         
+        System.err.println("Failed to add event");
         return false;
     }
     
     public boolean updateEvent(Event event) {
-        String query = "UPDATE event SET title = ?, event_date = ?, venue = ?, description = ?, " +
-                      "manager = ?, approved = ?, attendees = ? WHERE event_id = ?";
+        // Similar to addEvent, we need transactions
+        Connection conn = null;
         
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-             
-            ps.setString(1, event.getName());
-            ps.setTimestamp(2, new Timestamp(event.getDateTime().getTime()));
-            ps.setString(3, event.getVenue());
-            ps.setString(4, event.getDescription());
-            ps.setString(5, event.getManager());
-            ps.setBoolean(6, event.isApproved());
-            ps.setInt(7, event.getAttendees());
-            ps.setInt(8, event.getId());
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
             
-            int result = ps.executeUpdate();
+            // 1. Update Event table
+            String eventQuery = "UPDATE Event SET Title = ?, Description = ?, Event_date = ? WHERE Event_id = ?";
             
-            if (result > 0) {
-                // Log the activity
-                User user = (User) getCaller();
-                if (user != null) {
-                    ActivityLogDAO.logActivity(user.getUserId(), "UPDATE_EVENT", "Updated event '" + event.getName() + "'");
+            try (PreparedStatement ps = conn.prepareStatement(eventQuery)) {
+                ps.setString(1, event.getName());
+                ps.setString(2, event.getDescription());
+                ps.setDate(3, new java.sql.Date(event.getDateTime().getTime()));
+                ps.setInt(4, event.getId());
+                
+                int result = ps.executeUpdate();
+                
+                if (result <= 0) {
+                    System.err.println("No rows affected when updating event");
+                    conn.rollback();
+                    return false;
                 }
-                return true;
             }
+            
+            // 2. Find venue ID for the given venue name
+            int venueId = -1;
+            String venueQuery = "SELECT Venue_id FROM Venue WHERE Name = ?";
+            try (PreparedStatement ps = conn.prepareStatement(venueQuery)) {
+                ps.setString(1, event.getVenue());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    venueId = rs.getInt("Venue_id");
+                } else {
+                    System.err.println("Venue not found: " + event.getVenue());
+                    conn.rollback();
+                    return false;
+                }
+            }
+            
+            // 3. Update Event_Venue junction table
+            // First delete existing relationship
+            String deleteQuery = "DELETE FROM Event_Venue WHERE Event_id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(deleteQuery)) {
+                ps.setInt(1, event.getId());
+                ps.executeUpdate();
+            }
+            
+            // Then insert new relationship
+            String insertQuery = "INSERT INTO Event_Venue (Event_id, Venue_id) VALUES (?, ?)";
+            try (PreparedStatement ps = conn.prepareStatement(insertQuery)) {
+                ps.setInt(1, event.getId());
+                ps.setInt(2, venueId);
+                
+                int result = ps.executeUpdate();
+                
+                if (result <= 0) {
+                    System.err.println("No rows affected when updating event-venue relationship");
+                    conn.rollback();
+                    return false;
+                }
+            }
+            
+            // Commit the transaction
+            conn.commit();
+            
+            // Log activity
+            try {
+                ActivityLogDAO.logActivity(0, "UPDATE_EVENT", "Updated event '" + event.getName() + "'");
+            } catch (Exception e) {
+                System.err.println("Warning: Failed to log activity: " + e.getMessage());
+            }
+            
+            return true;
+            
         } catch (SQLException e) {
             System.err.println("Error updating event: " + e.getMessage());
             e.printStackTrace();
+            
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                System.err.println("Error during rollback: " + rollbackEx.getMessage());
+                rollbackEx.printStackTrace();
+            }
+            
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error closing connection: " + closeEx.getMessage());
+                closeEx.printStackTrace();
+            }
         }
         
         return false;
     }
     
     public boolean deleteEvent(int eventId) {
-        // First get the event name for logging
-        Event event = getEventById(eventId);
-        if (event == null) return false;
+        // We need transactions for delete as well
+        Connection conn = null;
         
-        String query = "DELETE FROM event WHERE event_id = ?";
-        
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-             
-            ps.setInt(1, eventId);
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
             
-            int result = ps.executeUpdate();
-            
-            if (result > 0) {
-                // Log the activity
-                User user = (User) getCaller();
-                if (user != null) {
-                    ActivityLogDAO.logActivity(user.getUserId(), "DELETE_EVENT", "Deleted event '" + event.getName() + "'");
+            // Get event name for logging
+            String eventName = "";
+            String nameQuery = "SELECT Title FROM Event WHERE Event_id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(nameQuery)) {
+                ps.setInt(1, eventId);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    eventName = rs.getString("Title");
                 }
-                return true;
             }
+            
+            // 1. Delete from Event_Venue junction table
+            String junctionQuery = "DELETE FROM Event_Venue WHERE Event_id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(junctionQuery)) {
+                ps.setInt(1, eventId);
+                ps.executeUpdate();
+            }
+            
+            // 2. Delete from User_Event junction table if it exists
+            String userEventQuery = "DELETE FROM User_Event WHERE Event_id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(userEventQuery)) {
+                ps.setInt(1, eventId);
+                ps.executeUpdate();
+            }
+            
+            // 3. Delete from Event table
+            String eventQuery = "DELETE FROM Event WHERE Event_id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(eventQuery)) {
+                ps.setInt(1, eventId);
+                
+                int result = ps.executeUpdate();
+                
+                if (result <= 0) {
+                    System.err.println("No rows affected when deleting event");
+                    conn.rollback();
+                    return false;
+                }
+            }
+            
+            // Commit the transaction
+            conn.commit();
+            
+            // Log activity
+            try {
+                ActivityLogDAO.logActivity(0, "DELETE_EVENT", "Deleted event '" + eventName + "'");
+            } catch (Exception e) {
+                System.err.println("Warning: Failed to log activity: " + e.getMessage());
+            }
+            
+            return true;
+            
         } catch (SQLException e) {
             System.err.println("Error deleting event: " + e.getMessage());
             e.printStackTrace();
+            
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                System.err.println("Error during rollback: " + rollbackEx.getMessage());
+                rollbackEx.printStackTrace();
+            }
+            
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error closing connection: " + closeEx.getMessage());
+                closeEx.printStackTrace();
+            }
         }
         
         return false;
@@ -322,7 +571,7 @@ public class EventDAO {
 
     // Method to get total event count for admin dashboard
     public int getEventCount() {
-        String query = "SELECT COUNT(*) AS count FROM event";
+        String query = "SELECT COUNT(*) AS count FROM Event";
         
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -340,30 +589,15 @@ public class EventDAO {
         return 0;
     }
     
-    // Method to get count of approved events
+    // Since we don't have 'approved' column, return all events as approved
     public int getApprovedEventCount() {
-        String query = "SELECT COUNT(*) AS count FROM event WHERE approved = true";
-        
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            
-            ResultSet rs = ps.executeQuery();
-            
-            if (rs.next()) {
-                return rs.getInt("count");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error counting approved events: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
-        return 0;
+        return getEventCount();
     }
     
     // Method to get recent events for dashboard
     public List<Event> getRecentEvents(int limit) {
         List<Event> events = new ArrayList<>();
-        String query = "SELECT * FROM event ORDER BY event_date DESC LIMIT ?";
+        String query = "SELECT * FROM Event ORDER BY Event_date DESC LIMIT ?";
         
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -373,22 +607,173 @@ public class EventDAO {
             
             while (rs.next()) {
                 Event event = new Event();
-                event.setId(rs.getInt("event_id"));
-                event.setName(rs.getString("title"));
-                event.setDateTime(rs.getTimestamp("event_date"));
-                event.setVenue(rs.getString("venue"));
-                event.setDescription(rs.getString("description"));
-                event.setManager(rs.getString("manager"));
-                event.setApproved(rs.getBoolean("approved"));
-                event.setAttendees(rs.getInt("attendees"));
+                event.setId(rs.getInt("Event_id"));
+                event.setName(rs.getString("Title"));
+                
+                // Convert java.sql.Date to java.util.Date
+                java.sql.Date sqlDate = rs.getDate("Event_date");
+                if (sqlDate != null) {
+                    event.setDateTime(new Date(sqlDate.getTime()));
+                }
+                
+                event.setDescription(rs.getString("Description"));
+                
+                // Get venue information from Event_Venue join
+                String venueQuery = "SELECT v.Name FROM Venue v " +
+                                    "JOIN Event_Venue ev ON v.Venue_id = ev.Venue_id " +
+                                    "WHERE ev.Event_id = ?";
+                try (PreparedStatement venuePs = conn.prepareStatement(venueQuery)) {
+                    venuePs.setInt(1, event.getId());
+                    ResultSet venueRs = venuePs.executeQuery();
+                    if (venueRs.next()) {
+                        event.setVenue(venueRs.getString("Name"));
+                    }
+                }
+                
+                // Set default values for fields not in database
+                event.setManager("Not specified");
+                event.setApproved(true);
+                event.setAttendees(0);
+                
                 events.add(event);
             }
         } catch (SQLException e) {
-            System.err.println("Error getting recent events: " + e.getMessage());
+            System.err.println("Error retrieving recent events: " + e.getMessage());
             e.printStackTrace();
         }
         
         return events;
+    }
+    
+    // Method to search events by title
+    public List<Event> searchEventsByTitle(String searchTerm) {
+        List<Event> eventList = new ArrayList<>();
+        String query = "SELECT * FROM Event WHERE Title LIKE ? ORDER BY Event_date DESC";
+        
+        try (Connection conn = getConnection()) {
+            if (conn == null) {
+                System.err.println("Unable to get connection in searchEventsByTitle");
+                return eventList;
+            }
+            
+            try (PreparedStatement ps = conn.prepareStatement(query)) {
+                ps.setString(1, "%" + searchTerm + "%");
+                
+                System.out.println("Executing event search query: " + query + " with term: " + searchTerm);
+                
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Event event = new Event();
+                        event.setId(rs.getInt("Event_id"));
+                        event.setName(rs.getString("Title"));
+                        
+                        // Convert java.sql.Date to java.util.Date
+                        java.sql.Date sqlDate = rs.getDate("Event_date");
+                        if (sqlDate != null) {
+                            event.setDateTime(new Date(sqlDate.getTime()));
+                        }
+                        
+                        event.setDescription(rs.getString("Description"));
+                        
+                        // Get venue information from Event_Venue join
+                        String venueQuery = "SELECT v.Name FROM Venue v " +
+                                           "JOIN Event_Venue ev ON v.Venue_id = ev.Venue_id " +
+                                           "WHERE ev.Event_id = ?";
+                        try (PreparedStatement venuePs = conn.prepareStatement(venueQuery)) {
+                            venuePs.setInt(1, event.getId());
+                            ResultSet venueRs = venuePs.executeQuery();
+                            if (venueRs.next()) {
+                                event.setVenue(venueRs.getString("Name"));
+                            }
+                        }
+                        
+                        // Set default values for fields not in database
+                        event.setManager("Not specified");
+                        event.setApproved(true);
+                        event.setAttendees(0);
+                        
+                        eventList.add(event);
+                    }
+                }
+                
+                System.out.println("Found " + eventList.size() + " events matching: " + searchTerm);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error searching events: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return eventList;
+    }
+    
+    // Method to search events across multiple fields
+    public List<Event> searchEvents(String searchQuery) {
+        List<Event> eventList = new ArrayList<>();
+        
+        // If search query is empty, return all events
+        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+            return getAllEvents();
+        }
+        
+        String query = "SELECT * FROM Event WHERE Title LIKE ? OR Description LIKE ? OR venue LIKE ? ORDER BY Event_date DESC";
+        
+        try (Connection conn = getConnection()) {
+            if (conn == null) {
+                System.err.println("Unable to get connection in searchEvents");
+                return eventList;
+            }
+            
+            try (PreparedStatement ps = conn.prepareStatement(query)) {
+                String searchTerm = "%" + searchQuery + "%";
+                ps.setString(1, searchTerm);
+                ps.setString(2, searchTerm);
+                ps.setString(3, searchTerm);
+                
+                System.out.println("Executing event search query: " + query + " with term: " + searchQuery);
+                
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Event event = new Event();
+                        event.setId(rs.getInt("Event_id"));
+                        event.setName(rs.getString("Title"));
+                        
+                        // Convert java.sql.Date to java.util.Date
+                        java.sql.Date sqlDate = rs.getDate("Event_date");
+                        if (sqlDate != null) {
+                            event.setDateTime(new Date(sqlDate.getTime()));
+                        }
+                        
+                        // Calculate days until event
+                        if (event.getDateTime() != null) {
+                            Calendar eventDate = Calendar.getInstance();
+                            eventDate.setTime(event.getDateTime());
+                            Calendar today = Calendar.getInstance();
+                            long diffMillis = eventDate.getTimeInMillis() - today.getTimeInMillis();
+                            int diffDays = (int) (diffMillis / (24 * 60 * 60 * 1000));
+                            event.setDaysUntilEvent(diffDays);
+                        }
+                        
+                        // Get related data
+                        event.setDescription(rs.getString("Description"));
+                        event.setVenue(rs.getString("venue"));
+                        
+                        // Set default values for fields not in database
+                        event.setManager(rs.getString("manager") != null ? rs.getString("manager") : "Not specified");
+                        event.setApproved(rs.getBoolean("approved"));
+                        event.setAttendees(rs.getInt("attendees"));
+                        
+                        eventList.add(event);
+                    }
+                }
+                
+                System.out.println("Found " + eventList.size() + " events matching: " + searchQuery);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error searching events: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return eventList;
     }
     
     // Helper method to get the current user from the session
@@ -400,5 +785,71 @@ public class EventDAO {
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    public boolean registerUserForEvent(int eventId, int userId) {
+        System.out.println("DEBUG: EventDAO: registerUserForEvent called for eventId " + eventId + " and userId " + userId);
+        Connection conn = null;
+        boolean success = false;
+        
+        try {
+            conn = getConnection();
+            
+            // Check if user is already registered
+            String checkQuery = "SELECT COUNT(*) FROM User_Event WHERE Event_id = ? AND User_id = ?";
+            System.out.println("DEBUG: EventDAO: Checking if user is already registered with query: " + checkQuery);
+            try (PreparedStatement psCheck = conn.prepareStatement(checkQuery)) {
+                psCheck.setInt(1, eventId);
+                psCheck.setInt(2, userId);
+                ResultSet rs = psCheck.executeQuery();
+                if (rs.next() && rs.getInt(1) > 0) {
+                    System.out.println("DEBUG: EventDAO: User " + userId + " is already registered for event " + eventId);
+                    return false; // User is already registered
+                }
+            }
+            System.out.println("DEBUG: EventDAO: User " + userId + " is not yet registered for event " + eventId);
+            
+            // If not registered, insert into User_Event table
+            String insertQuery = "INSERT INTO User_Event (Event_id, User_id) VALUES (?, ?)";
+            System.out.println("DEBUG: EventDAO: Inserting registration record with query: " + insertQuery);
+            try (PreparedStatement psInsert = conn.prepareStatement(insertQuery)) {
+                psInsert.setInt(1, eventId);
+                psInsert.setInt(2, userId);
+                
+                int rowsAffected = psInsert.executeUpdate();
+                System.out.println("DEBUG: EventDAO: Inserted " + rowsAffected + " rows into User_Event");
+                if (rowsAffected > 0) {
+                    System.out.println("DEBUG: EventDAO: User " + userId + " successfully registered for event " + eventId);
+                    success = true;
+                    
+                    // Increment attendees count in the Event table
+                    String updateAttendeesQuery = "UPDATE Event SET attendees = attendees + 1 WHERE Event_id = ?";
+                    System.out.println("DEBUG: EventDAO: Updating attendees count with query: " + updateAttendeesQuery);
+                    try (PreparedStatement psUpdateAttendees = conn.prepareStatement(updateAttendeesQuery)) {
+                        psUpdateAttendees.setInt(1, eventId);
+                        int updatedRows = psUpdateAttendees.executeUpdate();
+                        System.out.println("DEBUG: EventDAO: Updated " + updatedRows + " rows in Event table for attendees count");
+                    }
+                    
+                } else {
+                    System.err.println("DEBUG: EventDAO: Failed to insert registration record for user " + userId + " and event " + eventId);
+                }
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("DEBUG: EventDAO: Error registering user for event: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("DEBUG: EventDAO: Error closing connection: " + closeEx.getMessage());
+                closeEx.printStackTrace();
+            }
+        }
+        
+        return success;
     }
 }

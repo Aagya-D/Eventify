@@ -1,12 +1,10 @@
-<%@ page import="model.Venue" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Event - Eventify</title>
+    <title>Add Venue - Eventify</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -106,17 +104,14 @@
             color: #adb5bd;
         }
         
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23495057' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: 40px;
+        input[type="number"].form-control {
+            -moz-appearance: textfield;
         }
         
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
+        input[type="number"].form-control::-webkit-outer-spin-button,
+        input[type="number"].form-control::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
         
         /* Icon inputs */
@@ -134,6 +129,20 @@
             top: 50%;
             transform: translateY(-50%);
             color: #6c757d;
+        }
+        
+        /* Helper text */
+        .form-help-text {
+            display: block;
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        /* Required field marker */
+        .required-field {
+            color: #00574b;
+            margin-left: 2px;
         }
         
         /* Form actions */
@@ -156,6 +165,7 @@
             align-items: center;
             justify-content: center;
             flex: 1;
+            text-decoration: none;
         }
         
         .btn i {
@@ -176,7 +186,6 @@
         .btn-secondary {
             background-color: #f1f3f5;
             color: #495057;
-            text-decoration: none;
         }
         
         .btn-secondary:hover {
@@ -203,50 +212,6 @@
         .alert i {
             margin-right: 12px;
             font-size: 22px;
-        }
-        
-        /* Form steps indicator */
-        .form-steps {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-        
-        .step {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            color: #6c757d;
-            margin: 0 15px;
-        }
-        
-        .step-number {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #e9ecef;
-            margin-right: 10px;
-            font-weight: 600;
-        }
-        
-        .step.active {
-            color: #00574b;
-        }
-        
-        .step.active .step-number {
-            background-color: #00574b;
-            color: white;
-        }
-        
-        /* Helper text */
-        .form-help-text {
-            display: block;
-            font-size: 13px;
-            color: #6c757d;
-            margin-top: 5px;
         }
         
         /* Responsive */
@@ -293,77 +258,63 @@
         
         <div class="form-container">
             <div class="form-header">
-                <h1 class="form-title">Add New Event</h1>
-                <p class="form-subtitle">Create an amazing event and invite people to join you</p>
+                <h1 class="form-title">Venue Details</h1>
+                <p class="form-subtitle">Add a new venue to host amazing events</p>
             </div>
             
             <div class="form-content">
-                <div class="form-steps">
-                    <div class="step active">
-
-                        <span>Event Details</span>
-                    </div>
-
-                </div>
-                
-                <form action="${pageContext.request.contextPath}/add-event" method="post" id="event-form">
+                <form action="${pageContext.request.contextPath}/add-venue" method="post" id="venue-form">
                     <div class="form-group">
-                        <label for="name">Event Name</label>
+                        <label for="name">Venue Name<span class="required-field">*</span></label>
                         <div class="input-with-icon">
-                            <i class="fas fa-calendar-alt input-icon"></i>
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter event name" required>
+                            <i class="fas fa-building input-icon"></i>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter venue name" required>
                         </div>
-                        <span class="form-help-text">Choose a catchy name that describes your event</span>
+                        <span class="form-help-text">Enter the official name of the venue</span>
                     </div>
                     
                     <div class="form-group">
-                        <label for="dateTime">Date </label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-clock input-icon"></i>
-                            <input type="datetime-local" id="dateTime" name="dateTime" class="form-control" required>
-                        </div>
-                        <span class="form-help-text">When will your event take place?</span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="venue">Venue</label>
+                        <label for="address">Address<span class="required-field">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-map-marker-alt input-icon"></i>
-                            <select id="venue" name="venue" class="form-control" required>
-                                <option value="">-- Select Venue --</option>
-                                <% 
-                                List<Venue> venues = (List<Venue>) request.getAttribute("venues");
-                                if (venues != null && !venues.isEmpty()) {
-                                    for (Venue venue : venues) {
-                                %>
-                                <option value="<%= venue.getId() %>"><%= venue.getName() %> - <%= venue.getCity() %></option>
-                                <% 
-                                    }
-                                } else {
-                                %>
-                                <option value="" disabled>No venues available</option>
-                                <% 
-                                }
-                                %>
-                            </select>
+                            <input type="text" id="address" name="address" class="form-control" placeholder="Enter full address" required>
                         </div>
-                        <span class="form-help-text">Where will your event be held?</span>
+                        <span class="form-help-text">Enter the street address</span>
                     </div>
                     
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" class="form-control" placeholder="Describe your event in detail..." required></textarea>
-                        <span class="form-help-text">Provide details about what attendees can expect</span>
+                        <label for="city">City<span class="required-field">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-city input-icon"></i>
+                            <input type="text" id="city" name="city" class="form-control" placeholder="Enter city name" required>
+                        </div>
+                        <span class="form-help-text">Enter the city where the venue is located</span>
                     </div>
                     
-
+                    <div class="form-group">
+                        <label for="contactNumber">Contact Number<span class="required-field">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone-alt input-icon"></i>
+                            <input type="text" id="contactNumber" name="contactNumber" class="form-control" placeholder="Enter contact number" required>
+                        </div>
+                        <span class="form-help-text">Enter a valid phone number for venue inquiries</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="capacity">Capacity<span class="required-field">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-users input-icon"></i>
+                            <input type="number" id="capacity" name="capacity" class="form-control" placeholder="Enter maximum capacity" required min="1">
+                        </div>
+                        <span class="form-help-text">Enter the maximum number of people the venue can accommodate</span>
+                    </div>
                     
                     <div class="form-actions">
-                        <a href="${pageContext.request.contextPath}/events" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Cancel
+                        <a href="${pageContext.request.contextPath}/venues" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus-circle"></i> Create Event
+                            <i class="fas fa-save"></i> Save Venue
                         </button>
                     </div>
                 </form>
@@ -374,23 +325,24 @@
     <jsp:include page="/WEB-INF/view/footer.jsp" />
     
     <script>
-        // Add current date as min date for date picker
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            const year = now.getFullYear();
-            let month = now.getMonth() + 1;
-            let day = now.getDate();
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            
-            // Format with leading zeros
-            month = month < 10 ? '0' + month : month;
-            day = day < 10 ? '0' + day : day;
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            
-            const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-            document.getElementById('dateTime').setAttribute('min', currentDateTime);
+        // Form validation
+        document.getElementById('venue-form').addEventListener('submit', function(event) {
+            const capacity = document.getElementById('capacity').value;
+            if (capacity <= 0) {
+                event.preventDefault();
+                document.getElementById('capacity').setCustomValidity('Capacity must be greater than zero');
+                document.getElementById('capacity').reportValidity();
+            } else {
+                document.getElementById('capacity').setCustomValidity('');
+            }
+        });
+        
+        // Phone number validation
+        document.getElementById('contactNumber').addEventListener('input', function() {
+            const phoneInput = this.value.replace(/\D/g, '');
+            if (phoneInput.length > 0) {
+                this.setCustomValidity('');
+            }
         });
     </script>
 </body>
