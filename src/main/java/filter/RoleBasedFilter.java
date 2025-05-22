@@ -15,6 +15,7 @@ import java.util.List;
 
 @WebFilter(urlPatterns = {"/*"})
 public class RoleBasedFilter implements Filter {
+<<<<<<< HEAD
 
     // Define admin-specific URL patterns
     private static final List<String> ADMIN_PATHS = Arrays.asList(
@@ -55,6 +56,48 @@ public class RoleBasedFilter implements Filter {
             "/DeleteAccountServlet",
             "/index.jsp",
             "/"
+=======
+    
+    // Define admin-specific URL patterns
+    private static final List<String> ADMIN_PATHS = Arrays.asList(
+        "/admin",
+        "/AdminDashboard",
+        "/VenueDashboard",
+        "/EventDashboard",
+        "/admin/add-venue",
+        "/admin/edit-venue",
+        "/admin/delete-venue",
+        "/admin/add-event",
+        "/admin/edit-event",
+        "/admin/delete-event",
+        "/admin/manage-users",
+        "/admin/users",
+        "/admin/profile",
+        "/venue/details",
+        "/venue/edit",
+        "/ManageUsers",
+        "/BatchApproveUsers"
+    );
+    
+    // Define regular user URL patterns
+    private static final List<String> USER_PATHS = Arrays.asList(
+        "/events",
+        "/venues",
+        "/profile",
+        "/UserProfileServlet",
+        "/editprofile",
+        "/resetpassword",
+        "/reset-password",
+        "/ResetPasswordServlet",
+        "/logout",
+        "/LogoutServlet",
+        "/add-event",
+        "/AddEventServlet",
+        "/delete-account",
+        "/DeleteAccountServlet",
+        "/index.jsp",
+        "/"
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     );
 
     @Override
@@ -71,13 +114,21 @@ public class RoleBasedFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
 
         String requestPath = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Skip processing for public resources
         if (isPublicResource(requestPath)) {
             chain.doFilter(request, response);
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Check if user is logged in
         if (session == null || session.getAttribute("user") == null) {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
@@ -87,7 +138,11 @@ public class RoleBasedFilter implements Filter {
         // Get user role
         User user = (User) session.getAttribute("user");
         String userRole = user.getRole();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Check access permissions
         if (isAdminPath(requestPath) && !"ADMIN".equals(userRole)) {
             // Non-admin user trying to access admin paths
@@ -95,7 +150,11 @@ public class RoleBasedFilter implements Filter {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/");
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Allow the request to proceed
         chain.doFilter(request, response);
     }
@@ -104,7 +163,11 @@ public class RoleBasedFilter implements Filter {
     public void destroy() {
         // Cleanup code if needed
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     private boolean isAdminPath(String path) {
         for (String adminPath : ADMIN_PATHS) {
             if (path.equals(adminPath) || path.startsWith(adminPath + "/")) {
@@ -113,7 +176,11 @@ public class RoleBasedFilter implements Filter {
         }
         return false;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     private boolean isUserPath(String path) {
         for (String userPath : USER_PATHS) {
             if (path.equals(userPath) || path.startsWith(userPath + "/")) {
@@ -122,6 +189,7 @@ public class RoleBasedFilter implements Filter {
         }
         return false;
     }
+<<<<<<< HEAD
 
     private boolean isPublicResource(String path) {
         // Public resources that don't require role checking
@@ -134,6 +202,20 @@ public class RoleBasedFilter implements Filter {
                 "/"
         );
 
+=======
+    
+    private boolean isPublicResource(String path) {
+        // Public resources that don't require role checking
+        List<String> publicPaths = Arrays.asList(
+            "/login", "/LoginServlet",
+            "/register", "/RegisterServlet",
+            "/assets", "/css", "/js", "/images",
+            "/search-events", "/search-venues",
+            "/index.jsp",
+            "/"
+        );
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         for (String publicPath : publicPaths) {
             if (path.equals(publicPath) || path.startsWith(publicPath + "/")) {
                 return true;

@@ -353,8 +353,13 @@
                     </div>
                     
                     <div class="form-group">
+<<<<<<< HEAD
                         <label class="form-label" for="date">Date and Time*</label>
                         <input type="datetime-local" class="form-control" id="date" name="date" required>
+=======
+                        <label class="form-label" for="date">Date*</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                     </div>
                     
                     <div class="form-group">
@@ -372,11 +377,14 @@
                         <textarea class="form-control" id="description" name="description" rows="4"></textarea>
                     </div>
                     
+<<<<<<< HEAD
                     <div class="form-group">
                         <label class="form-label" for="manager">Event Manager</label>
                         <input type="text" class="form-control" id="manager" name="manager">
                     </div>
                     
+=======
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="approved" name="approved">
                         <label class="form-check-label" for="approved">Approve Event</label>

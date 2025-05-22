@@ -73,7 +73,11 @@
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/UserProfileServlet</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     <servlet>
         <servlet-name>ResetPasswordServlet</servlet-name>
         <servlet-class>controller.ResetPasswordServlet</servlet-class>
@@ -86,7 +90,11 @@
         <servlet-name>ResetPasswordServlet</servlet-name>
         <url-pattern>/ResetPasswordServlet</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     <servlet>
         <servlet-name>DeleteAccountServlet</servlet-name>
         <servlet-class>controller.DeleteAccountServlet</servlet-class>
@@ -99,6 +107,7 @@
         <servlet-name>DeleteAccountServlet</servlet-name>
         <url-pattern>/DeleteAccountServlet</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
 
     <!-- Admin Dashboard Servlets - Removed since using annotations instead -->
 
@@ -106,23 +115,44 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+=======
+    
+    <!-- Admin Dashboard Servlets - Removed since using annotations instead -->
+    
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     <!-- Filter definitions -->
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
         <filter-class>filter.AuthenticationFilter</filter-class>
     </filter>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     <filter>
         <filter-name>RoleBasedFilter</filter-name>
         <filter-class>filter.RoleBasedFilter</filter-class>
     </filter>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     <!-- Filter ordering - Authentication first, then Role-based -->
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     <filter-mapping>
         <filter-name>RoleBasedFilter</filter-name>
         <url-pattern>/*</url-pattern>

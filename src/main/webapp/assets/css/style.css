@@ -1,7 +1,15 @@
 .main-content {
+<<<<<<< HEAD
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
     padding: 32px 16px;
     box-sizing: border-box;
+=======
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 16px;
+  box-sizing: border-box;
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
 }

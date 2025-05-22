@@ -22,7 +22,11 @@ public class VenueDashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("VenueDashboardServlet doGet method called");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Check if user is logged in
         User user = (User) request.getSession().getAttribute("user");
 
@@ -43,12 +47,20 @@ public class VenueDashboardServlet extends HttpServlet {
 
         // Get search query parameter
         String searchQuery = request.getParameter("q");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Get venues from database based on search query
         System.out.println("Fetching venues from database");
         VenueDAO venueDAO = new VenueDAO();
         List<Venue> allVenues;
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
             // If search query exists, use search functionality
             System.out.println("Searching venues with query: " + searchQuery);
@@ -59,12 +71,20 @@ public class VenueDashboardServlet extends HttpServlet {
             // Otherwise get all venues
             allVenues = venueDAO.getAllVenues();
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         System.out.println("Fetched " + allVenues.size() + " venues");
 
         // Set venues as request attribute
         request.setAttribute("venues", allVenues);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Check for success message in session
         String successMessage = (String) request.getSession().getAttribute("successMessage");
         if (successMessage != null) {
@@ -73,7 +93,11 @@ public class VenueDashboardServlet extends HttpServlet {
             // Remove from session to prevent it from displaying on refresh
             request.getSession().removeAttribute("successMessage");
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Log admin activity
         ActivityLogDAO.logActivity(user.getUserId(), "VIEW", "Viewed venue dashboard");
 
@@ -81,7 +105,11 @@ public class VenueDashboardServlet extends HttpServlet {
         System.out.println("Forwarding to venue_dashboard.jsp");
         request.getRequestDispatcher("/WEB-INF/view/venue_dashboard.jsp").forward(request, response);
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

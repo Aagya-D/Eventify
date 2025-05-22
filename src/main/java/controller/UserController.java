@@ -18,10 +18,17 @@ public class UserController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
+<<<<<<< HEAD
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
 
+=======
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        String pathInfo = request.getPathInfo();
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (pathInfo == null || pathInfo.equals("/")) {
             // Get all users (admin only)
             getAllUsers(request, response);
@@ -42,14 +49,22 @@ public class UserController extends HttpServlet {
     }
 
     @Override
+<<<<<<< HEAD
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
+=======
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             throws ServletException, IOException {
         // Create new user
         createUser(request, response);
     }
 
     @Override
+<<<<<<< HEAD
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
+=======
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) 
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         if (pathInfo != null && pathInfo.length() > 1) {
@@ -65,7 +80,11 @@ public class UserController extends HttpServlet {
     }
 
     @Override
+<<<<<<< HEAD
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+=======
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) 
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         if (pathInfo != null && pathInfo.length() > 1) {
@@ -80,11 +99,19 @@ public class UserController extends HttpServlet {
         }
     }
 
+<<<<<<< HEAD
     private void getAllUsers(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
 
+=======
+    private void getAllUsers(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (currentUser == null || !"ADMIN".equals(currentUser.getRole())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Admin access required");
             return;
@@ -95,11 +122,19 @@ public class UserController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/view/admin/users.jsp").forward(request, response);
     }
 
+<<<<<<< HEAD
     private void getUserById(HttpServletRequest request, HttpServletResponse response, int userId)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
 
+=======
+    private void getUserById(HttpServletRequest request, HttpServletResponse response, int userId) 
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (currentUser == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
@@ -119,7 +154,11 @@ public class UserController extends HttpServlet {
         }
     }
 
+<<<<<<< HEAD
     private void createUser(HttpServletRequest request, HttpServletResponse response)
+=======
+    private void createUser(HttpServletRequest request, HttpServletResponse response) 
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             throws ServletException, IOException {
         try {
             String username = request.getParameter("username");
@@ -147,11 +186,19 @@ public class UserController extends HttpServlet {
         }
     }
 
+<<<<<<< HEAD
     private void updateUser(HttpServletRequest request, HttpServletResponse response, int userId)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
 
+=======
+    private void updateUser(HttpServletRequest request, HttpServletResponse response, int userId) 
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (currentUser == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
@@ -195,11 +242,19 @@ public class UserController extends HttpServlet {
         }
     }
 
+<<<<<<< HEAD
     private void deleteUser(HttpServletRequest request, HttpServletResponse response, int userId)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
 
+=======
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response, int userId) 
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (currentUser == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;

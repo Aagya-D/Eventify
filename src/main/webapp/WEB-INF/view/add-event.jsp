@@ -25,7 +25,11 @@
             flex-direction: column;
             min-height: 100vh;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .main-content {
             flex: 1;
             padding: 40px 20px;
@@ -33,7 +37,11 @@
             margin: 0 auto;
             width: 100%;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Form container */
         .form-container {
             background-color: white;
@@ -42,12 +50,17 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             margin-bottom: 40px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Form header */
         .form-header {
             background: linear-gradient(135deg, #00574b 0%, #007c6c 100%);
             color: white;
             padding: 30px;
+<<<<<<< HEAD
             position: relative;
             text-align: center;
         }
@@ -73,9 +86,40 @@
 
         .form-group {
             margin-bottom: 25px;
+=======
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
+            position: relative;
+            text-align: center;
+        }
+<<<<<<< HEAD
+
+=======
+        
+        .form-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .form-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Form content */
+        .form-content {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
             position: relative;
         }
-
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .form-group label {
             display: block;
             margin-bottom: 8px;
@@ -100,6 +144,21 @@
             border-color: #00574b;
             background-color: white;
             box-shadow: 0 0 0 3px rgba(0, 87, 75, 0.1);
+<<<<<<< HEAD
+=======
+        }
+        
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23495057' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         }
 
         .form-control::placeholder {
@@ -118,16 +177,28 @@
             min-height: 150px;
             resize: vertical;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Icon inputs */
         .input-with-icon {
             position: relative;
         }
+<<<<<<< HEAD
 
         .input-with-icon .form-control {
             padding-left: 45px;
         }
 
+=======
+        
+        .input-with-icon .form-control {
+            padding-left: 45px;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .input-icon {
             position: absolute;
             left: 16px;
@@ -135,7 +206,11 @@
             transform: translateY(-50%);
             color: #6c757d;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Form actions */
         .form-actions {
             display: flex;
@@ -156,6 +231,7 @@
             align-items: center;
             justify-content: center;
             flex: 1;
+<<<<<<< HEAD
         }
 
         .btn i {
@@ -220,6 +296,72 @@
             margin: 0 15px;
         }
 
+=======
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: #00574b;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #004a3f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 87, 75, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: #f1f3f5;
+            color: #495057;
+            text-decoration: none;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        /* Error message */
+        .alert {
+            padding: 16px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .alert-error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border-left: 4px solid #b91c1c;
+        }
+        
+        .alert i {
+            margin-right: 12px;
+            font-size: 22px;
+        }
+        
+        /* Form steps indicator */
+        .form-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #6c757d;
+            margin: 0 15px;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .step-number {
             display: flex;
             align-items: center;
@@ -231,16 +373,28 @@
             margin-right: 10px;
             font-weight: 600;
         }
+<<<<<<< HEAD
 
         .step.active {
             color: #00574b;
         }
 
+=======
+        
+        .step.active {
+            color: #00574b;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .step.active .step-number {
             background-color: #00574b;
             color: white;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Helper text */
         .form-help-text {
             display: block;
@@ -248,12 +402,17 @@
             color: #6c757d;
             margin-top: 5px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Responsive */
         @media (max-width: 768px) {
             .main-content {
                 padding: 20px 15px;
             }
+<<<<<<< HEAD
 
             .form-header {
                 padding: 25px 20px;
@@ -271,6 +430,25 @@
                 flex-direction: column-reverse;
             }
 
+=======
+            
+            .form-header {
+                padding: 25px 20px;
+            }
+            
+            .form-title {
+                font-size: 24px;
+            }
+            
+            .form-content {
+                padding: 25px 20px;
+            }
+            
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .btn {
                 width: 100%;
             }
@@ -278,6 +456,7 @@
     </style>
 </head>
 <body>
+<<<<<<< HEAD
 <jsp:include page="/WEB-INF/view/navbar.jsp" />
 
 <div class="main-content">
@@ -403,5 +582,122 @@
         document.getElementById('dateTime').setAttribute('min', currentDateTime);
     });
 </script>
+=======
+    <jsp:include page="/WEB-INF/view/navbar.jsp" />
+    
+    <div class="main-content">
+        <% 
+            // Display error message if available
+            String error = (String) request.getAttribute("error");
+            if (error != null) {
+        %>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+        <% } %>
+        
+        <div class="form-container">
+            <div class="form-header">
+                <h1 class="form-title">Add New Event</h1>
+                <p class="form-subtitle">Create an amazing event and invite people to join you</p>
+            </div>
+            
+            <div class="form-content">
+                <div class="form-steps">
+                    <div class="step active">
+
+                        <span>Event Details</span>
+                    </div>
+
+                </div>
+                
+                <form action="${pageContext.request.contextPath}/add-event" method="post" id="event-form">
+                    <div class="form-group">
+                        <label for="name">Event Name</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-calendar-alt input-icon"></i>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter event name" required>
+                        </div>
+                        <span class="form-help-text">Choose a catchy name that describes your event</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dateTime">Date </label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-clock input-icon"></i>
+                            <input type="datetime-local" id="dateTime" name="dateTime" class="form-control" required>
+                        </div>
+                        <span class="form-help-text">When will your event take place?</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="venue">Venue</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-map-marker-alt input-icon"></i>
+                            <select id="venue" name="venue" class="form-control" required>
+                                <option value="">-- Select Venue --</option>
+                                <% 
+                                List<Venue> venues = (List<Venue>) request.getAttribute("venues");
+                                if (venues != null && !venues.isEmpty()) {
+                                    for (Venue venue : venues) {
+                                %>
+                                <option value="<%= venue.getId() %>"><%= venue.getName() %> - <%= venue.getCity() %></option>
+                                <% 
+                                    }
+                                } else {
+                                %>
+                                <option value="" disabled>No venues available</option>
+                                <% 
+                                }
+                                %>
+                            </select>
+                        </div>
+                        <span class="form-help-text">Where will your event be held?</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" class="form-control" placeholder="Describe your event in detail..." required></textarea>
+                        <span class="form-help-text">Provide details about what attendees can expect</span>
+                    </div>
+                    
+
+                    
+                    <div class="form-actions">
+                        <a href="${pageContext.request.contextPath}/events" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus-circle"></i> Create Event
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <jsp:include page="/WEB-INF/view/footer.jsp" />
+    
+    <script>
+        // Add current date as min date for date picker
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const year = now.getFullYear();
+            let month = now.getMonth() + 1;
+            let day = now.getDate();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            
+            // Format with leading zeros
+            month = month < 10 ? '0' + month : month;
+            day = day < 10 ? '0' + day : day;
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            document.getElementById('dateTime').setAttribute('min', currentDateTime);
+        });
+    </script>
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
 </body>
 </html> 

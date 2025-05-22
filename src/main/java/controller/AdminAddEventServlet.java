@@ -29,12 +29,20 @@ public class AdminAddEventServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Get venues for dropdown
         VenueDAO venueDAO = new VenueDAO();
         List<Venue> venues = venueDAO.getAllVenues();
         request.setAttribute("venues", venues);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Forward to the admin add event form
         request.getRequestDispatcher("/WEB-INF/view/admin/add_event.jsp").forward(request, response);
     }
@@ -42,7 +50,11 @@ public class AdminAddEventServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("AdminAddEventServlet: Processing POST request");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Check if user is logged in and is an admin
         User user = (User) request.getSession().getAttribute("user");
         if (user == null || !"ADMIN".equals(user.getRole())) {
@@ -50,7 +62,11 @@ public class AdminAddEventServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Get form parameters
         String name = request.getParameter("name");
         String dateStr = request.getParameter("date");
@@ -58,6 +74,7 @@ public class AdminAddEventServlet extends HttpServlet {
         String description = request.getParameter("description");
         String manager = request.getParameter("manager");
         boolean approved = request.getParameter("approved") != null;
+<<<<<<< HEAD
 
         System.out.println("AdminAddEventServlet: Received form data - Name: " + name +
                 ", Date: " + dateStr + ", Venue: " + venueName +
@@ -73,15 +90,37 @@ public class AdminAddEventServlet extends HttpServlet {
             // Set error message
             request.setAttribute("errorMessage", "Please fill in all required fields");
 
+=======
+        
+        System.out.println("AdminAddEventServlet: Received form data - Name: " + name + 
+                          ", Date: " + dateStr + ", Venue: " + venueName + 
+                          ", Manager: " + manager + ", Approved: " + approved);
+        
+        // Validation
+        if (name == null || name.trim().isEmpty() || 
+            dateStr == null || dateStr.trim().isEmpty() || 
+            venueName == null || venueName.trim().isEmpty()) {
+            
+            System.out.println("AdminAddEventServlet: Validation failed - missing required fields");
+            
+            // Set error message
+            request.setAttribute("errorMessage", "Please fill in all required fields");
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Repopulate the venue dropdown
             VenueDAO venueDAO = new VenueDAO();
             List<Venue> venues = venueDAO.getAllVenues();
             request.setAttribute("venues", venues);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Forward back to the form
             request.getRequestDispatcher("/WEB-INF/view/admin/add_event.jsp").forward(request, response);
             return;
         }
+<<<<<<< HEAD
 
         try {
             // Parse date
@@ -90,11 +129,25 @@ public class AdminAddEventServlet extends HttpServlet {
             Date dateTime = dateFormat.parse(dateStr);
             System.out.println("AdminAddEventServlet: Parsed date as: " + dateTime);
 
+=======
+        
+        try {
+            // Parse date
+            System.out.println("AdminAddEventServlet: Parsing date: " + dateStr);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateTime = dateFormat.parse(dateStr);
+            System.out.println("AdminAddEventServlet: Parsed date as: " + dateTime);
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Calculate days until event
             long diffInMillies = dateTime.getTime() - new Date().getTime();
             int daysUntilEvent = (int) (diffInMillies / (1000 * 60 * 60 * 24));
             System.out.println("AdminAddEventServlet: Days until event: " + daysUntilEvent);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Create new event
             Event event = new Event();
             event.setName(name);
@@ -105,32 +158,55 @@ public class AdminAddEventServlet extends HttpServlet {
             event.setManager(manager);
             event.setApproved(approved);
             event.setAttendees(0); // Default to 0 attendees
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Save to database
             System.out.println("AdminAddEventServlet: Attempting to save event to database");
             EventDAO eventDAO = new EventDAO();
             boolean success = eventDAO.addEvent(event);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             if (success) {
                 System.out.println("AdminAddEventServlet: Event created successfully");
                 // Log admin activity
                 ActivityLogDAO.logActivity(user.getUserId(), "CREATE", "Created new event: " + name);
+<<<<<<< HEAD
 
                 // Set success message in session for redirect
                 request.getSession().setAttribute("successMessage", "Event created successfully!");
 
+=======
+                
+                // Set success message in session for redirect
+                request.getSession().setAttribute("successMessage", "Event created successfully!");
+                
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                 // Redirect to event dashboard
                 response.sendRedirect(request.getContextPath() + "/EventDashboard");
             } else {
                 System.err.println("AdminAddEventServlet: Failed to create event");
                 // Set error message
                 request.setAttribute("errorMessage", "Failed to create event. Please check database connection.");
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                 // Repopulate the venue dropdown
                 VenueDAO venueDAO = new VenueDAO();
                 List<Venue> venues = venueDAO.getAllVenues();
                 request.setAttribute("venues", venues);
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                 // Forward back to the form
                 request.getRequestDispatcher("/WEB-INF/view/admin/add_event.jsp").forward(request, response);
             }
@@ -138,14 +214,26 @@ public class AdminAddEventServlet extends HttpServlet {
             System.err.println("AdminAddEventServlet: Date parsing error: " + e.getMessage());
             // Set error message
             request.setAttribute("errorMessage", "Invalid date format. Please try again.");
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Repopulate the venue dropdown
             VenueDAO venueDAO = new VenueDAO();
             List<Venue> venues = venueDAO.getAllVenues();
             request.setAttribute("venues", venues);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Forward back to the form
             request.getRequestDispatcher("/WEB-INF/view/admin/add_event.jsp").forward(request, response);
         }
     }
+<<<<<<< HEAD
 }
+=======
+} 
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc

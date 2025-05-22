@@ -39,11 +39,19 @@ public class EventDashboardServlet extends HttpServlet {
 
         // Get search query parameter
         String searchQuery = request.getParameter("q");
+<<<<<<< HEAD
 
         // Get events from database based on search query
         EventDAO eventDAO = new EventDAO();
         List<Event> allEvents;
 
+=======
+        
+        // Get events from database based on search query
+        EventDAO eventDAO = new EventDAO();
+        List<Event> allEvents;
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
             // If search query exists, use search functionality
             System.out.println("Searching events with query: " + searchQuery);
@@ -57,14 +65,22 @@ public class EventDashboardServlet extends HttpServlet {
 
         // Set events as request attribute
         request.setAttribute("events", allEvents);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Log admin activity
         ActivityLogDAO.logActivity(user.getUserId(), "VIEW", "Viewed event dashboard");
 
         // Forward the request to the event dashboard JSP page
         request.getRequestDispatcher("/WEB-INF/view/event_dashboard.jsp").forward(request, response);
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

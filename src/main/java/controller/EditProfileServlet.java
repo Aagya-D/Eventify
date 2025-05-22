@@ -19,13 +19,21 @@ public class EditProfileServlet extends HttpServlet {
         // Check if user is logged in
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (user == null) {
             // User not logged in, redirect to login
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Forward to edit profile JSP
         request.getRequestDispatcher("/WEB-INF/view/editprofile.jsp").forward(request, response);
     }
@@ -35,36 +43,57 @@ public class EditProfileServlet extends HttpServlet {
         // Get session and user
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (user == null) {
             // User not logged in, redirect to login
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Get form parameters
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Validate required fields
         if (username == null || username.trim().isEmpty()) {
             request.setAttribute("error", "Username is required");
             request.getRequestDispatcher("/WEB-INF/view/editprofile.jsp").forward(request, response);
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (email == null || email.trim().isEmpty() || !email.contains("@")) {
             request.setAttribute("error", "Valid email is required");
             request.getRequestDispatcher("/WEB-INF/view/editprofile.jsp").forward(request, response);
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         try {
             // Update user fields
             user.setUserName(username);
             user.setEmail(email);
             user.setPhone(phone); // Phone is optional
+<<<<<<< HEAD
 
             // Update user in database
             boolean success = UserDAO.updateUser(user);
@@ -73,6 +102,16 @@ public class EditProfileServlet extends HttpServlet {
                 // Update user in session
                 session.setAttribute("user", user);
 
+=======
+            
+            // Update user in database
+            boolean success = UserDAO.updateUser(user);
+            
+            if (success) {
+                // Update user in session
+                session.setAttribute("user", user);
+                
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                 // Set success message and redirect to profile
                 session.setAttribute("successMessage", "Profile updated successfully");
                 response.sendRedirect(request.getContextPath() + "/profile");
@@ -85,4 +124,8 @@ public class EditProfileServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/view/editprofile.jsp").forward(request, response);
         }
     }
+<<<<<<< HEAD
 }
+=======
+} 
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc

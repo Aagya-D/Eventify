@@ -29,7 +29,11 @@
             padding: 0;
             box-sizing: border-box;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         body {
             background-color: #f4f7fa;
             font-family: 'Inter', sans-serif;
@@ -39,7 +43,11 @@
             flex-direction: column;
             min-height: 100vh;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .main-content {
             flex: 1;
             padding: 40px 20px;
@@ -47,7 +55,11 @@
             margin: 0 auto;
             width: 100%;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Profile Layout */
         .profile-container {
             display: flex;
@@ -55,16 +67,28 @@
             max-width: 1000px;
             margin: 0 auto;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-sidebar {
             width: 300px;
             flex-shrink: 0;
         }
+<<<<<<< HEAD
 
         .profile-main {
             flex: 1;
         }
 
+=======
+        
+        .profile-main {
+            flex: 1;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Profile Card */
         .profile-card {
             background: white;
@@ -73,7 +97,11 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             margin-bottom: 25px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Profile Header */
         .profile-avatar-section {
             background: linear-gradient(135deg, #00574b 0%, #007c6c 100%);
@@ -82,7 +110,11 @@
             color: white;
             position: relative;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .avatar {
             width: 100px;
             height: 100px;
@@ -99,20 +131,32 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             font-family: 'Montserrat', sans-serif;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-name {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 5px;
             font-family: 'Montserrat', sans-serif;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-username {
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 10px;
             font-size: 15px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-role {
             display: inline-block;
             padding: 4px 12px;
@@ -120,24 +164,40 @@
             font-size: 13px;
             font-weight: 500;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* For regular user role */
         .role-user {
             background-color: #e8f5e9;
             color: #2e7d32;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* For admin role */
         .role-admin {
             background-color: #e3f2fd;
             color: #1565c0;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Navigation Menu */
         .profile-nav {
             padding: 20px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .nav-item {
             display: flex;
             align-items: center;
@@ -148,17 +208,29 @@
             text-decoration: none;
             transition: all 0.3s ease;
         }
+<<<<<<< HEAD
 
         .nav-item:hover {
             background: #f5f7fa;
         }
 
+=======
+        
+        .nav-item:hover {
+            background: #f5f7fa;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .nav-item.active {
             background: #f0f9f7;
             color: #00574b;
             font-weight: 500;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .nav-item i {
             margin-right: 10px;
             width: 20px;
@@ -166,7 +238,11 @@
             font-size: 16px;
             color: #00574b;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Information Card */
         .info-card {
             background: white;
@@ -174,12 +250,20 @@
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-header {
             padding: 20px 30px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-title {
             font-size: 20px;
             font-weight: 600;
@@ -188,16 +272,28 @@
             font-family: 'Montserrat', sans-serif;
             color: #00574b;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-title i {
             margin-right: 10px;
             font-size: 18px;
         }
+<<<<<<< HEAD
 
         .info-content {
             padding: 30px;
         }
 
+=======
+        
+        .info-content {
+            padding: 30px;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Alert Messages */
         .alert {
             padding: 15px;
@@ -206,30 +302,50 @@
             display: flex;
             align-items: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert-error {
             background-color: #ffebee;
             color: #c62828;
             border-left: 4px solid #c62828;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert-success {
             background-color: #e8f5e9;
             color: #2e7d32;
             border-left: 4px solid #2e7d32;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert i {
             margin-right: 10px;
             font-size: 18px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Form Styles */
         .form-group {
             margin-bottom: 25px;
             position: relative;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .form-label {
             display: block;
             margin-bottom: 8px;
@@ -237,11 +353,19 @@
             color: #495057;
             font-size: 15px;
         }
+<<<<<<< HEAD
 
         .form-field {
             position: relative;
         }
 
+=======
+        
+        .form-field {
+            position: relative;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .form-field i {
             position: absolute;
             left: 14px;
@@ -249,7 +373,11 @@
             transform: translateY(-50%);
             color: #6c757d;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .form-control {
             width: 100%;
             padding: 12px 14px 12px 40px;
@@ -261,24 +389,40 @@
             color: #495057;
             font-family: 'Inter', sans-serif;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .form-control:focus {
             outline: none;
             border-color: #00574b;
             background-color: white;
             box-shadow: 0 0 0 3px rgba(0, 87, 75, 0.1);
         }
+<<<<<<< HEAD
 
         .form-control::placeholder {
             color: #adb5bd;
         }
 
+=======
+        
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .form-help {
             margin-top: 5px;
             font-size: 13px;
             color: #6c757d;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Password strength indicator */
         .password-strength {
             height: 5px;
@@ -286,36 +430,60 @@
             margin-top: 8px;
             overflow: hidden;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .password-strength-meter {
             height: 100%;
             width: 0%;
             background: #e9ecef;
             transition: width 0.3s, background 0.3s;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .weak {
             background: #f44336;
             width: 33%;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .medium {
             background: #ff9800;
             width: 66%;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .strong {
             background: #4caf50;
             width: 100%;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Button styles */
         .action-buttons {
             display: flex;
             gap: 15px;
             margin-top: 30px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn {
             display: inline-flex;
             align-items: center;
@@ -329,34 +497,58 @@
             cursor: pointer;
             font-size: 15px;
         }
+<<<<<<< HEAD
 
         .btn i {
             margin-right: 10px;
         }
 
+=======
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-primary {
             background: #00574b;
             color: white;
             box-shadow: 0 4px 10px rgba(0, 87, 75, 0.2);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-primary:hover {
             background: #004a3f;
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(0, 87, 75, 0.3);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-outline {
             border: 2px solid #00574b;
             color: #00574b;
             background: transparent;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-outline:hover {
             background: rgba(0, 87, 75, 0.05);
             transform: translateY(-2px);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Toggle Password Visibility */
         .password-toggle {
             position: absolute;
@@ -367,23 +559,39 @@
             cursor: pointer;
             font-size: 14px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Responsive Design */
         @media (max-width: 900px) {
             .profile-container {
                 flex-direction: column;
             }
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .profile-sidebar {
                 width: 100%;
             }
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         @media (max-width: 768px) {
             .action-buttons {
                 flex-direction: column;
             }
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .btn {
                 width: 100%;
             }
@@ -391,6 +599,7 @@
     </style>
 </head>
 <body>
+<<<<<<< HEAD
 <jsp:include page="/WEB-INF/view/navbar.jsp" />
 
 <div class="main-content">
@@ -589,5 +798,205 @@
         }
     }
 </script>
+=======
+    <jsp:include page="/WEB-INF/view/navbar.jsp" />
+    
+    <div class="main-content">
+        <div class="profile-container">
+            <!-- Left Sidebar -->
+            <div class="profile-sidebar">
+                <div class="profile-card">
+                    <div class="profile-avatar-section">
+                        <div class="avatar">
+                            <%= initials %>
+                        </div>
+                        <h2 class="profile-name"><%= user.getUserName() %></h2>
+                        <p class="profile-username">@<%= user.getUserName() %></p>
+                        <span class="profile-role <%= "ADMIN".equals(user.getRole()) ? "role-admin" : "role-user" %>"><%= user.getRole() %></span>
+                    </div>
+                    
+                    <div class="profile-nav">
+                        <a href="${pageContext.request.contextPath}/" class="nav-item">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                        <a href="${pageContext.request.contextPath}/events" class="nav-item">
+                            <i class="fas fa-calendar-alt"></i> My Events
+                        </a>
+                        <a href="${pageContext.request.contextPath}/profile" class="nav-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="${pageContext.request.contextPath}/resetpassword" class="nav-item active">
+                            <i class="fas fa-key"></i> Change Password
+                        </a>
+                        <% if ("ADMIN".equals(user.getRole())) { %>
+                            <a href="${pageContext.request.contextPath}/AdminDashboard" class="nav-item">
+                                <i class="fas fa-th-large"></i> Dashboard
+                            </a>
+                            <a href="${pageContext.request.contextPath}/EventDashboard" class="nav-item">
+                                <i class="fas fa-calendar-check"></i> Manage Events
+                            </a>
+                            <a href="${pageContext.request.contextPath}/VenueDashboard" class="nav-item">
+                                <i class="fas fa-map-marker-alt"></i> Manage Venues
+                            </a>
+                        <% } %>
+                        <a href="${pageContext.request.contextPath}/logout" class="nav-item">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="profile-main">
+                <div class="info-card">
+                    <div class="info-header">
+                        <h3 class="info-title">
+                            <i class="fas fa-key"></i> Change Password
+                        </h3>
+                    </div>
+                    
+                    <div class="info-content">
+                        <% 
+                            // Display error message if available
+                            String error = (String) request.getAttribute("error");
+                            if (error != null) {
+                        %>
+                            <div class="alert alert-error">
+                                <i class="fas fa-exclamation-circle"></i> <%= error %>
+                            </div>
+                        <% } %>
+                        
+                        <form action="${pageContext.request.contextPath}/resetpassword" method="post" id="passwordForm">
+                            <div class="form-group">
+                                <label for="currentPassword" class="form-label">Current Password</label>
+                                <div class="form-field">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="currentPassword" name="currentPassword" class="form-control" required>
+                                    <span class="password-toggle" onclick="togglePasswordVisibility('currentPassword')">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                <p class="form-help">Enter your current password for verification</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="newPassword" class="form-label">New Password</label>
+                                <div class="form-field">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="newPassword" name="newPassword" class="form-control" required onkeyup="checkPasswordStrength()">
+                                    <span class="password-toggle" onclick="togglePasswordVisibility('newPassword')">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="password-strength-meter" id="password-strength-meter"></div>
+                                </div>
+                                <p class="form-help">Use at least 6 characters including letters, numbers, and symbols</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                <div class="form-field">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required onkeyup="checkPasswordMatch()">
+                                    <span class="password-toggle" onclick="togglePasswordVisibility('confirmPassword')">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                <p class="form-help" id="password-match-status">Re-enter your new password to confirm</p>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Update Password
+                                </button>
+                                <a href="${pageContext.request.contextPath}/profile" class="btn btn-outline">
+                                    <i class="fas fa-times"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <jsp:include page="/WEB-INF/view/footer.jsp" />
+    
+    <script>
+        // Toggle password visibility
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const icon = passwordInput.nextElementSibling.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        // Check password strength
+        function checkPasswordStrength() {
+            const password = document.getElementById('newPassword').value;
+            const meter = document.getElementById('password-strength-meter');
+            
+            // Reset meter
+            meter.className = '';
+            
+            // Check password strength
+            if (password.length === 0) {
+                meter.style.width = '0%';
+                return;
+            }
+            
+            // Simple strength check
+            let strength = 0;
+            
+            // Length check
+            if (password.length >= 6) strength += 1;
+            
+            // Character type checks
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[a-z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+            
+            // Set meter class based on strength
+            if (strength <= 2) {
+                meter.classList.add('weak');
+            } else if (strength <= 4) {
+                meter.classList.add('medium');
+            } else {
+                meter.classList.add('strong');
+            }
+        }
+        
+        // Check if passwords match
+        function checkPasswordMatch() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const statusElement = document.getElementById('password-match-status');
+            
+            if (confirmPassword.length === 0) {
+                statusElement.textContent = 'Re-enter your new password to confirm';
+                statusElement.style.color = '#6c757d';
+                return;
+            }
+            
+            if (newPassword === confirmPassword) {
+                statusElement.textContent = 'Passwords match';
+                statusElement.style.color = '#2e7d32';
+            } else {
+                statusElement.textContent = 'Passwords do not match';
+                statusElement.style.color = '#c62828';
+            }
+        }
+    </script>
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
 </body>
 </html>

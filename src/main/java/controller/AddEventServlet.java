@@ -24,7 +24,11 @@ public class AddEventServlet extends HttpServlet {
         VenueDAO venueDAO = new VenueDAO();
         List<Venue> venues = venueDAO.getAllVenues();
         request.setAttribute("venues", venues);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Forward to the add event form
         request.getRequestDispatcher("/WEB-INF/view/add-event.jsp").forward(request, response);
     }
@@ -37,11 +41,16 @@ public class AddEventServlet extends HttpServlet {
         String venueIdStr = request.getParameter("venue");
         String description = request.getParameter("description");
         String manager = request.getParameter("manager");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Get venues for dropdown (in case we need to return to the form)
         VenueDAO venueDAO = new VenueDAO();
         List<Venue> venues = venueDAO.getAllVenues();
         request.setAttribute("venues", venues);
+<<<<<<< HEAD
 
         // Validate required fields
         if (name == null || name.trim().isEmpty() ||
@@ -50,30 +59,56 @@ public class AddEventServlet extends HttpServlet {
                 description == null || description.trim().isEmpty() ||
                 manager == null || manager.trim().isEmpty()) {
 
+=======
+        
+        // Validate required fields
+        if (name == null || name.trim().isEmpty() || 
+            dateTimeStr == null || dateTimeStr.trim().isEmpty() ||
+            venueIdStr == null || venueIdStr.trim().isEmpty() ||
+            description == null || description.trim().isEmpty() ||
+            manager == null || manager.trim().isEmpty()) {
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             request.setAttribute("error", "All fields are required");
             request.getRequestDispatcher("/WEB-INF/view/add-event.jsp").forward(request, response);
             return;
         }
-
+        
         try {
             // Parse date
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
             Date dateTime = dateFormat.parse(dateTimeStr);
+<<<<<<< HEAD
 
             // Get venue by ID
             int venueId = Integer.parseInt(venueIdStr);
             Venue venue = venueDAO.getVenueById(venueId);
 
+=======
+            
+            // Get venue by ID
+            int venueId = Integer.parseInt(venueIdStr);
+            Venue venue = venueDAO.getVenueById(venueId);
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             if (venue == null) {
                 request.setAttribute("error", "Invalid venue selected");
                 request.getRequestDispatcher("/WEB-INF/view/add-event.jsp").forward(request, response);
                 return;
             }
+<<<<<<< HEAD
 
             // Calculate days until event
             long diffInMillies = dateTime.getTime() - new Date().getTime();
             int daysUntilEvent = (int) (diffInMillies / (1000 * 60 * 60 * 24));
 
+=======
+            
+            // Calculate days until event
+            long diffInMillies = dateTime.getTime() - new Date().getTime();
+            int daysUntilEvent = (int) (diffInMillies / (1000 * 60 * 60 * 24));
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Create new event
             Event event = new Event();
             event.setName(name);
@@ -84,11 +119,15 @@ public class AddEventServlet extends HttpServlet {
             event.setManager(manager);
             event.setApproved(false); // Default to not approved
             event.setAttendees(0); // Default to 0 attendees
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Save to database
             EventDAO eventDAO = new EventDAO();
             boolean success = eventDAO.addEvent(event);
-
+            
             if (success) {
                 // Redirect to events page with success message
                 response.sendRedirect(request.getContextPath() + "/events");
@@ -107,4 +146,4 @@ public class AddEventServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/view/add-event.jsp").forward(request, response);
         }
     }
-}
+} 

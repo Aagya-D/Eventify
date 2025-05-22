@@ -27,7 +27,11 @@
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM dd, yyyy");
         createdAtString = sdf.format(user.getCreatedAt());
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     // Get user count
     int userCount = (Integer) request.getAttribute("userCount");
 %>
@@ -52,30 +56,50 @@
             display: flex;
             flex-direction: column;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Main Container */
         .main-container {
             padding: 30px 20px;
             flex: 1;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-page {
             max-width: 1000px;
             margin: 0 auto;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-grid {
             display: grid;
             grid-template-columns: 280px 1fr;
             gap: 20px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         @media (max-width: 768px) {
             .profile-grid {
                 grid-template-columns: 1fr;
             }
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .page-title {
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
@@ -86,7 +110,11 @@
             align-items: center;
             justify-content: space-between;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .back-link {
             font-size: 14px;
             color: #666;
@@ -99,12 +127,20 @@
             border: 1px solid #eaeaea;
             transition: all 0.2s;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .back-link:hover {
             background-color: #f5f5f5;
             color: #006158;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Profile Sidebar */
         .profile-sidebar {
             background-color: white;
@@ -112,13 +148,21 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-header {
             text-align: center;
             padding: 20px;
             border-bottom: 1px solid #eaeaea;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .avatar {
             width: 80px;
             height: 80px;
@@ -133,20 +177,32 @@
             font-weight: 600;
             font-family: 'Montserrat', sans-serif;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-name {
             font-weight: 600;
             font-size: 16px;
             color: #333;
             margin-bottom: 4px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-username {
             color: #666;
             font-size: 14px;
             margin-bottom: 8px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-role {
             display: inline-block;
             padding: 3px 10px;
@@ -157,14 +213,22 @@
             font-weight: 500;
             text-transform: uppercase;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .profile-actions {
             display: flex;
             flex-direction: column;
             gap: 8px;
             padding: 15px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn {
             padding: 8px 12px;
             font-size: 14px;
@@ -179,42 +243,70 @@
             text-decoration: none;
             transition: all 0.2s;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-primary {
             background: #006158;
             color: white;
             border: none;
         }
+<<<<<<< HEAD
 
         .btn-primary:hover {
             background: #004d46;
         }
 
+=======
+        
+        .btn-primary:hover {
+            background: #004d46;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-secondary {
             background: #f5f5f5;
             color: #333;
             border: 1px solid #ddd;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-secondary:hover {
             background: #e9e9e9;
             border-color: #ccc;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Profile Content */
         .profile-content {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-card {
             background: white;
             border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-header {
             padding: 12px 15px;
             border-bottom: 1px solid #eaeaea;
@@ -222,23 +314,39 @@
             align-items: center;
             gap: 8px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-title {
             font-weight: 600;
             font-size: 16px;
             color: #333;
             margin: 0;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-icon {
             color: #006158;
             font-size: 14px;
         }
+<<<<<<< HEAD
 
         .info-body {
             padding: 15px;
         }
 
+=======
+        
+        .info-body {
+            padding: 15px;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-group {
             display: grid;
             grid-template-columns: 1fr 2fr;
@@ -246,22 +354,38 @@
             margin-bottom: 12px;
             align-items: center;
         }
+<<<<<<< HEAD
 
         .info-group:last-child {
             margin-bottom: 0;
         }
 
+=======
+        
+        .info-group:last-child {
+            margin-bottom: 0;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-label {
             font-size: 14px;
             color: #666;
             font-weight: 500;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .info-value {
             font-size: 14px;
             color: #333;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert {
             padding: 12px 15px;
             border-radius: 4px;
@@ -270,26 +394,42 @@
             align-items: center;
             gap: 10px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert-success {
             background-color: #e8f5e9;
             color: #2e7d32;
             border-left: 3px solid #4caf50;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert-error {
             background-color: #ffebee;
             color: #c62828;
             border-left: 3px solid #ef5350;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Admin Stats */
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 15px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .stat-card {
             background: white;
             border-radius: 8px;
@@ -297,49 +437,85 @@
             border: 1px solid #eaeaea;
             text-align: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .stat-icon {
             font-size: 20px;
             color: #006158;
             margin-bottom: 8px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .stat-value {
             font-size: 22px;
             font-weight: 600;
             color: #333;
             margin-bottom: 2px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .stat-label {
             font-size: 13px;
             color: #666;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         @media (max-width: 768px) {
             .main-container {
                 padding: 20px 15px;
             }
+<<<<<<< HEAD
 
             .profile-header {
                 padding: 15px;
             }
 
+=======
+            
+            .profile-header {
+                padding: 15px;
+            }
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .avatar {
                 width: 70px;
                 height: 70px;
                 font-size: 24px;
             }
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .info-group {
                 grid-template-columns: 1fr;
                 gap: 5px;
             }
+<<<<<<< HEAD
 
             .info-label {
                 font-weight: 600;
             }
 
+=======
+            
+            .info-label {
+                font-weight: 600;
+            }
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .stats-container {
                 grid-template-columns: 1fr 1fr;
             }
@@ -414,7 +590,11 @@
                                 <div class="stat-value"><%= userCount %></div>
                                 <div class="stat-label">Total Users</div>
                             </div>
+<<<<<<< HEAD
 
+=======
+                            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                             <div class="stat-card">
                                 <div class="stat-icon">
                                     <i class="fas fa-calendar-alt"></i>
@@ -422,7 +602,11 @@
                                 <div class="stat-value"><%= request.getAttribute("eventCount") %></div>
                                 <div class="stat-label">Events</div>
                             </div>
+<<<<<<< HEAD
 
+=======
+                            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                             <div class="stat-card">
                                 <div class="stat-icon">
                                     <i class="fas fa-map-marker-alt"></i>

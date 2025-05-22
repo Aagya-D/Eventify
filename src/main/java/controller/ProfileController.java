@@ -17,11 +17,19 @@ public class ProfileController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
+<<<<<<< HEAD
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
 
+=======
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (currentUser == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -40,11 +48,19 @@ public class ProfileController extends HttpServlet {
     }
 
     @Override
+<<<<<<< HEAD
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
 
+=======
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (currentUser == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -60,14 +76,22 @@ public class ProfileController extends HttpServlet {
         }
     }
 
+<<<<<<< HEAD
     private void updateProfile(HttpServletRequest request, HttpServletResponse response, User currentUser, HttpSession session)
+=======
+    private void updateProfile(HttpServletRequest request, HttpServletResponse response, User currentUser, HttpSession session) 
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             throws ServletException, IOException {
         try {
             String username = request.getParameter("username");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
             String fullName = request.getParameter("fullName");
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Update user object
             if (username != null && !username.equals(currentUser.getUserName())) {
                 currentUser.setUserName(username);
@@ -91,7 +115,11 @@ public class ProfileController extends HttpServlet {
 
             // Update in database
             boolean success = UserDAO.updateUserByAdmin(currentUser);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             if (success) {
                 // Update session
                 session.setAttribute("user", currentUser);
@@ -107,10 +135,17 @@ public class ProfileController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/view/userprofile.jsp").forward(request, response);
     }
 
+<<<<<<< HEAD
     private void deleteProfile(HttpServletRequest request, HttpServletResponse response, User currentUser)
             throws ServletException, IOException {
         String password = request.getParameter("password");
 
+=======
+    private void deleteProfile(HttpServletRequest request, HttpServletResponse response, User currentUser) 
+            throws ServletException, IOException {
+        String password = request.getParameter("password");
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         if (password == null || password.isEmpty()) {
             request.setAttribute("error", "Password is required for account deletion");
             request.getRequestDispatcher("/WEB-INF/view/userprofile.jsp").forward(request, response);

@@ -27,7 +27,11 @@ public class LoginServlet extends HttpServlet {
                             HttpSession session = request.getSession();
                             session.setAttribute("user", user);
                             session.setAttribute("loggedIn", true);
+<<<<<<< HEAD
 
+=======
+                            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                             // Check if user is an admin and redirect accordingly
                             if ("ADMIN".equals(user.getRole())) {
                                 response.sendRedirect(request.getContextPath() + "/AdminDashboard");

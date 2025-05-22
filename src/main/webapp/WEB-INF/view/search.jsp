@@ -155,6 +155,7 @@
     </style>
 </head>
 <body>
+<<<<<<< HEAD
 <jsp:include page="/WEB-INF/view/navbar.jsp" />
 
 <main>
@@ -293,3 +294,143 @@
 </script>
 </body>
 </html>
+=======
+    <jsp:include page="/WEB-INF/view/navbar.jsp" />
+
+    <main>
+        <div class="container">
+            <section class="search-section">
+                <div class="search-header">
+                    <h1>Search</h1>
+                    <p>Find events, venues, and more.</p>
+                </div>
+                <div class="search-content">
+                    <h2>Start Your Search</h2>
+                    <p>Enter keywords to find what you're looking for.</p>
+                    
+                    <form action="${pageContext.request.contextPath}/search" method="get">
+                        <div class="search-form">
+                            <input type="text" class="search-input" placeholder="Search..." name="query" value="${searchQuery}">
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                        
+                        <div class="search-tabs">
+                            <label class="search-tab ${searchType == 'all' ? 'active' : ''}">
+                                <input type="radio" name="type" value="all" ${searchType == 'all' ? 'checked' : ''} style="display:none;">
+                                All
+                            </label>
+                            <label class="search-tab ${searchType == 'events' ? 'active' : ''}">
+                                <input type="radio" name="type" value="events" ${searchType == 'events' ? 'checked' : ''} style="display:none;">
+                                Events
+                            </label>
+                            <label class="search-tab ${searchType == 'venues' ? 'active' : ''}">
+                                <input type="radio" name="type" value="venues" ${searchType == 'venues' ? 'checked' : ''} style="display:none;">
+                                Venues
+                            </label>
+                        </div>
+                    </form>
+                    
+                    <c:if test="${not empty searchQuery}">
+                        <div class="search-results">
+                            <h3>Search Results for "${searchQuery}"</h3>
+                            
+                            <c:if test="${not empty totalResults}">
+                                <p class="result-count">Found ${totalResults} result(s)</p>
+                            </c:if>
+                            
+                            <c:if test="${empty events and empty venues}">
+                                <div class="no-results">
+                                    <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px;"></i>
+                                    <p>No results found for "${searchQuery}"</p>
+                                    <p>Try using different keywords or filters.</p>
+                                </div>
+                            </c:if>
+                            
+                            <!-- Display event results -->
+                            <c:if test="${not empty events and (searchType == 'all' or searchType == 'events')}">
+                                <c:forEach var="event" items="${events}">
+                                    <div class="result-item">
+                                        <div class="result-image">
+                                            <i class="fas fa-calendar-alt result-icon"></i>
+                                        </div>
+                                        <div class="result-details">
+                                            <h3>
+                                                <a href="${pageContext.request.contextPath}/event-details?id=${event.id}">
+                                                    ${event.name}
+                                                </a>
+                                            </h3>
+                                            <p>${event.description}</p>
+                                            <div class="result-meta">
+                                                <i class="fas fa-map-marker-alt"></i> ${event.venue}
+                                                <i class="fas fa-clock" style="margin-left: 10px;"></i> 
+                                                <fmt:formatDate value="${event.dateTime}" pattern="MMM dd, yyyy" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+                            
+                            <!-- Display venue results -->
+                            <c:if test="${not empty venues and (searchType == 'all' or searchType == 'venues')}">
+                                <c:forEach var="venue" items="${venues}">
+                                    <div class="result-item">
+                                        <div class="result-image">
+                                            <i class="fas fa-building result-icon"></i>
+                                        </div>
+                                        <div class="result-details">
+                                            <h3>
+                                                <a href="${pageContext.request.contextPath}/venue-details?id=${venue.id}">
+                                                    ${venue.name}
+                                                </a>
+                                            </h3>
+                                            <p>${venue.address}, ${venue.city}</p>
+                                            <div class="result-meta">
+                                                <i class="fas fa-phone"></i> ${venue.contactNumber}
+                                                <i class="fas fa-users" style="margin-left: 10px;"></i> Capacity: ${venue.capacity}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+                        </div>
+                    </c:if>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <jsp:include page="/WEB-INF/view/footer.jsp" />
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <script>
+        // Script to handle tab selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.search-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Check the associated radio button
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                    }
+                    
+                    // Submit the form
+                    this.closest('form').submit();
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc

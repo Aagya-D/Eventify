@@ -15,7 +15,7 @@ import java.util.Date;
 
 public class UserDAO {
     //Instance variables for database connection
-    private static final String URL = "jdbc:mysql://localhost:3308/eventify";
+    private static final String URL = "jdbc:mysql://localhost:3306/eventify";
     private static final String USER = "root";
     private static final String PASS = "";
 
@@ -395,6 +395,7 @@ public class UserDAO {
     // Method to authenticate user with username and password
     public static boolean authenticate(String username, String password) {
         String query = "SELECT * FROM user WHERE User_name = ?";
+<<<<<<< HEAD
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -405,6 +406,18 @@ public class UserDAO {
             if (rs.next()) {
                 String storedPassword = rs.getString("Password");
 
+=======
+        
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                String storedPassword = rs.getString("Password");
+                
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                 // Verify the password using existing verification method
                 return verifyPassword(password, storedPassword);
             }
@@ -412,7 +425,11 @@ public class UserDAO {
             System.err.println("SQL Error in authenticate: " + e.getMessage());
             e.printStackTrace();
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         return false; // Return false if authentication fails
     }
 }

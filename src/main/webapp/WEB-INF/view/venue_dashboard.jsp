@@ -20,25 +20,41 @@
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --border-radius: 8px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         body {
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .container {
             display: flex;
             min-height: 100vh;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Sidebar Styles */
         .sidebar {
             width: 240px;
@@ -51,31 +67,51 @@
             height: 100vh;
             transition: all 0.3s ease;
         }
+<<<<<<< HEAD
 
         .brand {
             margin-bottom: 2rem;
         }
 
+=======
+        
+        .brand {
+            margin-bottom: 2rem;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
             letter-spacing: 1px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .admin-text {
             font-size: 0.9rem;
             opacity: 0.8;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .nav-menu {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
             margin-bottom: 2rem;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .nav-item {
             display: flex;
             align-items: center;
@@ -85,53 +121,89 @@
             text-decoration: none;
             transition: all 0.3s ease;
         }
+<<<<<<< HEAD
 
         .nav-item:hover {
             background: rgba(255, 255, 255, 0.1);
         }
 
+=======
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .nav-item.active {
             background: rgba(255, 255, 255, 0.2);
             font-weight: 600;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .nav-item i {
             margin-right: 0.8rem;
             width: 20px;
             text-align: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .user-menu {
             margin-top: auto;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 1rem;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Main Content */
         .main-content {
             flex: 1;
             margin-left: 240px;
             padding: 2rem;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .page-title {
             font-size: 1.5rem;
             font-weight: 600;
             color: var(--dark);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .search-bar {
             position: relative;
             width: 300px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .search-bar input {
             width: 100%;
             padding: 8px 14px 8px 35px;
@@ -141,14 +213,22 @@
             background: #f8f9fa;
             transition: border 0.2s, box-shadow 0.2s, background 0.2s;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .search-bar input:focus {
             outline: none;
             border-color: var(--secondary);
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
             background: #fff;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .search-bar i {
             position: absolute;
             left: 12px;
@@ -157,7 +237,11 @@
             color: var(--secondary);
             font-size: 14px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Card Styles */
         .card {
             background: white;
@@ -166,7 +250,11 @@
             padding: 1.5rem;
             margin-bottom: 2rem;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -175,7 +263,11 @@
             border-bottom: 1px solid #eee;
             padding-bottom: 1rem;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .card-title {
             font-size: 1.2rem;
             font-weight: 600;
@@ -183,17 +275,29 @@
             display: flex;
             align-items: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .card-title i {
             margin-right: 0.5rem;
             color: var(--secondary);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .filter-container {
             display: flex;
             align-items: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .filter-select {
             padding: 0.5rem 1rem;
             border: 1px solid #ddd;
@@ -201,22 +305,38 @@
             background-color: white;
             transition: all 0.3s ease;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .filter-select:focus {
             border-color: var(--secondary);
             outline: none;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Table Styles */
         .table-container {
             overflow-x: auto;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .data-table {
             width: 100%;
             border-collapse: collapse;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .data-table th {
             background-color: #f8f9fa;
             padding: 1rem;
@@ -225,34 +345,58 @@
             color: var(--dark);
             border-bottom: 2px solid #eee;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .data-table td {
             padding: 1rem;
             border-bottom: 1px solid #eee;
             vertical-align: middle;
         }
+<<<<<<< HEAD
 
         .data-table tr:hover {
             background-color: #f8f9fa;
         }
 
+=======
+        
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .venue-name {
             display: flex;
             align-items: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .venue-name i {
             margin-right: 0.5rem;
             color: var(--secondary);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .actions-cell {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
             align-items: stretch;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn {
             display: inline-flex;
             align-items: center;
@@ -267,21 +411,34 @@
             text-decoration: none;
             width: 100%;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-primary {
             background-color: var(--secondary);
             color: white;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-secondary {
             background-color: #e9ecef;
             color: #495057;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .btn-danger {
             background-color: var(--danger);
             color: white;
         }
+<<<<<<< HEAD
 
         .btn i {
             margin-right: 0.4rem;
@@ -299,6 +456,25 @@
             background-color: #c0392b;
         }
 
+=======
+        
+        .btn i {
+            margin-right: 0.4rem;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #dee2e6;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .add-venue-btn {
             display: inline-flex;
             align-items: center;
@@ -314,6 +490,7 @@
             font-weight: 500;
             margin-top: 1.5rem;
         }
+<<<<<<< HEAD
 
         .add-venue-btn i {
             margin-right: 0.5rem;
@@ -323,53 +500,100 @@
             background-color: #27ae60;
         }
 
+=======
+        
+        .add-venue-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .add-venue-btn:hover {
+            background-color: #27ae60;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Responsive Fixes */
         @media (max-width: 992px) {
             .sidebar {
                 width: 80px;
                 padding: 1rem 0.5rem;
             }
+<<<<<<< HEAD
 
             .logo, .admin-text {
                 display: none;
             }
 
+=======
+            
+            .logo, .admin-text {
+                display: none;
+            }
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .nav-item {
                 justify-content: center;
                 padding: 1rem;
             }
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .nav-item i {
                 margin-right: 0;
                 font-size: 1.2rem;
             }
+<<<<<<< HEAD
 
             .nav-item span {
                 display: none;
             }
 
+=======
+            
+            .nav-item span {
+                display: none;
+            }
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .main-content {
                 margin-left: 80px;
             }
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 1rem;
             }
+<<<<<<< HEAD
 
             .search-bar {
                 width: 100%;
             }
 
+=======
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .actions-cell {
                 flex-direction: column;
                 align-items: flex-end;
             }
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Alert Styles */
         .alert {
             padding: 15px;
@@ -380,24 +604,40 @@
             box-shadow: var(--shadow);
             animation: fadeIn 0.5s ease;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert i {
             margin-right: 10px;
             font-size: 18px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert-success {
             background-color: rgba(46, 204, 113, 0.15);
             border-left: 4px solid var(--success);
             color: #27ae60;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert-danger {
             background-color: rgba(231, 76, 60, 0.15);
             border-left: 4px solid var(--danger);
             color: #c0392b;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -422,6 +662,7 @@
     </script>
 </head>
 <body>
+<<<<<<< HEAD
 <div class="container">
     <!-- Sidebar -->
     <div class="sidebar">
@@ -565,5 +806,150 @@
         </div>
     </div>
 </div>
+=======
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="brand">
+                <div class="logo">Eventify</div>
+                <div class="admin-text">Admin Panel</div>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="${pageContext.request.contextPath}/AdminDashboard" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a href="${pageContext.request.contextPath}/EventDashboard" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Events</span>
+                </a>
+                
+                <a href="${pageContext.request.contextPath}/VenueDashboard" class="nav-item active">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Venues</span>
+                </a>
+                
+                <a href="${pageContext.request.contextPath}/admin/manage-users" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+            </div>
+            
+            <div class="user-menu">
+                <a href="${pageContext.request.contextPath}/admin/profile" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>My Profile</span>
+                </a>
+                
+                <a href="${pageContext.request.contextPath}/logout" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">Venue Management</h1>
+                
+                <form action="${pageContext.request.contextPath}/VenueDashboard" method="get" class="search-form">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" name="q" placeholder="Search venues..." value="${searchQuery}">
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Success message -->
+            <c:if test="${not empty sessionScope.successMessage}">
+                <div class="alert alert-success" id="successAlert">
+                    <i class="fas fa-check-circle"></i> ${sessionScope.successMessage}
+                </div>
+                <% session.removeAttribute("successMessage"); %>
+            </c:if>
+            
+            <!-- Error message -->
+            <c:if test="${not empty sessionScope.errorMessage}">
+                <div class="alert alert-danger" id="errorAlert">
+                    <i class="fas fa-exclamation-circle"></i> ${sessionScope.errorMessage}
+                </div>
+                <% session.removeAttribute("errorMessage"); %>
+            </c:if>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Venue List
+                    </h2>
+                    
+                    <div class="filter-container">
+                        <select class="filter-select">
+                            <option value="all">All Venues</option>
+                            <option value="active">Active Venues</option>
+                            <option value="inactive">Inactive Venues</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Venue Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>Contact</th>
+                                <th>Capacity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="venue" items="${venues}">
+                                <tr>
+                                    <td>
+                                        <div class="venue-name">
+                                            <i class="fas fa-building"></i>
+                                            <span>${venue.name}</span>
+                                        </div>
+                                    </td>
+                                    <td>${venue.address}</td>
+                                    <td>${venue.city}</td>
+                                    <td>${venue.contactNumber}</td>
+                                    <td>${venue.capacity}</td>
+                                    <td>
+                                        <div class="actions-cell">
+                                            <a href="${pageContext.request.contextPath}/admin/edit-venue?id=${venue.id}" class="btn btn-primary">
+                                                <i class="fas fa-edit"></i>
+                                                Edit
+                                            </a>
+                                            <form action="${pageContext.request.contextPath}/admin/delete-venue" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this venue?');">
+                                                <input type="hidden" name="id" value="${venue.id}">
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="margin-top: 1.5rem; text-align: right;">
+                    <a href="${pageContext.request.contextPath}/admin/add-venue" class="btn btn-primary add-venue-btn">
+                        <i class="fas fa-plus"></i>
+                        Add New Venue
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
 </body>
 </html>

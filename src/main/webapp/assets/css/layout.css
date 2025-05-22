@@ -158,26 +158,46 @@ footer {
         flex-direction: column;
         padding: 10px 15px;
     }
+<<<<<<< HEAD
 
     .logo {
         margin-bottom: 12px;
     }
 
+=======
+    
+    .logo {
+        margin-bottom: 12px;
+    }
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     .nav-menu {
         justify-content: center;
         gap: 8px;
         margin-bottom: 12px;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     .search-bar {
         width: 100%;
         max-width: 300px;
     }
+<<<<<<< HEAD
 
     footer {
         padding: 25px 15px;
     }
 
+=======
+    
+    footer {
+        padding: 25px 15px;
+    }
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     .footer-content {
         gap: 20px;
     }

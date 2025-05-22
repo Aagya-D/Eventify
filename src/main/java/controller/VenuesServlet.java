@@ -19,6 +19,7 @@ public class VenuesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
 
         // Fetch all venues from the database
         VenueDAO venueDAO = new VenueDAO();
@@ -27,6 +28,16 @@ public class VenuesServlet extends HttpServlet {
         // Set venues as request attribute
         request.setAttribute("venues", venues);
 
+=======
+        
+        // Fetch all venues from the database
+        VenueDAO venueDAO = new VenueDAO();
+        List<Venue> venues = venueDAO.getAllVenues();
+        
+        // Set venues as request attribute
+        request.setAttribute("venues", venues);
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Forward the request to the venues JSP page
         request.getRequestDispatcher("/WEB-INF/view/venues.jsp").forward(request, response);
     }

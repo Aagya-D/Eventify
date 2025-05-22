@@ -19,7 +19,11 @@ public class EventsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("EventsServlet doGet() called");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
@@ -27,12 +31,21 @@ public class EventsServlet extends HttpServlet {
             // Get all events
             EventDAO eventDAO = new EventDAO();
             List<Event> eventList = eventDAO.getAllEvents();
+<<<<<<< HEAD
 
             System.out.println("Events retrieved: " + (eventList != null ? eventList.size() : "null"));
 
             // Add events to request
             request.setAttribute("eventList", eventList);
 
+=======
+            
+            System.out.println("Events retrieved: " + (eventList != null ? eventList.size() : "null"));
+
+            // Add events to request
+            request.setAttribute("eventList", eventList);
+
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Forward to events JSP page
             request.getRequestDispatcher("/WEB-INF/view/events.jsp").forward(request, response);
         } catch (Exception e) {

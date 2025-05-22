@@ -256,6 +256,7 @@
     </style>
 </head>
 <body>
+<<<<<<< HEAD
 <!-- Include navigation bar -->
 <jsp:include page="/WEB-INF/view/navbar.jsp" />
 
@@ -352,5 +353,103 @@
         }
     }, 5000);
 </script>
+=======
+    <!-- Include navigation bar -->
+    <jsp:include page="/WEB-INF/view/navbar.jsp" />
+    
+    <div class="main-content">
+        <%
+        // Display success message if available
+        String successMessage = (String) session.getAttribute("successMessage");
+        if (successMessage != null) {
+        %>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <%= successMessage %>
+            </div>
+        <% 
+            // Remove the message from session so it doesn't show again on refresh
+            session.removeAttribute("successMessage");
+        }
+        %>
+        
+        <div class="page-header">
+            <h1 class="page-title">Explore Our Venues</h1>
+            <p class="page-description">Discover perfect venues for your events, from intimate gatherings to grand celebrations</p>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="${pageContext.request.contextPath}/add-venue" class="add-venue-btn">
+                <i class="fas fa-plus"></i> Add New Venue
+            </a>
+        </div>
+        
+        <%
+            List<Venue> venues = (List<Venue>) request.getAttribute("venues");
+            if (venues != null && !venues.isEmpty()) {
+        %>
+        <div class="venues-container">
+            <% for (Venue venue : venues) { %>
+                <div class="venue-card">
+                    <div class="venue-header">
+                        <h2 class="venue-name">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <%= venue.getName() %>
+                            <span class="capacity-badge">
+                                <i class="fas fa-users"></i> <%= venue.getCapacity() %>
+                            </span>
+                        </h2>
+                    </div>
+                    <div class="venue-content">
+                        <div class="venue-detail">
+                            <i class="fas fa-map-pin"></i>
+                            <%= venue.getCity() %>
+                        </div>
+                        <div class="venue-detail">
+                            <i class="fas fa-phone-alt"></i>
+                            <%= venue.getContactNumber() %>
+                        </div>
+                    </div>
+                    <div class="venue-actions">
+                        <button class="btn btn-view" onclick="viewVenue(<%= venue.getId() %>)">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <% } else { %>
+            <div class="empty-venues">
+                <i class="fas fa-map-marked-alt"></i>
+                <h3>No Venues Available</h3>
+                <p>There are no venues available at the moment. Be the first to add one!</p>
+                <a href="${pageContext.request.contextPath}/add-venue" class="add-venue-btn">
+                    <i class="fas fa-plus"></i> Add New Venue
+                </a>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Include footer -->
+    <jsp:include page="/WEB-INF/view/footer.jsp" />
+
+    <script>
+        function viewVenue(venueId) {
+            window.location.href = '${pageContext.request.contextPath}/venue-details?id=' + venueId;
+        }
+        
+        // Automatically hide the success message after 5 seconds
+        setTimeout(function() {
+            var successAlert = document.querySelector('.alert-success');
+            if (successAlert) {
+                successAlert.style.transition = 'opacity 1s';
+                successAlert.style.opacity = '0';
+                setTimeout(function() {
+                    successAlert.style.display = 'none';
+                }, 1000);
+            }
+        }, 5000);
+    </script>
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
 </body>
 </html>

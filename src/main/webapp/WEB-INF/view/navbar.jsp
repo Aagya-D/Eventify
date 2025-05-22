@@ -147,7 +147,11 @@
             <li><a href="${pageContext.request.contextPath}/venues" class="${pageContext.request.servletPath.contains('venues') ? 'active' : ''}">
                 <i class="fas fa-map-marker-alt"></i> Venues
             </a></li>
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             <% if (isAdmin) { %>
             <li><a href="${pageContext.request.contextPath}/AdminDashboard" class="${pageContext.request.servletPath.contains('admin_dashboard') ? 'active' : ''}">
                 <i class="fas fa-tachometer-alt"></i> Dashboard
@@ -162,7 +166,11 @@
                 <i class="fas fa-users-cog"></i> Manage Users
             </a></li>
             <% } %>
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             <% if (isLoggedIn) { %>
             <li><a href="${pageContext.request.contextPath}/profile" class="${pageContext.request.servletPath.contains('profile') ? 'active' : ''}">
                 <i class="fas fa-user"></i> Profile

@@ -12,11 +12,19 @@ public class ActivityLog {
     private String action;
     private String description;
     private Date timestamp;
+<<<<<<< HEAD
 
     // Constructors
     public ActivityLog() {
     }
 
+=======
+    
+    // Constructors
+    public ActivityLog() {
+    }
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     public ActivityLog(int id, int userId, String userName, String action, String description, Date timestamp) {
         this.id = id;
         this.userId = userId;
@@ -25,11 +33,16 @@ public class ActivityLog {
         this.description = description;
         this.timestamp = timestamp;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     // Getters and Setters
     public int getId() {
         return id;
     }
+<<<<<<< HEAD
 
     public void setId(int id) {
         this.id = id;
@@ -71,6 +84,49 @@ public class ActivityLog {
         return timestamp;
     }
 
+=======
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getUserId() {
+        return userId;
+    }
+    
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+    
+    public String getUserName() {
+        return userName;
+    }
+    
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    
+    public String getAction() {
+        return action;
+    }
+    
+    public void setAction(String action) {
+        this.action = action;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public Date getTimestamp() {
+        return timestamp;
+    }
+    
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }

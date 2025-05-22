@@ -26,7 +26,11 @@
             flex-direction: column;
             min-height: 100vh;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .main-content {
             flex: 1;
             padding: 40px 20px;
@@ -34,13 +38,21 @@
             margin: 0 auto;
             width: 100%;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Page header */
         .page-header {
             text-align: center;
             margin-bottom: 40px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .page-title {
             font-size: 36px;
             color: #00574b;
@@ -48,14 +60,22 @@
             margin-bottom: 12px;
             font-family: 'Montserrat', sans-serif;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .page-subtitle {
             color: #6c757d;
             font-size: 18px;
             max-width: 600px;
             margin: 0 auto;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Events grid */
         .events-grid {
             display: grid;
@@ -63,7 +83,11 @@
             gap: 30px;
             margin-bottom: 40px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Event card */
         .event-card {
             background-color: white;
@@ -75,19 +99,31 @@
             flex-direction: column;
             height: 100%;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-header {
             background: linear-gradient(135deg, #00574b 0%, #007c6c 100%);
             color: white;
             padding: 20px;
             position: relative;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-date-badge {
             position: absolute;
             top: 20px;
@@ -99,11 +135,19 @@
             display: flex;
             align-items: center;
         }
+<<<<<<< HEAD
 
         .event-date-badge i {
             margin-right: 6px;
         }
 
+=======
+        
+        .event-date-badge i {
+            margin-right: 6px;
+        }
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-title {
             font-size: 22px;
             font-weight: 600;
@@ -111,7 +155,11 @@
             line-height: 1.3;
             padding-right: 100px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-status {
             display: inline-block;
             padding: 4px 10px;
@@ -120,49 +168,81 @@
             font-weight: 500;
             margin-top: 10px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .status-approved {
             background-color: rgba(25, 135, 84, 0.2);
             color: #198754;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .status-pending {
             background-color: rgba(255, 193, 7, 0.2);
             color: #ffc107;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-content {
             padding: 25px;
             flex: 1;
             display: flex;
             flex-direction: column;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-description {
             margin-bottom: 25px;
             color: #495057;
             flex: 1;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-meta {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-bottom: 20px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .meta-item {
             display: flex;
             align-items: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .meta-item i {
             color: #00574b;
             width: 20px;
             margin-right: 10px;
             text-align: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-footer {
             padding: 15px 25px;
             border-top: 1px solid #eee;
@@ -171,19 +251,31 @@
             align-items: center;
             background-color: #f9f9f9;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .attendees {
             display: flex;
             align-items: center;
             color: #6c757d;
             font-size: 14px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .attendees i {
             margin-right: 6px;
             color: #00574b;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-actions .btn {
             background-color: #00574b;
             color: white;
@@ -197,19 +289,31 @@
             text-decoration: none;
             display: inline-block;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .event-actions .btn:hover {
             background-color: #004a3f;
             transform: translateY(-2px);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Add button */
         .action-buttons {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .add-button {
             background-color: #00574b;
             color: white;
@@ -222,19 +326,31 @@
             transition: all 0.3s;
             box-shadow: 0 4px 10px rgba(0, 87, 75, 0.2);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .add-button i {
             margin-right: 10px;
             font-size: 18px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .add-button:hover {
             background-color: #004a3f;
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(0, 87, 75, 0.3);
             text-decoration: none;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Alert messages */
         .alert {
             padding: 16px;
@@ -244,24 +360,40 @@
             align-items: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert-error {
             background-color: #fee2e2;
             color: #b91c1c;
             border-left: 4px solid #b91c1c;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert-warning {
             background-color: #fff3cd;
             color: #856404;
             border-left: 4px solid #856404;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .alert i {
             margin-right: 12px;
             font-size: 22px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Empty state */
         .empty-events {
             text-align: center;
@@ -270,19 +402,31 @@
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .empty-events i {
             font-size: 60px;
             color: #6c757d;
             margin-bottom: 20px;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .empty-events h3 {
             font-size: 24px;
             margin-bottom: 10px;
             color: #343a40;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         .empty-events p {
             color: #6c757d;
             margin-bottom: 30px;
@@ -290,13 +434,18 @@
             margin-left: auto;
             margin-right: auto;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         /* Responsive */
         @media (max-width: 768px) {
             .events-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
+<<<<<<< HEAD
 
             .page-title {
                 font-size: 28px;
@@ -306,6 +455,17 @@
                 padding: 20px 15px;
             }
 
+=======
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             .event-meta {
                 grid-template-columns: 1fr;
             }
@@ -313,6 +473,7 @@
     </style>
 </head>
 <body>
+<<<<<<< HEAD
 <jsp:include page="/WEB-INF/view/navbar.jsp" />
 
 <div class="main-content">
@@ -411,5 +572,97 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />
+=======
+    <jsp:include page="/WEB-INF/view/navbar.jsp" />
+    
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Discover Amazing Events</h1>
+            <p class="page-subtitle">Find and join exciting events happening near you</p>
+        </div>
+        
+        <% 
+            // Check for error messages
+            String errorMessage = (String) request.getAttribute("error");
+            if (errorMessage != null && !errorMessage.isEmpty()) {
+        %>
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i> Error: <%= errorMessage %>
+        </div>
+        <% } %>
+        
+        <%
+            List<Event> eventList = (List<Event>) request.getAttribute("eventList");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            
+            if (eventList != null && !eventList.isEmpty()) {
+        %>
+        <div class="events-grid">
+            <% for (Event event : eventList) { %>
+            <!-- Event Card -->
+            <div class="event-card">
+                <div class="event-header">
+                    <div class="event-date-badge">
+                        <i class="fas fa-calendar-alt"></i> <%= dateFormat.format(event.getDateTime()) %>
+                    </div>
+                    <h3 class="event-title"><%= event.getName() %></h3>
+                    <% if(event.isApproved()) { %>
+                        <span class="event-status status-approved">
+                            <i class="fas fa-check-circle"></i> Approved
+                        </span>
+                    <% } else { %>
+                        <span class="event-status status-pending">
+                            <i class="fas fa-clock"></i> Pending Approval
+                        </span>
+                    <% } %>
+                </div>
+                
+                <div class="event-content">
+                    <p class="event-description"><%= event.getDescription() %></p>
+                    
+                    <div class="event-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span><%= event.getDaysUntilEvent() %> days away</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span><%= event.getVenue() %></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="event-footer">
+                    <div class="attendees">
+                        <i class="fas fa-users"></i>
+                        <span><%= event.getAttendees() %> attendees</span>
+                    </div>
+                    <div class="event-actions">
+                        <a href="${pageContext.request.contextPath}/event-details?id=<%= event.getId() %>" class="btn">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <% } else { %>
+            <div class="empty-events">
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Events Available</h3>
+                <p>There are no events available at the moment. Be the first to create an exciting event for everyone to join!</p>
+                <a href="add-event" class="add-button">
+                    <i class="fas fa-plus-circle"></i> Create New Event
+                </a>
+            </div>
+        <% } %>
+        
+        <div class="action-buttons">
+            <a href="add-event" class="add-button">
+                <i class="fas fa-plus-circle"></i> Create New Event
+            </a>
+        </div>
+    </div>
+    <jsp:include page="/WEB-INF/view/footer.jsp" />
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
 </body>
 </html> 

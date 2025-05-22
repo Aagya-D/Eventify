@@ -23,7 +23,11 @@ public class AdminAddVenueServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Forward to the admin add venue form
         request.getRequestDispatcher("/WEB-INF/view/admin/add_venue.jsp").forward(request, response);
     }
@@ -36,13 +40,18 @@ public class AdminAddVenueServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
         // Get form parameters
         String name = request.getParameter("name");
         String address = request.getParameter("address");
         String city = request.getParameter("city");
         String contactNumber = request.getParameter("contactNumber");
         String capacityStr = request.getParameter("capacity");
+<<<<<<< HEAD
 
         // Validate required fields
         if (name == null || name.trim().isEmpty() ||
@@ -51,21 +60,43 @@ public class AdminAddVenueServlet extends HttpServlet {
                 contactNumber == null || contactNumber.trim().isEmpty() ||
                 capacityStr == null || capacityStr.trim().isEmpty()) {
 
+=======
+        
+        // Validate required fields
+        if (name == null || name.trim().isEmpty() || 
+            address == null || address.trim().isEmpty() ||
+            city == null || city.trim().isEmpty() ||
+            contactNumber == null || contactNumber.trim().isEmpty() ||
+            capacityStr == null || capacityStr.trim().isEmpty()) {
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             request.setAttribute("errorMessage", "All fields are required");
             request.getRequestDispatcher("/WEB-INF/view/admin/add_venue.jsp").forward(request, response);
             return;
         }
+<<<<<<< HEAD
 
         try {
             // Parse capacity
             int capacity = Integer.parseInt(capacityStr);
 
+=======
+        
+        try {
+            // Parse capacity
+            int capacity = Integer.parseInt(capacityStr);
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             if (capacity <= 0) {
                 request.setAttribute("errorMessage", "Capacity must be greater than zero");
                 request.getRequestDispatcher("/WEB-INF/view/admin/add_venue.jsp").forward(request, response);
                 return;
             }
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
             // Create new venue object
             Venue venue = new Venue();
             venue.setName(name);
@@ -73,6 +104,7 @@ public class AdminAddVenueServlet extends HttpServlet {
             venue.setCity(city);
             venue.setContactNumber(contactNumber);
             venue.setCapacity(capacity);
+<<<<<<< HEAD
 
             // Save to database
             VenueDAO venueDAO = new VenueDAO();
@@ -82,6 +114,17 @@ public class AdminAddVenueServlet extends HttpServlet {
                 // Log activity
                 ActivityLogDAO.logActivity(user.getUserId(), "ADD_VENUE", "Added venue '" + name + "'");
 
+=======
+            
+            // Save to database
+            VenueDAO venueDAO = new VenueDAO();
+            boolean success = venueDAO.addVenue(venue);
+            
+            if (success) {
+                // Log activity
+                ActivityLogDAO.logActivity(user.getUserId(), "ADD_VENUE", "Added venue '" + name + "'");
+                
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
                 // Set success message and redirect to venues dashboard
                 request.getSession().setAttribute("successMessage", "Venue '" + name + "' has been created successfully with capacity of " + capacity + "!");
                 response.sendRedirect(request.getContextPath() + "/VenueDashboard");
@@ -97,4 +140,8 @@ public class AdminAddVenueServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/view/admin/add_venue.jsp").forward(request, response);
         }
     }
+<<<<<<< HEAD
 }
+=======
+} 
+>>>>>>> aef66794032f4b8c01fedecd54e356dd30662ecc
