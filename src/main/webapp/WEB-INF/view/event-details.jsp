@@ -373,7 +373,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="action-buttons">
                         <a href="${pageContext.request.contextPath}/events" class="btn btn-outline">
                             <i class="fas fa-arrow-left"></i> Back to Events
